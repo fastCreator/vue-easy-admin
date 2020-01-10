@@ -1,13 +1,20 @@
 let router = []
-const importAllVue = require.context(process.env.src_dir, true, /index.vue$/)
+const importAllVue = require.context(process.env.srcDir, true, /index.vue$/)
 importAllVue.keys().map(key => {
+  let path = key.slice(2, -10)
   router.push({
-    path: `/${key.slice(2, -10)}`,
-    component: importAllVue(key).default
+    path: `/${path}`,
+    component: resolve => {
+      resolve(importAllVue(key).default)
+    }
   })
 })
 
-const importAllConfig = require.context(process.env.src_dir, true, /config.json$/)
+const importAllConfig = require.context(
+  process.env.srcDir,
+  true,
+  /config.json$/
+)
 importAllConfig.keys().map(key => {
   let path = `/${key.slice(2, -12)}`
   router.find(it => it.path === path).meta = importAllConfig(key)

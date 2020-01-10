@@ -1,13 +1,16 @@
 const path = require('path')
 // const webpack = require('webpack')
 const outputDir = path.resolve(process.cwd(), './dist')
-const src_dir = path.resolve(process.cwd(), './src')
+const srcDir = path.resolve(process.cwd(), './src')
+const configDir = path.resolve(process.cwd(), './config')
+const myConfig = require(configDir)
 module.exports = {
   outputDir: outputDir,
   chainWebpack: config => {
     config.plugin('define').tap(definitions => {
       Object.assign(definitions[0]['process.env'], {
-        src_dir: JSON.stringify(src_dir)
+        srcDir: JSON.stringify(srcDir),
+        config: JSON.stringify(myConfig)
       })
       return definitions
     })

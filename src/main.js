@@ -7,6 +7,11 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   routes // (缩写) 相当于 routes: routes
 })
+console.log(process.env.config.components)
+
+import a from 'vue-element-ui-expand'
+console.log(a)
+
 new Vue({
   router,
   render: h => h(App)
