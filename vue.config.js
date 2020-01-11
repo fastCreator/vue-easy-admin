@@ -1,9 +1,12 @@
 const path = require('path')
-// const webpack = require('webpack')
+const fs = require('fs')
 const outputDir = path.resolve(process.cwd(), './dist')
 const srcDir = path.resolve(process.cwd(), './src')
-const configDir = path.resolve(process.cwd(), './config')
-const myConfig = require(configDir)
+const configDir = path.resolve(process.cwd(), './config.json')
+let myConfig = {}
+if (fs.existsSync(configDir)) {
+  myConfig = require(configDir)
+}
 module.exports = {
   outputDir: outputDir,
   chainWebpack: config => {
@@ -18,7 +21,15 @@ module.exports = {
       .rule('eslint')
       .use('eslint-loader')
       .tap(options => {
+        console.log(options)
         options.configFile = path.resolve(__dirname, '.eslintrc.js')
+        return options
+      })
+    config.module
+      .rule('js')
+      .use('babel-loader')
+      .tap((options = {}) => {
+        options.configFile = path.resolve(__dirname, 'babel.config.js')
         return options
       })
   }
