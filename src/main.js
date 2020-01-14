@@ -1,18 +1,18 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import App from './App.vue'
-import routes from './router/index.js'
-Vue.config.productionTip = process.env.NODE_ENV === 'development'
-Vue.use(VueRouter)
-const router = new VueRouter({
-  routes // (缩写) 相当于 routes: routes
-})
-// console.log(process.env._config.components)
-// console.log(process.env._config)
-import a from 'E:/easy-admin/easy-admin-demo/node_modules/vue-element-ui-expand'
-console.log(a)
 
+import App from './App.vue'
+import router from './router'
+import store from './store'
+
+// 用户操作vue
+const importAllVue = require.context(process.env.srcDir, false, /main.js$/)
+importAllVue.keys().map(key => {
+  importAllVue(key).default(Vue, router, store)
+})
+// 提示
+Vue.config.productionTip = process.env.NODE_ENV === 'development'
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
