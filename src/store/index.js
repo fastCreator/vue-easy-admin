@@ -5,7 +5,7 @@ import router from '../router'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
-const { setting, globData } = process.env.config
+const { setting, globData, lang } = process.env.config
 
 const store = new Vuex.Store({
   state: {
