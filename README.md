@@ -32,4 +32,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ```
 addXXX钩子   return true 阻止next()
+首页问题
 ```

@@ -2,13 +2,9 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import store from '../store'
 import ElementLocale from 'element-ui/lib/locale'
-import enLocale from 'element-ui/lib/locale/lang/en'
-import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 const LANG_CONFIG = process.env.config.lang
 Vue.use(VueI18n)
 
-// Vue.locale('zh-cn', zhLocale)
-// Vue.locale('en', enLocale)
 const messages = {}
 const importAllVue = require.context(process.env.srcDir, true, /lang.json$/)
 importAllVue.keys().map(key => {

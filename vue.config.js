@@ -2,6 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const outputDir = path.resolve(process.cwd(), './dist')
 const srcDir = path.resolve(process.cwd(), './src')
+const pagesDir = path.resolve(process.cwd(), './src/pages')
 const configDir = path.resolve(process.cwd(), './config.json')
 let myConfig = {}
 if (fs.existsSync(configDir)) {
@@ -13,6 +14,7 @@ module.exports = {
     config.plugin('define').tap(definitions => {
       Object.assign(definitions[0]['process.env'], {
         srcDir: JSON.stringify(srcDir),
+        pagesDir: JSON.stringify(pagesDir),
         config: JSON.stringify(myConfig)
       })
       return definitions
