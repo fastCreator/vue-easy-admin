@@ -11,6 +11,7 @@
     "easy-admin": "./bin/index.js"
   },
   "dependencies": {
+    "axios": "^0.19.1",
     "core-js": "^3.4.4",
     "element-ui": "^2.13.0",
     "eslint-plugin-html": "^6.0.0",
