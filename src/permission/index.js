@@ -11,14 +11,14 @@ const { title } = process.env.config
 export const registerRouterToken = ({ get, loginUrl, goHome }) => {
   NProgress.configure({ showSpinner: false })
   router.addbeforeEach(async (to, from, next) => {
-    // if (to.path === '/') {
-    //   let homeUrl = goHome(store)
-    //   if (homeUrl !== '/') {
-    //     return homeUrl
-    //   }
-    // }
+    if (to.path === '/') {
+      let homeUrl = goHome(store)
+      if (homeUrl !== '/') {
+        return homeUrl
+      }
+    }
     NProgress.start()
-    // document.title = `${ to.meta.title || to.meta.nav ? to.meta.nav.title : '' }-${title}`
+    document.title = `${ to.meta.title || to.meta.nav ? to.meta.nav.title : '' }-${title}`
     const hasToken = get()
 
     if (hasToken) {
@@ -28,8 +28,10 @@ export const registerRouterToken = ({ get, loginUrl, goHome }) => {
         return '/'
       }
     } else {
-      NProgress.done()
-      return loginUrl
+      if (to.path !== loginUrl) {
+        NProgress.done()
+        return loginUrl
+      }
     }
   })
 }
