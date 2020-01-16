@@ -1,15 +1,18 @@
 const path = require('path')
 const fs = require('fs')
-const outputDir = path.resolve(process.cwd(), './dist')
-const srcDir = path.resolve(process.cwd(), './src')
-const pagesDir = path.resolve(process.cwd(), './src/pages')
-const configDir = path.resolve(process.cwd(), './config.json')
+const cwd = process.cwd()
+const outputDir = path.resolve(cwd, './dist')
+const indexPath = path.resolve(cwd, './public/index.html')
+const srcDir = path.resolve(cwd, './src')
+const pagesDir = path.resolve(cwd, './src/pages')
+const configDir = path.resolve(cwd, './config.json')
 let myConfig = {}
 if (fs.existsSync(configDir)) {
   myConfig = require(configDir)
 }
 module.exports = {
-  outputDir: outputDir,
+  outputDir,
+  indexPath,
   chainWebpack: config => {
     config.plugin('define').tap(definitions => {
       Object.assign(definitions[0]['process.env'], {
@@ -38,6 +41,13 @@ module.exports = {
     resolve: {
       alias: {
         'element-ui': path.resolve(__dirname, './node_modules/element-ui')
+      }
+    },
+    devServer: {
+      before (app) {
+        app.get('/some/path', function (req, res) {
+          res.json({ custom: 'response' })
+        })
       }
     }
   }

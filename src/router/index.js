@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import Layout from '../components/layout'
 Vue.use(VueRouter)
-
 let routes = [
   {
     path: '/',
@@ -56,7 +56,9 @@ function setEvents () {
     router[key](async function (to, from, next) {
       const list = FUCLSIT[key]
       for (let i = 0; i < list.length; i++) {
-        if (await list[i](to, from)) {
+        let path = await list[i](to, from, next)
+        if (path) {
+          path !== true && next(path)
           return false
         }
       }

@@ -47,7 +47,7 @@ store.registerModule('lang', {
   },
   mutations: {
     setLang (state, lang) {
-      state.lang = lang
+      state.locale = lang
       i18n.locale = lang
     }
   }

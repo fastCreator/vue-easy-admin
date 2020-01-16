@@ -10,19 +10,21 @@ importAllConfig.keys().map(key => {
   let p = navs
   let child = null
   try {
-    for (let i = 0; i < parents.length; i++) {
-      let title = parents[i]
-      child = p.find(it => it.title === parents[i])
-      if (!child) {
-        child = {
-          title,
-          children: []
+    if (!nav.hide) {
+      for (let i = 0; i < parents.length; i++) {
+        let title = parents[i]
+        child = p.find(it => it.title === parents[i])
+        if (!child) {
+          child = {
+            title,
+            children: []
+          }
+          p.push(child)
         }
-        p.push(child)
+        p = child.children
       }
-      p = child.children
+      p.push(nav)
     }
-    p.push(nav)
   } catch (error) {
     console.log(`菜单异常:${key}`)
   }
