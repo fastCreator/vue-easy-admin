@@ -23,6 +23,8 @@ importAllConfig.keys().map(key => {
         }
         p = child.children
       }
+      let arrKey = key.split('/')
+      nav.code = arrKey[arrKey.length - 2]
       p.push(nav)
     }
   } catch (error) {

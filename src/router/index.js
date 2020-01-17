@@ -58,7 +58,7 @@ function setEvents () {
     router[key](async function (to, from, next) {
       const list = FUCLSIT[key]
       for (let i = 0; i < list.length; i++) {
-        let path = await list[i](to, from, next)
+        let path = await list[i](to, from)
         if (path) {
           path !== true && next(path)
           return false

@@ -8,9 +8,9 @@ import router from '../router'
 const { title } = process.env.config
 
 // 添加路由监听，当没有token时，跳转到登录页面
-export const registerRouterToken = ({ get, loginUrl, goHome }) => {
+export const registerRouterToken = ({ get, loginUrl, goHome, whitePages}) => {
   NProgress.configure({ showSpinner: false })
-  router.addbeforeEach(async (to, from, next) => {
+  router.addbeforeEach(async (to, from) => {
     if (to.path === '/') {
       let homeUrl = goHome(store)
       if (homeUrl !== '/') {
@@ -18,7 +18,9 @@ export const registerRouterToken = ({ get, loginUrl, goHome }) => {
       }
     }
     NProgress.start()
-    document.title = `${ to.meta.title || to.meta.nav ? to.meta.nav.title : '' }-${title}`
+    document.title = `${
+      to.meta.title || to.meta.nav ? to.meta.nav.title : ''
+    }-${title}`
     const hasToken = get()
 
     if (hasToken) {
@@ -34,6 +36,22 @@ export const registerRouterToken = ({ get, loginUrl, goHome }) => {
       }
     }
   })
+  // 开发环境跳转时，提示添加页面权限
+  if (process.env.NODE_ENV === 'development') {
+    router.addbeforeEach(async (to, from) => {
+      if (/\/full\//.test(from.path) && from.meta.nav && !from.meta.nav.hide) {
+        let goPages = []
+        loopObj(from.meta.permission, function (k, v, isObj) {
+          if (k === 'goPages') {
+            goPages = goPages.concat(v)
+          }
+        })
+        if (!goPages.includes(to.path) && !whitePages.includes(to.path)) {
+          console.error(`请添加goPages${to.path}`)
+        }
+      }
+    })
+  }
 }
 
 // 为http请求添加token,失败时刷新token
@@ -93,4 +111,14 @@ export const registerRequestToken = userManage => {
       return Promise.reject(error)
     }
   )
+}
+
+function loopObj (obj, fuc) {
+  if (typeof obj === 'object') {
+    Object.keys(obj).forEach(function (key) {
+      let v = obj[key]
+      fuc(key, v, typeof v === 'object')
+      loopObj(v, fuc)
+    })
+  }
 }
