@@ -3,6 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const cliService = require('./cli-service')
+const permission = require('./permission')
 const Package = require('../package.json')
 const rootdir = path.resolve(__dirname, '../')
 const cwd = process.cwd()
@@ -17,6 +18,8 @@ function run (argv) {
   } else if (arg0 === 'run') {
     copyEslintrc()
     cliService(process.argv.slice(3))
+  } else if (arg0 === 'permission') {
+    permission()
   }
 }
 

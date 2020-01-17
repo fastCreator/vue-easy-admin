@@ -3,14 +3,13 @@ const bodyParser = require('body-parser')
 const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
-const { pathToRegexp, match, parse, compile } = require('path-to-regexp')
 
 const srcDir = path.resolve(process.cwd(), './src')
 const mockData = {}
 
 function flashRoutes (mockFile) {
   let mockList = (mockData[mockFile] = [])
-  delete require.cache[require.resolve(mockFile)];
+  delete require.cache[require.resolve(mockFile)]
   const mocks = require(mockFile)
   for (let key in mocks) {
     const splitArr = key.split(':')
@@ -60,8 +59,7 @@ module.exports = app => {
   })
 }
 
-function chokidarWatch (app) {
-  // watch files, hot reload mock server
+function chokidarWatch () {
   chokidar
     .watch(srcDir, {
       ignoreInitial: true
@@ -73,7 +71,7 @@ function chokidarWatch (app) {
     })
 }
 
-function mapDir (dir, callback, finish) {
+function mapDir (dir, callback) {
   fs.readdir(dir, function (err, files) {
     if (err) {
       console.error(err)
@@ -88,14 +86,11 @@ function mapDir (dir, callback, finish) {
           return
         }
         if (stats.isDirectory()) {
-          mapDir(pathname, callback, finish)
+          mapDir(pathname, callback)
         } else if (stats.isFile()) {
           callback && callback(pathname)
         }
       })
-      if (index === files.length - 1) {
-        finish && finish()
-      }
     })
   })
 }
