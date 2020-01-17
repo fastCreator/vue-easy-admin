@@ -21,7 +21,6 @@
     "file-saver": "^2.0.2",
     "less": "^3.10.3",
     "nprogress": "^0.2.0",
-    "path-to-regexp": "^6.1.0",
     "sortablejs": "^1.10.2",
     "vue": "^2.6.10",
     "vue-element-ui-expand": "^0.9.1",
