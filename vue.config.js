@@ -44,11 +44,8 @@ module.exports = {
       }
     },
     devServer: {
-      before (app) {
-        app.get('/some/path', function (req, res) {
-          res.json({ custom: 'response' })
-        })
-      }
+      before: require('./plugins/mock-server'),
+      proxy: myConfig.proxy
     }
   }
 }

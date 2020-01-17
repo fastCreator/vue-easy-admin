@@ -17,6 +17,7 @@ const router = new VueRouter({
 })
 setEvents()
 export default router
+
 function loadRoutes () {
   const importAllVue = require.context(
     process.env.srcDir,
@@ -31,6 +32,7 @@ function loadRoutes () {
       let config = importAllVue(`./${type}/${path}/config.json`)
       let components = importAllVue(`./${type}/${path}/index.vue`).default
       let router = {
+        meta: config,
         path: `/${type}/${path}`,
         component: config.nav.lazy
           ? resolve => {
