@@ -13,7 +13,8 @@ function run (argv) {
     console.log(Package.version)
   } else if (arg0 === '-h' || arg0 === '--help') {
     console.log('  usage:\n')
-    console.log('  -v --version [show version]')
+    console.log('  -v --version [查看版本]')
+    console.log('  permission [查看权限]')
     console.log('  run **       [运行vue-cli 命令]')
   } else if (arg0 === 'run') {
     copyEslintrc()

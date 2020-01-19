@@ -8,9 +8,9 @@ import router from '../router'
 const { title } = process.env.config
 
 // 添加路由监听，当没有token时，跳转到登录页面
-export const registerRouterToken = ({ get, loginUrl, goHome, whitePages}) => {
+export const registerRouterToken = ({ get, loginUrl, goHome, whitePages }) => {
   NProgress.configure({ showSpinner: false })
-  router.addbeforeEach(async (to, from) => {
+  router.register('beforeEach', async (to, from) => {
     if (to.path === '/') {
       let homeUrl = goHome(store)
       if (homeUrl !== '/') {
@@ -38,7 +38,7 @@ export const registerRouterToken = ({ get, loginUrl, goHome, whitePages}) => {
   })
   // 开发环境跳转时，提示添加页面权限
   if (process.env.NODE_ENV === 'development') {
-    router.addbeforeEach(async (to, from) => {
+    router.register('beforeEach', async (to, from) => {
       if (/\/full\//.test(from.path) && from.meta.nav && !from.meta.nav.hide) {
         let goPages = []
         loopObj(from.meta.permission, function (k, v, isObj) {
@@ -65,44 +65,16 @@ export const registerRequestToken = userManage => {
     tokenOverCode,
     error
   } = process.env.config.request
-  request.interceptors.request.use(
-    config => {
-      config.headers[userManage.headerKey] = userManage.get()
-      return config
-    },
-    error => {
+  request.register('request', (error, config) => {
+    if (error) {
       return Promise.reject(error)
     }
-  )
+    config.headers[userManage.headerKey] = userManage.get()
+    return config
+  })
   const locale = store.state.lang.locale
-  request.interceptors.response.use(
-    response => {
-      if (response.status !== 200) {
-        Message.error(error.status[locale])
-      }
-      const res = response.data
-      if (res[codeKey] !== successCode) {
-        Message({
-          message: res[msgKey] || 'Error',
-          type: 'error',
-          duration: errorTime
-        })
-        if (res.code === tokenOverCode) {
-          MessageBox.confirm(error.tokenOver[locale], '', {
-            type: 'warning'
-          }).then(() => {
-            userManage.resetToken().then(d => {
-              userManage.set(d)
-              location.reload()
-            })
-          })
-        }
-        return Promise.reject(new Error(res.message || 'Error'))
-      } else {
-        return res[dataKey]
-      }
-    },
-    error => {
+  request.register('response', (error, response) => {
+    if (error) {
       Message({
         message: error.message,
         type: 'error',
@@ -110,7 +82,31 @@ export const registerRequestToken = userManage => {
       })
       return Promise.reject(error)
     }
-  )
+    if (response.status !== 200) {
+      Message.error(error.status[locale])
+    }
+    const res = response.data
+    if (res[codeKey] !== successCode) {
+      Message({
+        message: res[msgKey] || 'Error',
+        type: 'error',
+        duration: errorTime
+      })
+      if (res.code === tokenOverCode) {
+        MessageBox.confirm(error.tokenOver[locale], '', {
+          type: 'warning'
+        }).then(() => {
+          userManage.resetToken().then(d => {
+            userManage.set(d)
+            location.reload()
+          })
+        })
+      }
+      return Promise.reject(new Error(res.message || 'Error'))
+    } else {
+      return res[dataKey]
+    }
+  })
 }
 
 function loopObj (obj, fuc) {

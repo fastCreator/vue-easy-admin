@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import register from 'utils/register'
 import Layout from '../components/layout'
 Vue.use(VueRouter)
-let routes = [
+const routes = [
   {
     path: '/',
     component: Layout,
@@ -16,8 +16,10 @@ const router = new VueRouter({
   routes
 })
 setEvents()
+
 export default router
 
+// 加载路由
 function loadRoutes () {
   const importAllVue = require.context(
     process.env.srcDir,
@@ -48,26 +50,16 @@ function loadRoutes () {
     }
   })
 }
+
+// 注册服务
 function setEvents () {
-  const FUCLSIT = {
-    beforeEach: [],
-    beforeResolve: [],
-    afterEach: []
-  }
-  for (let key in FUCLSIT) {
-    router[key](async function (to, from, next) {
-      const list = FUCLSIT[key]
-      for (let i = 0; i < list.length; i++) {
-        let path = await list[i](to, from)
-        if (path) {
-          path !== true && next(path)
-          return false
-        }
+  const EVENTS = ['beforeEach', 'beforeEach', 'afterEach']
+  const service = register(router, EVENTS)
+  EVENTS.forEach(e => {
+    router[e](async function (to, from, next) {
+      if (!await service.runAsync(e, next, to, from)) {
+        next && next()
       }
-      next && next()
     })
-    router[`add${key}`] = function (fuc) {
-      FUCLSIT[key].push(fuc)
-    }
-  }
+  })
 }

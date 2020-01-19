@@ -21,7 +21,6 @@ function flashRoutes (mockFile) {
         method,
         call: mocks[key]
       })
-      console.log(mockData)
     } else {
       console.log(chalk.red(`\n请按规范输入正确mock url：${mockFile} - ${key}`))
     }

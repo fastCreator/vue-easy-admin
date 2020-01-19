@@ -7,6 +7,7 @@ import store from './store'
 import i18n from './i18n'
 import nav from './nav'
 import request from './request'
+import './loading'
 import './element'
 Vue.config.productionTip = process.env.NODE_ENV === 'development'
 ;(async () => {
