@@ -1,29 +1,24 @@
 import Vue from 'vue'
-
 import App from './App.vue'
-import { registerRequestToken, registerRouterToken } from './permission'
-import router from './router'
-import store from './store'
-import i18n from './i18n'
-import nav from './nav'
-import request from './request'
-import './loading'
-import './element'
+
+import userConfig from '_src/utils/userConfig'
+
+import language from '_src/iass/language'
+import router from '_src/iass/router'
+import store from '_src/iass/store'
+import request from '_src/iass/request'
+import Element from '_src/iass/element'
+
+import '_src/sass/permission'
+import '_src/sass/loading'
+import nav from '_src/sass/nav'
+
 Vue.config.productionTip = process.env.NODE_ENV === 'development'
+
 ;(async () => {
-  const importAllVue = require.context(process.env.srcDir, false, /main.js$/)
-  const {
-    init,
-    userManage,
-    userManage: { getUserInfo, getPermission }
-  } = importAllVue('./main.js')
-  registerRouterToken(userManage) // toke in Router
-  registerRequestToken(userManage) // toke in Request
-  store.commit('setUserInfo', await getUserInfo(request)) // 设置用户信息
-  store.commit('setPermission', await getPermission(request)) // 设置用户权限
-  await init({ Vue, router, store, nav, request}) // 用户初始化操作
+  await userConfig.init({ Vue, router, store, Element, nav, request }) // 用户初始化操作
   new Vue({
-    i18n,
+    language,
     router,
     store,
     render: h => h(App)

@@ -7,11 +7,9 @@
 </template>
 
 <script>
-import nav from '../../nav'
 export default {
   data () {
     return {
-      nav
     }
   }
 }

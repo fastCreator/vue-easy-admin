@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import register from 'utils/register'
-import Layout from '../components/layout'
+import NProgress from 'nprogress'
+import userConfig from '_src/utils/userConfig'
+import register from '_src/utils/register'
+import Layout from '_src/components/layout'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -11,11 +13,31 @@ const routes = [
   },
   { path: '*', redirect: 'full/404' }
 ]
+const {
+  iass: {
+    router: { nProgress, indexPage }
+  }
+} = userConfig
+NProgress.configure(nProgress)
 loadRoutes()
 const router = new VueRouter({
   routes
 })
-setEvents()
+registerService()
+
+router.register('beforeEach', async (to, from) => {
+  nProgress && NProgress.start()
+  if (to.path === '/') {
+    let homeUrl = indexPage()
+    if (homeUrl !== '/') {
+      return homeUrl
+    }
+  }
+})
+
+router.register('afterEach', async (to, from) => {
+  nProgress && NProgress.done()
+})
 
 export default router
 
@@ -52,12 +74,12 @@ function loadRoutes () {
 }
 
 // 注册服务
-function setEvents () {
-  const EVENTS = ['beforeEach', 'beforeEach', 'afterEach']
+function registerService () {
+  const EVENTS = ['beforeEach', 'beforeResolve', 'afterEach']
   const service = register(router, EVENTS)
   EVENTS.forEach(e => {
     router[e](async function (to, from, next) {
-      if (!await service.runAsync(e, next, to, from)) {
+      if (!(await service.runAsync(e, next, to, from))) {
         next && next()
       }
     })

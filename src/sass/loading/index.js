@@ -1,5 +1,5 @@
 import { Loading } from 'element-ui'
-import request from '../request'
+import request from '_src/iass/request'
 let loadingInstance
 request.register(
   'request',

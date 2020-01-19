@@ -1,8 +1,13 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import store from '../store'
+import store from '_src/iass/store'
 import ElementLocale from 'element-ui/lib/locale'
-const LANG_CONFIG = process.env.config.lang
+import userConfig from '_src/utils/userConfig'
+const {
+  iass: {
+    language: { defalut, list }
+  }
+} = userConfig
 Vue.use(VueI18n)
 
 const messages = {}
@@ -27,7 +32,6 @@ const importAllLang = require.context(
   false,
   /.js$/
 )
-const list = process.env.config.lang.list
 list.forEach(it => {
   let lang = it.value
   messages[lang] = {
@@ -37,13 +41,13 @@ list.forEach(it => {
 })
 
 const i18n = new VueI18n({
-  locale: LANG_CONFIG.defalut,
+  locale: defalut,
   messages
 })
 
 store.registerModule('lang', {
   state: {
-    lang: LANG_CONFIG.defalut
+    lang: defalut
   },
   mutations: {
     setLang (state, lang) {
@@ -60,4 +64,12 @@ Vue.mixin({
   }
 })
 ElementLocale.i18n((key, value) => i18n.t(key, value))
+
+i18n.getlang = function (v) {
+  if (typeof v === 'object') {
+    return v[i18n.locale]
+  }
+  return v
+}
+
 export default i18n
