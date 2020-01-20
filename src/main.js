@@ -3,7 +3,7 @@ import App from './App.vue'
 
 import userConfig from '_src/utils/userConfig'
 
-import language from '_src/iass/language'
+import i18n from '_src/iass/language'
 import router from '_src/iass/router'
 import store from '_src/iass/store'
 import request from '_src/iass/request'
@@ -18,7 +18,7 @@ Vue.config.productionTip = process.env.NODE_ENV === 'development'
 ;(async () => {
   await userConfig.init({ Vue, router, store, Element, nav, request }) // 用户初始化操作
   new Vue({
-    language,
+    i18n,
     router,
     store,
     render: h => h(App)

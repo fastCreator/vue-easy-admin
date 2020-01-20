@@ -44,18 +44,7 @@ const i18n = new VueI18n({
   locale: defalut,
   messages
 })
-
-store.registerModule('lang', {
-  state: {
-    lang: defalut
-  },
-  mutations: {
-    setLang (state, lang) {
-      state.locale = lang
-      i18n.locale = lang
-    }
-  }
-})
+setStore()
 Vue.mixin({
   methods: {
     $l (key) {
@@ -73,3 +62,17 @@ i18n.getlang = function (v) {
 }
 
 export default i18n
+
+function setStore () {
+  store.registerModule('lang', {
+    state: {
+      lang: defalut
+    },
+    mutations: {
+      setLang (state, lang) {
+        state.locale = lang
+        i18n.locale = lang
+      }
+    }
+  })
+}

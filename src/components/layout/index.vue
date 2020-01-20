@@ -1,7 +1,6 @@
 <template>
   <div>
     pages
-    {{ nav }}
     <router-view />
   </div>
 </template>

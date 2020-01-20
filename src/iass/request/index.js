@@ -27,7 +27,7 @@ VueMixin()
 export default instance
 
 function setNet () {
-  instance.net = function (path, { params, query, body }) {
+  instance.net = function (path, { params, query, body } = {}) {
     let paths = path.split(':')
     let method = paths[0]
     let url = paths[1].replace(/{([a-zA-Z]+)}/g, function (word) {

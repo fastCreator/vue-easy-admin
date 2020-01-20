@@ -1,5 +1,5 @@
 import { MessageBox, Message } from 'element-ui'
-
+import Vue from 'vue'
 import userConfig from '_src/utils/userConfig'
 import { setKeyValue } from '_src/utils/comom'
 
@@ -23,12 +23,16 @@ const {
 
 // 添加路由监听，当没有token时，跳转到登录页面
 setRouter()
-
 // 为http请求添加token,失败时刷新token
 setRequest()
 // 设置store
 setStore()
-
+setVue()
+function setVue () {
+  Vue.prototype.$permission = {
+    token
+  }
+}
 function setStore () {
   store.registerModule('permission', {
     state: {
@@ -47,6 +51,7 @@ function setStore () {
     store.commit('setPermission', d)
   })
 }
+
 function loopObj (obj, fuc) {
   if (typeof obj === 'object') {
     Object.keys(obj).forEach(function (key) {
