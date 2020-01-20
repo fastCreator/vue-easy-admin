@@ -1,18 +1,48 @@
 import { Loading } from 'element-ui'
 import request from '_src/iass/request'
-let loadingInstance
+
+class LoadingService {
+  constructor () {
+    this.count = 0
+    this.loadingInstance = null
+  }
+  open () {
+    if (!this.loadingInstance) {
+      this.loadingInstance = Loading.service(process.env.loading)
+    }
+    this.count++
+  }
+  close () {
+    this.count--
+    if (!this.count) {
+      this.loadingInstance.close()
+    }
+  }
+  closeAll () {
+    this.count = 0
+    this.loadingInstance.close()
+  }
+}
+
+let loading = new LoadingService()
+
 request.register(
   'request',
   (error, config) => {
     if (error) {
-      loadingInstance.close()
+      loading.close()
+      return false
     }
-    loadingInstance = Loading.service(process.env.loading)
+    loading.open()
     return config
+  },
+  'end'
+)
+
+request.register(
+  'response',
+  (error, res) => {
+    loading.close()
   },
   'pre'
 )
-
-request.register('response', (error, config) => {
-  loadingInstance.close()
-})

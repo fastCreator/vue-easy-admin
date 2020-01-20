@@ -4,7 +4,6 @@ import { Message } from 'element-ui'
 import language from '_src/iass/language'
 import register from '_src/utils/register'
 import userConfig from '_src/utils/userConfig'
-console.log(90989)
 const {
   format,
   format: { codeKey, successCode, msgKey, dataKey },

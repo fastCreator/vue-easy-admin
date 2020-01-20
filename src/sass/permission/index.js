@@ -71,7 +71,7 @@ function setRequest () {
     }
   })
   request.register('request', (error, config) => {
-    config.header[headerKey] = token.get()
+    config.headers[headerKey] = token.get()
   })
 }
 
