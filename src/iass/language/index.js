@@ -57,6 +57,21 @@ function setVue () {
       }
     }
   })
+  Vue.prototype._s = function (val) {
+    if (val == null) {
+      return ''
+    }
+    if (Array.isArray(val)) {
+      return JSON.stringify(val, null, 2)
+    }
+    if (typeof val === 'object') {
+      let nowLang = val[store.state.lang.locale]
+      if (nowLang) {
+        return nowLang
+      }
+    }
+    return String(val)
+  }
 }
 
 ElementLocale.i18n((key, value) => i18n.t(key, value))
@@ -67,7 +82,6 @@ i18n.getlang = function (v) {
   }
   return v
 }
-
 export default i18n
 
 function setStore () {

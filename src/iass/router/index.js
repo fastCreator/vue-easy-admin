@@ -3,12 +3,13 @@ import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import userConfig from '_src/utils/userConfig'
 import register from '_src/utils/register'
-import Layout from '_src/components/layout'
+import layout from './layout.vue'
 Vue.use(VueRouter)
+
 const routes = [
   {
     path: '/',
-    component: Layout,
+    component: layout,
     children: []
   },
   { path: '*', redirect: 'full/404' }
