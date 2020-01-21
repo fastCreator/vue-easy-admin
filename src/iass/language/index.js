@@ -8,6 +8,8 @@ const {
     language: { defalut, list }
   }
 } = userConfig
+
+const locale = localStorage.locale || defalut
 Vue.use(VueI18n)
 
 const messages = {}
@@ -41,17 +43,22 @@ list.forEach(it => {
 })
 
 const i18n = new VueI18n({
-  locale: defalut,
+  locale,
   messages
 })
 setStore()
-Vue.mixin({
-  methods: {
-    $l (key) {
-      return this.$t(`${this.$route.path.slice(1)}.${key}`)
+setVue()
+
+function setVue () {
+  Vue.mixin({
+    methods: {
+      $l (key) {
+        return this.$t(`${this.$route.path.slice(1)}.${key}`)
+      }
     }
-  }
-})
+  })
+}
+
 ElementLocale.i18n((key, value) => i18n.t(key, value))
 
 i18n.getlang = function (v) {
@@ -66,10 +73,12 @@ export default i18n
 function setStore () {
   store.registerModule('lang', {
     state: {
-      lang: defalut
+      locale,
+      list
     },
     mutations: {
       setLang (state, lang) {
+        localStorage.locale = lang
         state.locale = lang
         i18n.locale = lang
       }

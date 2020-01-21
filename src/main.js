@@ -11,6 +11,7 @@ import Element from '_src/iass/element'
 
 import '_src/sass/permission'
 import '_src/sass/loading'
+import '_src/sass/theme'
 import nav from '_src/sass/nav'
 
 Vue.config.productionTip = process.env.NODE_ENV === 'development'

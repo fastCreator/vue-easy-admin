@@ -18,8 +18,10 @@ for (let key in myConfig.define) {
 module.exports = {
   outputDir,
   chainWebpack: config => {
+    // define
     config.plugin('define').tap(definitions => {
       Object.assign(definitions[0]['process.env'], {
+        theme: JSON.stringify(path.resolve(cwd, './theme')),
         ...define,
         srcDir: JSON.stringify(srcDir),
         cwdDir: JSON.stringify(cwd),
@@ -28,6 +30,7 @@ module.exports = {
       })
       return definitions
     })
+    // eslint
     config.module
       .rule('eslint')
       .use('eslint-loader')
@@ -35,6 +38,21 @@ module.exports = {
         options.configFile = path.resolve(__dirname, '.eslintrc.js')
         return options
       })
+    // style-loader
+    let normal = config.module
+      .rule('css')
+      .oneOf('theme')
+      .before('normal')
+    normal
+      .test(/[\\/]theme[\\/]/)
+      .use('style-loader')
+      .loader('style-loader')
+      .tap((options = {}) => {
+        options.injectType = 'lazyStyleTag'
+        return options
+      })
+    normal.use('css-loader').loader('css-loader')
+    // babel
     config.module
       .rule('js')
       .use('babel-loader')
@@ -45,6 +63,7 @@ module.exports = {
   },
   configureWebpack: merge(
     {
+      module: {},
       resolve: {
         alias: {
           'element-ui': path.resolve(__dirname, './node_modules/element-ui'),
