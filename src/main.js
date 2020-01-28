@@ -14,6 +14,7 @@ import '_src/sass/loading'
 import '_src/sass/theme'
 import '_src/sass/layout'
 import '_src/sass/resize'
+import '_src/sass/svg'
 import nav from '_src/sass/nav'
 
 Vue.config.productionTip = process.env.NODE_ENV === 'development'

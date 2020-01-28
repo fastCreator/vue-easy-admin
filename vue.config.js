@@ -3,10 +3,12 @@ const fs = require('fs')
 const merge = require('webpack-merge')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const cwd = process.cwd()
-const outputDir = path.resolve(cwd, './dist')
-const srcDir = path.resolve(cwd, './src')
-const pagesDir = path.resolve(cwd, './src/pages')
-const configDir = path.resolve(cwd, './container.js')
+const resolve = path.resolve
+const outputDir = resolve(cwd, './dist')
+const srcDir = resolve(cwd, './src')
+const svgDir = resolve(cwd, './src/svg')
+const pagesDir = resolve(cwd, './src/pages')
+const configDir = resolve(cwd, './container.js')
 let myConfig = {}
 if (fs.existsSync(configDir)) {
   myConfig = require(configDir)
@@ -21,8 +23,8 @@ module.exports = {
     // define
     config.plugin('define').tap(definitions => {
       Object.assign(definitions[0]['process.env'], {
-        theme: JSON.stringify(path.resolve(cwd, './theme')),
         ...define,
+        svgDir: JSON.stringify(svgDir),
         srcDir: JSON.stringify(srcDir),
         cwdDir: JSON.stringify(cwd),
         pagesDir: JSON.stringify(pagesDir),
@@ -35,7 +37,7 @@ module.exports = {
       .rule('eslint')
       .use('eslint-loader')
       .tap(options => {
-        options.configFile = path.resolve(__dirname, '.eslintrc.js')
+        options.configFile = resolve(__dirname, '.eslintrc.js')
         return options
       })
     // style-loader
@@ -57,19 +59,35 @@ module.exports = {
       .rule('js')
       .use('babel-loader')
       .tap((options = {}) => {
-        options.configFile = path.resolve(__dirname, 'babel.config.js')
+        options.configFile = resolve(__dirname, 'babel.config.js')
         return options
       })
+      // set svg-sprite-loader
+    config.module
+    .rule('svg')
+    .exclude.add(svgDir)
+    .end()
+  config.module
+    .rule('icons')
+    .test(/\.svg$/)
+    .include.add(svgDir)
+    .end()
+    .use('svg-sprite-loader')
+    .loader('svg-sprite-loader')
+    .options({
+      symbolId: 'icon-[name]'
+    })
+    .end()
   },
   configureWebpack: merge(
     {
       module: {},
       resolve: {
         alias: {
-          'element-ui': path.resolve(__dirname, './node_modules/element-ui'),
-          iass: path.resolve(__dirname, './src/iass'),
-          sass: path.resolve(__dirname, './src/sass'),
-          _src: path.resolve(__dirname, './src')
+          'element-ui': resolve(__dirname, './node_modules/element-ui'),
+          iass: resolve(__dirname, './src/iass'),
+          sass: resolve(__dirname, './src/sass'),
+          _src: resolve(__dirname, './src')
         }
       },
       devServer: {
@@ -79,8 +97,8 @@ module.exports = {
       plugins: [
         new CopyWebpackPlugin([
           {
-            from: path.resolve(cwd, './public'),
-            to: path.resolve(outputDir, './public')
+            from: resolve(cwd, './public'),
+            to: resolve(outputDir, './public')
           }
         ])
       ]

@@ -10,7 +10,7 @@ setStore()
 function setStore () {
   let mutations = {}
   for (let key in layout) {
-    mutations[`setLayout${key}`] = setKeyValue('key')
+    mutations[`setLayout${key}`] = setKeyValue(key)
   }
   store.registerModule('layout', {
     state: {

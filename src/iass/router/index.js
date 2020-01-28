@@ -4,13 +4,19 @@ import NProgress from 'nprogress'
 import userConfig from '_src/utils/userConfig'
 import register from '_src/utils/register'
 import layout from './layout.vue'
+import redirect from './redirect.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     component: layout,
-    children: []
+    children: [
+      {
+        path: 'redirect/:path*',
+        component: redirect
+      }
+    ]
   },
   { path: '*', redirect: 'full/404' }
 ]
@@ -56,13 +62,16 @@ function loadRoutes () {
       let path = info[2]
       let config = importAllVue(`./${type}/${path}/config.json`)
       let components = importAllVue(`./${type}/${path}/index.vue`).default
+      const name = `${type}${path}`
+      components.name = name
       let router = {
         meta: config,
-        path: `/${type}/${path}`,
+        path:  `/${type}/${path}`,
+        name: name,
         component: config.nav.lazy
           ? resolve => {
-              resolve(components)
-            }
+            resolve(components)
+          }
           : components
       }
       if (type === 'full') {

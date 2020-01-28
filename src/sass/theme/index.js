@@ -8,7 +8,7 @@ const {
 
 let selectTheme = localStorage.theme || defalut
 
-const importAllVue = require.context(process.env.theme, true, /index.css$/)
+const importAllVue = require.context(`${process.env.srcDir}/theme`, true, /index.css$/)
 const themeMap = {}
 
 themeMap[selectTheme] = importAllVue(`./${selectTheme}/index.css`)
