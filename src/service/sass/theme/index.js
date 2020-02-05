@@ -1,4 +1,4 @@
-import store from '_src/iass/store'
+import store from 'service/iass/store'
 import userConfig from '_src/utils/userConfig'
 const {
   sass: {
@@ -8,7 +8,7 @@ const {
 
 let selectTheme = localStorage.theme || defalut
 
-const importAllVue = require.context(`${process.env.srcDir}/theme`, true, /index.css$/)
+const importAllVue = require.context(process.env.themeDir, true, /index.css$/)
 const themeMap = {}
 
 themeMap[selectTheme] = importAllVue(`./${selectTheme}/index.css`)

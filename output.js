@@ -1,6 +1,6 @@
 {
   mode: 'development',
-  context: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin',
+  context: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin',
   node: {
     setImmediate: false,
     process: 'mock',
@@ -11,19 +11,18 @@
     child_process: 'empty'
   },
   output: {
-    path: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\dist',
+    path: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\dist',
     filename: 'js/[name].js',
     publicPath: '/',
     chunkFilename: 'js/[name].js'
   },
   resolve: {
     alias: {
-      '@': 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\src',
+      '@': 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\src',
       vue$: 'vue/dist/vue.runtime.esm.js',
-      'element-ui': 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\element-ui',
-      iass: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\src\\iass',
-      sass: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\src\\sass',
-      _src: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\src'
+      'element-ui': 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\element-ui',
+      service: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\src\\service',
+      _src: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\src'
     },
     extensions: [
       '.mjs',
@@ -35,16 +34,16 @@
     ],
     modules: [
       'node_modules',
-      'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules',
-      'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\@vue\\cli-service\\node_modules'
+      'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules',
+      'E:\\easy-admin\\easy-admin\\node_modules\\_@vue_cli-service@4.1.2@@vue\\cli-service\\node_modules'
     ]
   },
   resolveLoader: {
     modules: [
-      'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\@vue\\cli-plugin-babel\\node_modules',
+      'E:\\easy-admin\\easy-admin\\node_modules\\_@vue_cli-plugin-babel@4.1.2@@vue\\cli-plugin-babel\\node_modules',
       'node_modules',
-      'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules',
-      'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\@vue\\cli-service\\node_modules'
+      'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules',
+      'E:\\easy-admin\\easy-admin\\node_modules\\_@vue_cli-service@4.1.2@@vue\\cli-service\\node_modules'
     ]
   },
   module: {
@@ -55,20 +54,20 @@
         test: /\.vue$/,
         use: [
           {
-            loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\cache-loader\\dist\\cjs.js',
+            loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_cache-loader@4.1.0@cache-loader\\dist\\cjs.js',
             options: {
-              cacheDirectory: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '3a2e606c'
+              cacheDirectory: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\.cache\\vue-loader',
+              cacheIdentifier: '0c0d182e'
             }
           },
           {
-            loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-loader\\lib\\index.js',
+            loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-loader@15.8.3@vue-loader\\lib\\index.js',
             options: {
               compilerOptions: {
                 whitespace: 'condense'
               },
-              cacheDirectory: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '3a2e606c'
+              cacheDirectory: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\.cache\\vue-loader',
+              cacheIdentifier: '0c0d182e'
             }
           }
         ]
@@ -78,7 +77,7 @@
         test: /\.(png|jpe?g|gif|webp)(\?.*)?$/,
         use: [
           {
-            loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\url-loader\\dist\\cjs.js',
+            loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_url-loader@2.3.0@url-loader\\dist\\cjs.js',
             options: {
               limit: 4096,
               fallback: {
@@ -94,9 +93,12 @@
       /* config.module.rule('svg') */
       {
         test: /\.(svg)(\?.*)?$/,
+        exclude: [
+          'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\src\\svg'
+        ],
         use: [
           {
-            loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\file-loader\\dist\\cjs.js',
+            loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_file-loader@4.3.0@file-loader\\dist\\cjs.js',
             options: {
               name: 'img/[name].[hash:8].[ext]'
             }
@@ -108,7 +110,7 @@
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         use: [
           {
-            loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\url-loader\\dist\\cjs.js',
+            loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_url-loader@2.3.0@url-loader\\dist\\cjs.js',
             options: {
               limit: 4096,
               fallback: {
@@ -126,7 +128,7 @@
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
         use: [
           {
-            loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\url-loader\\dist\\cjs.js',
+            loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_url-loader@2.3.0@url-loader\\dist\\cjs.js',
             options: {
               limit: 4096,
               fallback: {
@@ -156,7 +158,7 @@
           {
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\raw-loader\\index.js'
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_raw-loader@0.5.1@raw-loader\\index.js'
               },
               {
                 loader: 'pug-plain-loader'
@@ -174,14 +176,14 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -191,7 +193,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -206,21 +208,21 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -235,14 +237,14 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -252,7 +254,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -264,7 +266,7 @@
           },
           /* config.module.rule('css').rule('theme') */
           {
-            test: /styles\.lazy\.css$/,
+            test: /[\\\/]theme[\\\/]/,
             use: [
               {
                 loader: 'style-loader',
@@ -281,21 +283,21 @@
           {
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -316,14 +318,14 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -333,7 +335,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -348,21 +350,21 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -377,14 +379,14 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -394,7 +396,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -408,21 +410,21 @@
           {
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -443,14 +445,14 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -460,7 +462,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -469,7 +471,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\sass-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_sass-loader@8.0.2@sass-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   implementation: {
@@ -517,21 +519,21 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -540,7 +542,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\sass-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_sass-loader@8.0.2@sass-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   implementation: {
@@ -588,14 +590,14 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -605,7 +607,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -614,7 +616,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\sass-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_sass-loader@8.0.2@sass-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   implementation: {
@@ -661,21 +663,21 @@
           {
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -684,7 +686,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\sass-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_sass-loader@8.0.2@sass-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   implementation: {
@@ -738,14 +740,14 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -755,7 +757,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -764,7 +766,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\sass-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_sass-loader@8.0.2@sass-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   implementation: {
@@ -815,21 +817,21 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -838,7 +840,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\sass-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_sass-loader@8.0.2@sass-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   implementation: {
@@ -889,14 +891,14 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -906,7 +908,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -915,7 +917,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\sass-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_sass-loader@8.0.2@sass-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   implementation: {
@@ -965,21 +967,21 @@
           {
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -988,7 +990,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\sass-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_sass-loader@8.0.2@sass-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   implementation: {
@@ -1045,14 +1047,14 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -1062,7 +1064,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -1071,7 +1073,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\less-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_less-loader@5.0.0@less-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false
                 }
@@ -1083,21 +1085,21 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -1106,7 +1108,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\less-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_less-loader@5.0.0@less-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false
                 }
@@ -1118,14 +1120,14 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -1135,7 +1137,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -1144,7 +1146,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\less-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_less-loader@5.0.0@less-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false
                 }
@@ -1155,21 +1157,21 @@
           {
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -1178,7 +1180,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\less-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_less-loader@5.0.0@less-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false
                 }
@@ -1196,14 +1198,14 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -1213,7 +1215,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -1235,21 +1237,21 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -1271,14 +1273,14 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2,
@@ -1288,7 +1290,7 @@
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -1309,21 +1311,21 @@
           {
             use: [
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\vue-style-loader\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_vue-style-loader@4.1.2@vue-style-loader\\index.js',
                 options: {
                   sourceMap: false,
                   shadowMode: false
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\css-loader\\dist\\cjs.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_css-loader@3.4.1@css-loader\\dist\\cjs.js',
                 options: {
                   sourceMap: false,
                   importLoaders: 2
                 }
               },
               {
-                loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\postcss-loader\\src\\index.js',
+                loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_postcss-loader@3.0.0@postcss-loader\\src\\index.js',
                 options: {
                   sourceMap: false,
                   plugins: [
@@ -1350,16 +1352,16 @@
         ],
         use: [
           {
-            loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\cache-loader\\dist\\cjs.js',
+            loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_cache-loader@4.1.0@cache-loader\\dist\\cjs.js',
             options: {
-              cacheDirectory: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\.cache\\babel-loader',
-              cacheIdentifier: 'e4fcab56'
+              cacheDirectory: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\.cache\\babel-loader',
+              cacheIdentifier: '2b0cbabf'
             }
           },
           {
-            loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\babel-loader\\lib\\index.js',
+            loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_babel-loader@8.0.6@babel-loader\\lib\\index.js',
             options: {
-              configFile: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\babel.config.js'
+              configFile: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\babel.config.js'
             }
           }
         ]
@@ -1370,11 +1372,11 @@
         test: /\.(vue|(j|t)sx?)$/,
         exclude: [
           /node_modules/,
-          'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\@vue\\cli-service\\lib'
+          'E:\\easy-admin\\easy-admin\\node_modules\\_@vue_cli-service@4.1.2@@vue\\cli-service\\lib'
         ],
         use: [
           {
-            loader: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\eslint-loader\\index.js',
+            loader: 'E:\\easy-admin\\easy-admin\\node_modules\\_eslint-loader@2.2.1@eslint-loader\\index.js',
             options: {
               extensions: [
                 '.js',
@@ -1382,12 +1384,27 @@
                 '.vue'
               ],
               cache: true,
-              cacheIdentifier: '8d0d97ee',
+              cacheIdentifier: '599bde44',
               emitWarning: false,
               emitError: false,
-              eslintPath: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\node_modules\\eslint',
+              eslintPath: 'E:\\easy-admin\\easy-admin\\node_modules\\_eslint@5.16.0@eslint',
               formatter: function () { /* omitted long function */ },
-              configFile: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\.eslintrc.js'
+              configFile: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\.eslintrc.js'
+            }
+          }
+        ]
+      },
+      /* config.module.rule('icons') */
+      {
+        test: /\.svg$/,
+        include: [
+          'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\src\\svg'
+        ],
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              symbolId: 'icon-[name]'
             }
           }
         ]
@@ -1469,10 +1486,12 @@
         'process.env': {
           NODE_ENV: '"development"',
           BASE_URL: '"/"',
-          srcDir: '"C:\\\\Users\\\\Inke-yf006\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\easy-admin\\\\src"',
-          cwdDir: '"C:\\\\Users\\\\Inke-yf006\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\easy-admin"',
-          pagesDir: '"C:\\\\Users\\\\Inke-yf006\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\easy-admin\\\\src\\\\pages"',
-          config: '{}'
+          cwdDir: '"C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\easy-admin"',
+          pagesDir: '"C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\easy-admin\\\\src\\\\pages"',
+          componentsDir: '"C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\easy-admin\\\\src\\\\components"',
+          localDir: '"C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\easy-admin\\\\src\\\\pages\\\\local"',
+          svgDir: '"C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\easy-admin\\\\src\\\\svg"',
+          themeDir: '"C:\\\\Users\\\\Administrator\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\easy-admin\\\\src\\\\theme"'
         }
       }
     ),
@@ -1493,7 +1512,7 @@
     new HtmlWebpackPlugin(
       {
         templateParameters: function () { /* omitted long function */ },
-        template: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\public\\index.html'
+        template: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\public\\index.html'
       }
     ),
     /* config.plugin('preload') */
@@ -1518,8 +1537,8 @@
     new CopyPlugin(
       [
         {
-          from: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\public',
-          to: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\dist',
+          from: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\public',
+          to: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\dist',
           toType: 'dir',
           ignore: [
             '.DS_Store',
@@ -1534,8 +1553,8 @@
     {
       patterns: [
         {
-          from: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\public',
-          to: 'C:\\Users\\Inke-yf006\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\dist\\public'
+          from: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\public',
+          to: 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\easy-admin\\dist\\public'
         }
       ],
       options: {}
@@ -1545,9 +1564,5 @@
     app: [
       './src/main.js'
     ]
-  },
-  devServer: {
-    before: function () { /* omitted long function */ },
-    proxy: undefined
   }
 }

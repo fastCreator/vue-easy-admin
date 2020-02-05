@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { Message } from 'element-ui'
-import language from '_src/iass/language'
+import language from 'service/iass/language'
 import register from '_src/utils/register'
 import userConfig from '_src/utils/userConfig'
 const {

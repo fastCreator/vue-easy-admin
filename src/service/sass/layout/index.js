@@ -1,4 +1,4 @@
-import store from '_src/iass/store'
+import store from 'service/iass/store'
 import userConfig from '_src/utils/userConfig'
 import { setKeyValue } from '_src/utils/comom'
 const {

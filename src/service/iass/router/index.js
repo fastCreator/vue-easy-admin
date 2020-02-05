@@ -51,7 +51,7 @@ export default router
 // 加载路由
 function loadRoutes () {
   const importAllVue = require.context(
-    process.env.srcDir,
+    process.env.pagesDir,
     true,
     /index.vue|config.json$/
   )

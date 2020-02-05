@@ -1,5 +1,5 @@
 import { Loading } from 'element-ui'
-import request from '_src/iass/request'
+import request from 'service/iass/request'
 import userConfig from '_src/utils/userConfig'
 const {
   sass: {

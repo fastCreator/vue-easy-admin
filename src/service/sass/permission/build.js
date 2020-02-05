@@ -6,7 +6,7 @@ const cwd = process.cwd()
 module.exports = () => {
   let navs = []
   let fileList = []
-  getFileList(path.resolve(cwd, './src/pages'), fileList)
+  getFileList(path.resolve(cwd, './src/pages/local'), fileList)
   fileList = fileList.filter(it => it.slice(-11) === 'config.json')
   setTree(fileList, navs)
   fs.writeFileSync(

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import store from '_src/iass/store'
+import store from 'service/iass/store'
 import ElementLocale from 'element-ui/lib/locale'
 import userConfig from '_src/utils/userConfig'
 const {
@@ -13,7 +13,7 @@ const locale = localStorage.locale || defalut
 Vue.use(VueI18n)
 
 const messages = {}
-const importAllVue = require.context(process.env.srcDir, true, /lang.json$/)
+const importAllVue = require.context(process.env.pagesDir, true, /lang.json$/)
 importAllVue.keys().map(key => {
   let moduleName = key.slice(2, -10)
   let langs = importAllVue(key)

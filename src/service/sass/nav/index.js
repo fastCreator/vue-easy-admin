@@ -1,6 +1,5 @@
-import router from 'iass/router'
-import store from 'iass/store'
-import userConfig from '_src/utils/userConfig'
+import router from 'service/iass/router'
+import store from 'service/iass/store'
 let navs = getNav()
 setRouter()
 setStore()
@@ -12,7 +11,7 @@ function setRouter () {
     async (to, from) => {
       document.title = `${
         to.meta.nav && to.meta.nav.title ? to.meta.nav.title : ''
-      }-${process.env.title}`
+        }-${process.env.title}`
     },
     'end'
   )
@@ -21,7 +20,7 @@ function setRouter () {
     async (to, from) => {
       document.title = `${
         to.meta.nav && to.meta.nav.title ? to.meta.nav.title : ''
-      }-${process.env.title}`
+        }-${process.env.title}`
     },
     'end'
   )
@@ -38,7 +37,7 @@ function setStore () {
 function getNav () {
   let navs = []
   const importAllConfig = require.context(
-    process.env.pagesDir,
+    process.env.localDir,
     true,
     /config.json$/
   )
@@ -66,6 +65,7 @@ function getNav () {
         p.push(nav)
       }
     } catch (error) {
+      console.log(error)
       console.log(`菜单异常:${key}`)
     }
   })

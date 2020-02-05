@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import router from '_src/iass/router'
+import router from 'service/iass/router'
 
 import { setKeyValue } from '_src/utils/comom'
 import userConfig from '_src/utils/userConfig'

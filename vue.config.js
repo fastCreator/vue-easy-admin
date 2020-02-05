@@ -5,30 +5,17 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const cwd = process.cwd()
 const resolve = path.resolve
 const outputDir = resolve(cwd, './dist')
-const srcDir = resolve(cwd, './src')
-const svgDir = resolve(cwd, './src/svg')
 const pagesDir = resolve(cwd, './src/pages')
-const configDir = resolve(cwd, './container.js')
-let myConfig = {}
-if (fs.existsSync(configDir)) {
-  myConfig = require(configDir)
-}
-let define = {}
-for (let key in myConfig.define) {
-  define[key] = JSON.stringify(myConfig.define[key])
-}
+const services = getServiceConfig()
+
 module.exports = {
   outputDir,
   chainWebpack: config => {
     // define
     config.plugin('define').tap(definitions => {
       Object.assign(definitions[0]['process.env'], {
-        ...define,
-        svgDir: JSON.stringify(svgDir),
-        srcDir: JSON.stringify(srcDir),
         cwdDir: JSON.stringify(cwd),
-        pagesDir: JSON.stringify(pagesDir),
-        config: JSON.stringify(myConfig)
+        pagesDir: JSON.stringify(pagesDir)
       })
       return definitions
     })
@@ -40,20 +27,6 @@ module.exports = {
         options.configFile = resolve(__dirname, '.eslintrc.js')
         return options
       })
-    // style-loader
-    let normal = config.module
-      .rule('css')
-      .oneOf('theme')
-      .before('normal')
-    normal
-      .test(/[\\/]theme[\\/]/)
-      .use('style-loader')
-      .loader('style-loader')
-      .tap((options = {}) => {
-        options.injectType = 'lazyStyleTag'
-        return options
-      })
-    normal.use('css-loader').loader('css-loader')
     // babel
     config.module
       .rule('js')
@@ -62,22 +35,10 @@ module.exports = {
         options.configFile = resolve(__dirname, 'babel.config.js')
         return options
       })
-      // set svg-sprite-loader
-    config.module
-    .rule('svg')
-    .exclude.add(svgDir)
-    .end()
-  config.module
-    .rule('icons')
-    .test(/\.svg$/)
-    .include.add(svgDir)
-    .end()
-    .use('svg-sprite-loader')
-    .loader('svg-sprite-loader')
-    .options({
-      symbolId: 'icon-[name]'
+    // 服务注册配置
+    services.forEach(s => {
+      s.chainWebpack && s.chainWebpack(config)
     })
-    .end()
   },
   configureWebpack: merge(
     {
@@ -85,14 +46,9 @@ module.exports = {
       resolve: {
         alias: {
           'element-ui': resolve(__dirname, './node_modules/element-ui'),
-          iass: resolve(__dirname, './src/iass'),
-          sass: resolve(__dirname, './src/sass'),
+          service: resolve(__dirname, './src/service'),
           _src: resolve(__dirname, './src')
         }
-      },
-      devServer: {
-        before: require('./src/sass/mock/mock-server'),
-        proxy: myConfig.proxy
       },
       plugins: [
         new CopyWebpackPlugin([
@@ -103,6 +59,33 @@ module.exports = {
         ])
       ]
     },
-    myConfig.configureWebpack
+    getServiceConfigureWebpack()
   )
+}
+
+
+function getFileList (dir, fileList) {
+  let files = fs.readdirSync(dir)
+  files.forEach((filename, index) => {
+    let pathname = path.join(dir, filename)
+    let stats = fs.statSync(pathname)
+    if (stats.isDirectory()) {
+      getFileList(pathname, fileList)
+    } else if (stats.isFile()) {
+      fileList.push(pathname)
+    }
+  })
+}
+
+
+function getServiceConfig () {
+  const myConfig = require(resolve(cwd, './container.js'))
+  let fileList = []
+  getFileList(path.resolve(__dirname, './src/service'), fileList)
+  fileList = fileList.filter(it => it.slice(-9) === 'config.js')
+  return fileList.map(path => require(path)).concat(myConfig)
+}
+
+function getServiceConfigureWebpack () {
+  return services.reduce((s1, s2) => merge(s1, s2.configureWebpack), {})
 }

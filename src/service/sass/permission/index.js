@@ -3,10 +3,10 @@ import Vue from 'vue'
 import userConfig from '_src/utils/userConfig'
 import { setKeyValue } from '_src/utils/comom'
 
-import request from '_src/iass/request'
-import language from '_src/iass/language'
-import store from '_src/iass/store'
-import router from '_src/iass/router'
+import request from 'service/iass/request'
+import language from 'service/iass/language'
+import store from 'service/iass/store'
+import router from 'service/iass/router'
 
 const {
   sass: {

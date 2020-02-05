@@ -1,4 +1,4 @@
-import store from '_src/iass/store'
+import store from 'service/iass/store'
 
 const { body } = document
 const WIDTH = 992 // refer to Bootstrap's responsive design
