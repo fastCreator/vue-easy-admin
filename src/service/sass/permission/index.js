@@ -1,6 +1,6 @@
 import { MessageBox, Message } from 'element-ui'
 import Vue from 'vue'
-import userConfig from '_src/utils/userConfig'
+import userConfig from 'service/userConfig'
 import { setKeyValue } from '_src/utils/comom'
 
 import request from 'service/iass/request'

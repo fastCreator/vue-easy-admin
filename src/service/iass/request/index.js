@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import language from 'service/iass/language'
 import register from '_src/utils/register'
-import userConfig from '_src/utils/userConfig'
+import userConfig from 'service/userConfig'
 const {
   format,
   format: { codeKey, successCode, msgKey, dataKey },

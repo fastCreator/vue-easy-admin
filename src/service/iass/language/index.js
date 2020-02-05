@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import store from 'service/iass/store'
 import ElementLocale from 'element-ui/lib/locale'
-import userConfig from '_src/utils/userConfig'
+import userConfig from 'service/userConfig'
 const {
   iass: {
     language: { defalut, list }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import userConfig from '_src/utils/userConfig'
+import userConfig from 'service/userConfig'
 
 import i18n from 'service/iass/language'
 import router from 'service/iass/router'

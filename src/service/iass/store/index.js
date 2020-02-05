@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import router from 'service/iass/router'
 
 import { setKeyValue } from '_src/utils/comom'
-import userConfig from '_src/utils/userConfig'
+import userConfig from 'service/userConfig'
 Vue.use(Vuex)
 const {
   iass: {

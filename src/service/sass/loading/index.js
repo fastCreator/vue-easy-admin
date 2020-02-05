@@ -1,6 +1,6 @@
 import { Loading } from 'element-ui'
 import request from 'service/iass/request'
-import userConfig from '_src/utils/userConfig'
+import userConfig from 'service/userConfig'
 const {
   sass: {
     loading: { timeout }
