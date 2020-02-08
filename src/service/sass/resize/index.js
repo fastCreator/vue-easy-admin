@@ -1,31 +1,27 @@
-import store from 'service/iass/store'
-
+const WIDTH = 991
 const { body } = document
-const WIDTH = 992 // refer to Bootstrap's responsive design
-setStore()
 
-function isMobile () {
-  const rect = body.getBoundingClientRect()
-  return rect.width - 1 < WIDTH ? 'mobile' : 'desktop'
-}
-
-function setStore () {
-  store.registerModule('resize', {
-    state: {
-      width: body.getBoundingClientRect().width,
-      device: isMobile()
-    },
-    mutations: {
-      viewResize (state, device, width) {
-        state.device = device
-        state.width = width
+export default {
+  init ({ store }) {
+    this._initRegisterStore(store)
+    this._addEventListener(store)
+  },
+  _addEventListener (store) {
+    window.addEventListener('resize', () => {
+      if (!document.hidden) {
+        store.store.commt('setResizeViewSize', this._getViewResize())
       }
+    })
+  },
+  _initRegisterStore (store) {
+    store.registerState('resize', { viewSize: this._getViewResize() })
+  },
+  _getViewResize () {
+    const rect = body.getBoundingClientRect()
+    return {
+      ...rect,
+      device: rect.width < WIDTH ? 'mobile' : 'desktop'
     }
-  })
+  }
 }
 
-window.addEventListener('resize', () => {
-  if (!document.hidden) {
-    store.commit('viewResize')
-  }
-})

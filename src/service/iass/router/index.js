@@ -1,11 +1,8 @@
-import Vue from 'vue'
+
 import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
-import userConfig from 'service/userConfig'
-import register from '_src/utils/register'
 import layout from './layout.vue'
 import redirect from './redirect.vue'
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -20,78 +17,79 @@ const routes = [
   },
   { path: '*', redirect: 'full/404' }
 ]
-const {
-  iass: {
-    router: { nProgress, indexPage }
-  }
-} = userConfig
-NProgress.configure(nProgress)
-loadRoutes()
-const router = new VueRouter({
-  routes
-})
-registerService()
-
-router.register('beforeEach', async (to, from) => {
-  nProgress && NProgress.start()
-  if (to.path === '/') {
-    let homeUrl = indexPage()
-    if (homeUrl !== '/') {
-      return homeUrl
-    }
-  }
-})
-
-router.register('afterEach', async (to, from) => {
-  nProgress && NProgress.done()
-})
-
-export default router
-
-// 加载路由
-function loadRoutes () {
-  const importAllVue = require.context(
-    process.env.pagesDir,
-    true,
-    /index.vue|config.json$/
-  )
-  importAllVue.keys().map(key => {
-    let info = key.split('/')
-    if (info[3] === 'config.json') {
-      let type = info[1]
-      let path = info[2]
-      let config = importAllVue(`./${type}/${path}/config.json`)
-      let components = importAllVue(`./${type}/${path}/index.vue`).default
-      const name = `${type}${path}`
-      components.name = name
-      let router = {
-        meta: config,
-        path:  `/${type}/${path}`,
-        name: name,
-        component: config.nav.lazy
-          ? resolve => {
-            resolve(components)
-          }
-          : components
-      }
-      if (type === 'full') {
-        routes.push(router)
-      } else {
-        routes[0].children.push(router)
-      }
-    }
-  })
-}
-
-// 注册服务
-function registerService () {
-  const EVENTS = ['beforeEach', 'beforeResolve', 'afterEach']
-  const service = register(router, EVENTS)
-  EVENTS.forEach(e => {
-    router[e](async function (to, from, next) {
-      if (!(await service.runAsync(e, next, to, from))) {
-        next && next()
+export default {
+  init () {
+    this.routes = routes
+    this.Vue.use(VueRouter)
+    // 动态加载路由列表
+    this._loadRoutes()
+    this.router = new VueRouter({ routes })
+    this.vueRoot = { router: this.router }
+    // 注册请求响应服务
+    this._initRegisterService()
+    // 精度条服务和自动跳转到首页服务
+    this._setNProgressHomeService()
+  },
+  _initRegisterService () {
+    const EVENTS = ['beforeEach', 'beforeResolve', 'afterEach']
+    const service = this._initRegister(EVENTS)
+    EVENTS.forEach(e => {
+      this.router[e](async function (to, from, next) {
+        if (!(await service.runAsync(e, next, to, from))) {
+          next && next()
+        }
+      })
+    })
+  },
+  _loadRoutes () {
+    const importAllVue = require.context(
+      process.env.pagesDir,
+      true,
+      /index.vue|config.json$/
+    )
+    importAllVue.keys().map(key => {
+      let info = key.split('/')
+      if (info[3] === 'config.json') {
+        let type = info[1]
+        let path = info[2]
+        let config = importAllVue(`./${type}/${path}/config.json`)
+        let components = importAllVue(`./${type}/${path}/index.vue`).default
+        const name = `${type}${path}`
+        components.name = name
+        let router = {
+          meta: config,
+          path: `/${type}/${path}`,
+          name: name,
+          component: config.nav.lazy
+            ? resolve => {
+              resolve(components)
+            }
+            : components
+        }
+        if (type === 'full') {
+          routes.push(router)
+        } else {
+          routes[0].children.push(router)
+        }
       }
     })
-  })
+  },
+  _setNProgressHomeService () {
+    const { nProgress, indexPage } = this.config
+    if (nProgress) {
+      nProgress && NProgress.configure(nProgress)
+      this.register('beforeEach', async (to, from) => {
+        NProgress.start()
+        if (to.path === '/') {
+          let homeUrl = indexPage()
+          if (homeUrl !== '/') {
+            return homeUrl
+          }
+        }
+      })
+      this.register('afterEach', async (to, from) => {
+        NProgress.done()
+      })
+    }
+  }
 }

@@ -1,55 +1,88 @@
-import { MessageBox, Message } from 'element-ui'
-import Vue from 'vue'
-import userConfig from 'service/userConfig'
-import { setKeyValue } from '_src/utils/comom'
+import { MessageBox } from 'element-ui'
 
-import request from 'service/iass/request'
-import language from 'service/iass/language'
-import store from 'service/iass/store'
-import router from 'service/iass/router'
-
-const {
-  sass: {
-    permission: {
-      token,
-      loginUrl,
-      whitePages,
-      headerKey,
-      getUserInfo,
-      getPermission
+export default {
+  init ({ request, language, store, router }) {
+    // 添加路由监听，当没有token时，跳转到登录页面
+    this._initRegisterRouter(router)
+    // 为http请求添加token,失败时刷新token
+    this._initRegisterRequest(request, language)
+    // // 设置store
+    this._initRegisterStore(store)
+    this._initRegisterVue()
+  },
+  _initRegisterRequest (request, language) {
+    const { token, headerKey } = this.config
+    request.register('response', (error, response) => {
+      const res = response.data
+      if (res[request.format.codeKey] === token.overCode) {
+        MessageBox.confirm(language.getLang(token.overMsg), '', {
+          type: 'warning'
+        }).then(() => {
+          token.refresh().then(d => {
+            token.set(d)
+            location.reload()
+          })
+        })
+      }
+    })
+    request.register('request', (error, config) => {
+      config.headers[headerKey] = token.get()
+    })
+  },
+  _initRegisterRouter (router) {
+    const { loginUrl, token, whitePages } = this.config
+    router.register('beforeEach', async (to, from) => {
+      const hasToken = token.get()
+      if (hasToken) {
+        if (to.path === loginUrl) {
+          return '/'
+        }
+      } else {
+        if (to.path !== loginUrl) {
+          return loginUrl
+        }
+      }
+    })
+    // 开发环境跳转时，提示添加页面权限
+    if (process.env.NODE_ENV === 'development') {
+      router.register('beforeEach', async (to, from) => {
+        if (/\/full\//.test(from.path) && from.meta.nav && !from.meta.nav.hide) {
+          let goPages = []
+          loopObj(from.meta.permission, function (k, v, isObj) {
+            if (k === 'goPages') {
+              goPages = goPages.concat(v)
+            }
+          })
+          if (!goPages.includes(to.path) && !whitePages.includes(to.path)) {
+            console.error(`请添加goPages${to.path}`)
+          }
+        }
+      })
     }
-  }
-} = userConfig
-
-// 添加路由监听，当没有token时，跳转到登录页面
-setRouter()
-// 为http请求添加token,失败时刷新token
-setRequest()
-// 设置store
-setStore()
-setVue()
-function setVue () {
-  Vue.prototype.$permission = {
-    token
-  }
-}
-function setStore () {
-  store.registerModule('permission', {
-    state: {
+  },
+  _initRegisterStore (store) {
+    const { getUserInfo, getPermission } = this.config
+    store.registerState('permission', {
       userInfo: {},
       permission: []
-    },
-    mutations: {
-      setUserInfo: setKeyValue('userInfo'),
-      setPermission: setKeyValue('permission')
+    })
+    getUserInfo().then(d => {
+      store.store.commit('setPermissionUserInfo', d)
+    })
+    getPermission().then(d => {
+      store.store.commit('setPermissionPermission', d)
+    })
+  },
+  _initRegisterVue (router) {
+    const { token, loginUrl } = this.config
+    this.Vue.prototype.$permission = {
+      token,
+      logout () {
+        token.remove()
+        router.router.next(loginUrl)
+      }
     }
-  })
-  getUserInfo().then(d => {
-    store.commit('setUserInfo', d)
-  })
-  getPermission().then(d => {
-    store.commit('setPermission', d)
-  })
+  }
 }
 
 function loopObj (obj, fuc) {
@@ -61,60 +94,4 @@ function loopObj (obj, fuc) {
     })
   }
 }
-function setRequest () {
-  request.register('response', (error, response) => {
-    const res = response.data
-    if (res[request.format.codeKey] === token.overCode) {
-      MessageBox.confirm(language.getLang(token.overCode), '', {
-        type: 'warning'
-      }).then(() => {
-        token.refresh().then(d => {
-          token.set(d)
-          location.reload()
-        })
-      })
-    }
-  })
-  request.register('request', (error, config) => {
-    config.headers[headerKey] = token.get()
-  })
-}
 
-function setRouter () {
-  router.register('beforeEach', async (to, from) => {
-    const hasToken = token.get()
-
-    if (hasToken) {
-      if (to.path === loginUrl) {
-        return '/'
-      }
-    } else {
-      if (to.path !== loginUrl) {
-        return loginUrl
-      }
-    }
-  })
-  // 开发环境跳转时，提示添加页面权限
-  if (process.env.NODE_ENV === 'development') {
-    router.register('beforeEach', async (to, from) => {
-      if (/\/full\//.test(from.path) && from.meta.nav && !from.meta.nav.hide) {
-        let goPages = []
-        loopObj(from.meta.permission, function (k, v, isObj) {
-          if (k === 'goPages') {
-            goPages = goPages.concat(v)
-          }
-        })
-        if (!goPages.includes(to.path) && !whitePages.includes(to.path)) {
-          console.error(`请添加goPages${to.path}`)
-        }
-      }
-    })
-  }
-}
-
-export default {
-  logout () {
-    token.remove()
-    router.next(loginUrl)
-  }
-}

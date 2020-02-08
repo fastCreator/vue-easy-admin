@@ -1,5 +1,7 @@
-import Vue from 'vue'
 import Element from 'element-ui'
-Vue.use(Element)
 
-export default Element
+export default {
+  init () {
+    this.Vue.use(Element)
+  }
+}

@@ -6,6 +6,8 @@ const cwd = process.cwd()
 const resolve = path.resolve
 const outputDir = resolve(cwd, './dist')
 const pagesDir = resolve(cwd, './src/pages')
+const iassDir = resolve(__dirname, './src/service/iass')
+const sassDir = resolve(__dirname, './src/service/sass')
 const services = getServiceConfig()
 
 module.exports = {
@@ -14,6 +16,8 @@ module.exports = {
     // define
     config.plugin('define').tap(definitions => {
       Object.assign(definitions[0]['process.env'], {
+        iassDir: JSON.stringify(iassDir),
+        sassDir: JSON.stringify(sassDir),
         cwdDir: JSON.stringify(cwd),
         pagesDir: JSON.stringify(pagesDir)
       })
@@ -76,7 +80,6 @@ function getFileList (dir, fileList) {
     }
   })
 }
-
 
 function getServiceConfig () {
   const myConfig = require(resolve(cwd, './container.js'))

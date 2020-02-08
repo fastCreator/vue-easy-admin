@@ -1,3 +1,3 @@
 <template>
-    <elpand-layout></elpand-layout>
+    <sass-layout></sass-layout>
 </template>

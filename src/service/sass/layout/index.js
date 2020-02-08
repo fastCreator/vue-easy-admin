@@ -1,23 +1,47 @@
-import store from 'service/iass/store'
-import userConfig from 'service/userConfig'
-import { setKeyValue } from '_src/utils/comom'
-const {
-  sass: { layout }
-} = userConfig
+import layout from './layout.vue'
 
-setStore()
-
-function setStore () {
-  let mutations = {}
-  for (let key in layout) {
-    mutations[`setLayout${key}`] = setKeyValue(key)
+export default {
+  init () {
+    this.navs = this._getNav()
+    const data = { config: this.config, navs: this.navs }
+    layout.data = function () { return data }
+    this.Vue.component('sass-layout', layout)
+  },
+  _getNav () {
+    let navs = []
+    const importAllConfig = require.context(
+      process.env.localDir,
+      true,
+      /config.json$/
+    )
+    importAllConfig.keys().map(key => {
+      let nav = importAllConfig(key).nav
+      let parents = nav.parents
+      let p = navs
+      let child = null
+      try {
+        if (!nav.hide) {
+          for (let i = 0; i < parents.length; i++) {
+            let title = parents[i]
+            child = p.find(it => it.title === parents[i])
+            if (!child) {
+              child = {
+                title,
+                children: []
+              }
+              p.push(child)
+            }
+            p = child.children
+          }
+          let arrKey = key.split('/')
+          nav.code = arrKey[arrKey.length - 2]
+          p.push(nav)
+        }
+      } catch (error) {
+        console.log(error)
+        console.log(`菜单异常:${key}`)
+      }
+    })
+    return navs
   }
-  store.registerModule('layout', {
-    state: {
-      ...layout
-    },
-    mutations: {
-      ...mutations
-    }
-  })
 }

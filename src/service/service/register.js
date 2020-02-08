@@ -1,5 +1,5 @@
-class Service {
-  constructor (events) {
+class ServiceRegister {
+  constructor(events) {
     this.FNLIST = {}
     events.forEach(e => {
       this.FNLIST[e] = {
@@ -39,8 +39,8 @@ class Service {
   }
 }
 
-export default (instance, events) => {
-  let s = new Service(events)
-  instance.register = s.register.bind(s)
+export default function (events) {
+  let s = new ServiceRegister(events)
+  this.register = s.register.bind(s)
   return s
 }
