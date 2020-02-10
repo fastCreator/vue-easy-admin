@@ -36,7 +36,7 @@ const _vueRoot = {}
 for (let key in service) {
   Object.assign(_vueRoot, service[key].vueRoot)
 }
-Vue.prototype._service = service
+Vue.prototype.$service = service
 export default service
 export const vueRoot = _vueRoot
 // 用户初始化配置

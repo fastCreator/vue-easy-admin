@@ -3,16 +3,20 @@ const path = require('path')
 const chalk = require('chalk')
 const cwd = process.cwd()
 
-module.exports = () => {
-  let navs = []
-  let fileList = []
-  getFileList(path.resolve(cwd, './src/pages/local'), fileList)
-  fileList = fileList.filter(it => it.slice(-11) === 'config.json')
-  setTree(fileList, navs)
-  fs.writeFileSync(
-    path.resolve(cwd, 'permission.json'),
-    JSON.stringify(navs, null, 2)
-  )
+module.exports = {
+  cmd: 'permission',
+  script () {
+    let navs = []
+    let fileList = []
+    getFileList(path.resolve(cwd, './src/pages'), fileList)
+    fileList = fileList.filter(it => it.slice(-11) === 'config.json')
+    setTree(fileList, navs)
+    fs.writeFileSync(
+      path.resolve(cwd, 'permission.json'),
+      JSON.stringify(navs, null, 2)
+    )
+  },
+  helpInfo: 'permission       [生成权限文件夹]'
 }
 function setTree (fileList, navs) {
   fileList.forEach(it => {

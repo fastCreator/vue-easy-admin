@@ -1,37 +1,31 @@
 #!/usr/bin/env node
-
-const fs = require('fs')
-const path = require('path')
-const cliService = require('./cli-service')
 const Package = require('../package.json')
-const rootdir = path.resolve(__dirname, '../')
-const cwd = process.cwd()
+
+const plugins = require('./plugins')
 function run (argv) {
   let arg0 = argv[0]
   if (arg0 === '-v' || arg0 === '--version') {
     console.log(Package.version)
   } else if (arg0 === '-h' || arg0 === '--help') {
-    console.log('  usage:')
-    console.log('  -v --version     [查看版本]')
-    console.log('  permission       [生成权限文件夹]')
-    console.log('  run **           [运行vue-cli 命令]')
-  } else if (arg0 === 'run') {
-    copyEslintrc()
-    cliService(process.argv.slice(3))
-  } else if (arg0 === 'permission') {
-    require('../src/sass/permission/build')()
+    logHelp()
+  } else {
+    let plugin = plugins.find(it => it.cmd === arg0)
+    if (plugin) {
+      console.log(argv)
+      console.log(argv.slice(1))
+      plugin.script(argv.slice(1))
+    } else {
+      logHelp()
+    }
   }
 }
 
 run(process.argv.slice(2))
 
-function copyEslintrc () {
-  const fileName = '.eslintrc.js'
-  fs.copyFile(
-    path.resolve(rootdir, fileName),
-    path.resolve(cwd, fileName),
-    err => {
-      if (err) throw err
-    }
-  )
+function logHelp () {
+  console.log('  usage:')
+  console.log('  -v --version     [查看版本]')
+  plugins.forEach(it => {
+    console.log(`  ${it.helpInfo}`)
+  })
 }

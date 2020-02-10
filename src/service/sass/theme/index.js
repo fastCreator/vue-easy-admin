@@ -7,6 +7,9 @@ export default {
     this.setTheme(localStorage.theme || defalut)
   },
   setTheme (theme) {
+    if (this.selectTheme) {
+      this._themeMap[this.selectTheme].unuse()
+    }
     this.selectTheme = theme
     localStorage.selectTheme = theme
     if (!this._themeMap[theme]) {
@@ -15,4 +18,3 @@ export default {
     this._themeMap[theme].use()
   }
 }
-

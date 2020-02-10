@@ -9,7 +9,7 @@ export default {
   _addEventListener (store) {
     window.addEventListener('resize', () => {
       if (!document.hidden) {
-        store.store.commt('setResizeViewSize', this._getViewResize())
+        store.store.commit('setResizeViewSize', this._getViewResize())
       }
     })
   },
