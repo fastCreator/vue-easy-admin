@@ -15,6 +15,7 @@ export default {
   },
   _initRegisterStore (store) {
     store.registerState('resize', { viewSize: this._getViewResize() })
+    this.state = store.store.state.resize
   },
   _getViewResize () {
     const rect = body.getBoundingClientRect()

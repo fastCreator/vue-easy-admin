@@ -1,6 +1,11 @@
 #!/usr/bin/env node
+const chalk = require('chalk');
+const fs = require('fs')
+const path = require('path')
 const Package = require('../package.json')
 
+const cwd = process.cwd()
+const reslove = path.reslove
 const plugins = require('./plugins')
 function run (argv) {
   let arg0 = argv[0]
@@ -11,8 +16,6 @@ function run (argv) {
   } else {
     let plugin = plugins.find(it => it.cmd === arg0)
     if (plugin) {
-      console.log(argv)
-      console.log(argv.slice(1))
       plugin.script(argv.slice(1))
     } else {
       logHelp()

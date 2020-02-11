@@ -16,7 +16,7 @@ module.exports = {
       JSON.stringify(navs, null, 2)
     )
   },
-  helpInfo: 'permission       [生成权限文件夹]'
+  helpInfo: 'permission          [生成权限文件夹]'
 }
 function setTree (fileList, navs) {
   fileList.forEach(it => {
@@ -52,18 +52,7 @@ function setTree (fileList, navs) {
   })
 }
 
-function getFileList (dir, fileList) {
-  let files = fs.readdirSync(dir)
-  files.forEach((filename, index) => {
-    let pathname = path.join(dir, filename)
-    let stats = fs.statSync(pathname)
-    if (stats.isDirectory()) {
-      getFileList(pathname, fileList)
-    } else if (stats.isFile()) {
-      fileList.push(pathname)
-    }
-  })
-}
+
 
 function delPermission (permission, filePath) {
   loopObj(permission, (k, v, isObj) => {
@@ -134,4 +123,18 @@ function getAllApiInPermission (cPath) {
     }
   })
   return apis
+}
+
+
+const getFileList = function (dir, fileList) {
+  let files = fs.readdirSync(dir)
+  files.forEach((filename, index) => {
+    let pathname = path.join(dir, filename)
+    let stats = fs.statSync(pathname)
+    if (stats.isDirectory()) {
+      getFileList(pathname, fileList)
+    } else if (stats.isFile()) {
+      fileList.push(pathname)
+    }
+  })
 }

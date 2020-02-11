@@ -23,22 +23,31 @@ module.exports = {
       })
       return definitions
     })
-    // eslint
-    config.module
-      .rule('eslint')
-      .use('eslint-loader')
-      .tap(options => {
-        options.configFile = resolve(__dirname, '.eslintrc.js')
-        return options
-      })
-    // babel
-    config.module
-      .rule('js')
-      .use('babel-loader')
-      .tap((options = {}) => {
-        options.configFile = resolve(__dirname, 'babel.config.js')
-        return options
-      })
+    // html
+    config.plugin('html').tap(args => {
+      args[0].template = resolve(cwd, 'public/index.html')
+      return args
+    })
+
+    // console.log(config.resolve.plugin('html-index').init)
+
+    // 共用eslint
+    // config.module
+    //   .rule('eslint')
+    //   .use('eslint-loader')
+    //   .tap(options => {
+    //     options.configFile = resolve(__dirname, '.eslintrc.js')
+    //     return options
+    //   })
+    // 共用babel
+    // config.module
+    //   .rule('js')
+    //   .use('babel-loader')
+    //   .tap((options = {}) => {
+    //     options.configFile = resolve(__dirname, 'babel.config.js')
+    //     return options
+    //   })
+    //
     // 服务注册配置
     services.forEach(s => {
       s.chainWebpack && s.chainWebpack(config)
@@ -49,7 +58,7 @@ module.exports = {
       module: {},
       resolve: {
         alias: {
-          'element-ui': resolve(__dirname, './node_modules/element-ui'),
+          'element-ui': resolve(cwd, './node_modules/element-ui'),
           service: resolve(__dirname, './src/service'),
           _src: resolve(__dirname, './src')
         }
@@ -66,7 +75,6 @@ module.exports = {
     getServiceConfigureWebpack()
   )
 }
-
 
 function getFileList (dir, fileList) {
   let files = fs.readdirSync(dir)

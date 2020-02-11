@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "title": "登录"
+  },
+  "permission": {
+    "basic": {
+      "login": "post:/v1/apis/login"
+    }
+  }
+}

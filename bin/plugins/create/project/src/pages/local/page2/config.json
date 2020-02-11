@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "title": "页面2",
+    "icon": "dashboard",
+    "parents": [
+      "菜单2"
+    ],
+    "lazy": true,
+    "noCache": true
+  },
+  "permission": {
+  }
+}

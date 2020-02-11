@@ -1,5 +1,6 @@
 export default {
   init () {
+    console.log(process.env.componentsDir)
     const importAllVue = require.context(
       process.env.componentsDir,
       true,
