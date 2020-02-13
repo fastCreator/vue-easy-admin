@@ -79,22 +79,29 @@ importFileKeys.forEach(key => {
     }
   }
 })
-//初始化iass服务
-service.iass.forEach(s => {
-  s.init(allService)
-})
-service.sass.forEach(s => {
-  s.init(allService)
-})
+
 // Vue根服务
-const _vueRoot = {}
-for (let key in allService) {
-  Object.assign(_vueRoot, allService[key].vueRoot)
-}
+
 Vue.prototype.$service = allService
 export default allService
-export const vueRoot = _vueRoot
+export const vueRoot = () => {
+  const _vueRoot = {}
+  for (let key in allService) {
+    Object.assign(_vueRoot, allService[key].vueRoot)
+  }
+  return _vueRoot
+}
 // 用户初始化配置
 export const initUser = function () {
   userConfig.init(allService)
+}
+// 用户初始化服务
+export const initService = async function () {
+  //初始化iass服务
+  for (let i = 0; i < service.iass.length; i++) {
+    await service.iass[i].init(allService)
+  }
+  for (let i = 0; i < service.sass.length; i++) {
+    await service.sass[i].init(allService)
+  }
 }

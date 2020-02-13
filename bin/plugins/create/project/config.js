@@ -1,12 +1,12 @@
-import vueElementUiExpand from 'vue-element-ui-expand'
+import vueEasyAdminComponents from 'vue-easy-admin-components'
 export default {
-  init ({ Vue, router, store, Element, request, layout: { navs } }) {
+  init ({ Vue, router, store, Element, request, navs }) {
     //修改菜单
-    navs.forEach(it => {
-      it.icon = 'message'
+    navs.registerDealNavs(function (navs) {
+      navs[0].icon = 'message'
     })
     //添加组件库
-    Vue.use(vueElementUiExpand)
+    Vue.use(vueEasyAdminComponents)
   },
   iass: {
     language: {
@@ -54,10 +54,10 @@ export default {
   sass: {
     permission: {
       getUserInfo (request) {
-        return request.net('get:/v1/apis/userInfo').then(d => d.data)
+        return request.net('get:/v1/apis/userInfo')
       },
       getPermission (request) {
-        return request.net('get:/v1/apis/permission').then(d => d.data)
+        return request.net('get:/v1/apis/permission')
       },
       whitePages: ['full/401'],
       loginUrl: '/full/login',

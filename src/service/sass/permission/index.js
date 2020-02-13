@@ -1,7 +1,7 @@
 import { MessageBox } from 'element-ui'
 
 export default {
-  init ({ request, language, store, router }) {
+  async init ({ request, language, store, router, navs }) {
     this.store = store
     this.request = request
     // 添加路由监听，当没有token时，跳转到登录页面
@@ -11,6 +11,8 @@ export default {
     // // 设置store
     this._initRegisterStore()
     this._initRegisterVue()
+    this._initRegisterNavsFilter(navs)
+    await this._setPermission()
   },
   _setPermission (tokenKey) {
     const { getUserInfo, getPermission, token } = this.config
@@ -28,6 +30,13 @@ export default {
       ]
       return Promise.all(arr)
     }
+  },
+  _initRegisterNavsFilter (navs) {
+    let that = this
+    let state = that.store.store.state
+    navs.registerNavsFilter(function (code) {
+      return state.permission.permission.includes(`local/${code}`)
+    })
   },
   _initRegisterRequest (language) {
     const { token, headerKey } = this.config
@@ -88,13 +97,12 @@ export default {
       userInfo: {},
       permission: []
     })
-    this._setPermission()
   },
   _initRegisterVue (router) {
     const { token, loginUrl } = this.config
     this.Vue.prototype.$permission = {
-      async login (token) {
-        await this._setPermission(token)
+      async login (tokenKey) {
+        token.set(tokenKey)
       },
       async logout () {
         token.remove()

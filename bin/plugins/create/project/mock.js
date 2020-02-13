@@ -10,7 +10,7 @@ module.exports = {
   'get:/v1/apis/permission' (req) {
     return {
         code: 200,
-        data: ['user1']
+        data: ['local/page1']
       }
   }
 }

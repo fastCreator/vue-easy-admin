@@ -40,7 +40,7 @@ export default {
     async handleLogin () {
       let data = await this.$api.login()
       this.$permission.login(data.token)
-      this.$router.push('/')
+      location.reload()
     }
   },
   computed: {
