@@ -128,7 +128,7 @@ export default {
       },
       header: {
         affixHeader: true,
-        tagsView: false
+        tagsView: true
       },
       setting: {
         show: true,

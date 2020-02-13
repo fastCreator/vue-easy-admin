@@ -1,6 +1,7 @@
 import VueI18n from 'vue-i18n'
 import ElementLocale from 'element-ui/lib/locale'
 export default {
+  file: 'lang.json',
   init () {
     const { defalut } = this.config
     const locale = localStorage.locale || defalut
@@ -10,6 +11,7 @@ export default {
     this.VueRoot = { i18n: this.i18n }
     ElementLocale.i18n((key, value) => this.i18n.t(key, value))
     this._setVueRenderString()
+    this._setVueMixin()
   },
   setLang (lang) {
     localStorage.locale = lang
@@ -39,6 +41,15 @@ export default {
       return String(val)
     }
   },
+  _setVueMixin () {
+    this.Vue.mixin({
+      computed: {
+        $lang () {
+          return this._serviceFilelanguage
+        }
+      }
+    })
+  },
   _setmessages () {
     this.messages = {}
     this._setElementmessages()
@@ -46,7 +57,11 @@ export default {
     this._setUserGlobmessagesmessages()
   },
   _setModulemessages () {
-    const importAllVue = require.context(process.env.pagesDir, true, /lang.json$/)
+    const importAllVue = require.context(
+      process.env.pagesDir,
+      true,
+      /lang.json$/
+    )
     importAllVue.keys().map(key => {
       this._setModulemessagesFuc(key.slice(2, -10), importAllVue(key))
     })

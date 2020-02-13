@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 
 export default {
+  file: 'api.js',
   init () {
     const { create } = this.config
     this.request = axios.create(create)
@@ -26,15 +27,24 @@ export default {
     })
   },
   _setVueMixin () {
-    const instance = this.request
+    const that = this
     this.Vue.mixin({
+      computed:{
+        $api(){
+          let apis = this._serviceFilerequest.default
+          for(let key in apis){
+            apis[key] = apis[key].bind(this)
+          }
+          return apis
+        }
+      },
       methods: {
         $net (path, data) {
           let url = this.$route.meta.permission
           path.split('.').forEach(it => {
             url = url[it]
           })
-          return instance.net(url, data)
+          return that.net(url, data)
         }
       }
     })
@@ -54,7 +64,10 @@ export default {
     })
   },
   _dealError () {
-    const { format: { codeKey, successCode, msgKey, dataKey }, MessageTime = 2000 } = this.config
+    const {
+      format: { codeKey, successCode, msgKey, dataKey },
+      MessageTime = 2000
+    } = this.config
     this.register('response', (error, response) => {
       if (error) {
         Message({

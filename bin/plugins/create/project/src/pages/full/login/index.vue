@@ -8,7 +8,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">{{ $l('loginForm') }}</h3>
+        <h3 class="title">{{ $lang.loginForm }}</h3>
       </div>
 
       <el-form-item prop="username">
@@ -17,37 +17,10 @@
       <el-form-item prop="password">
         <el-input v-model="loginForm.password" />
       </el-form-item>
-      <el-form-item>
-        <el-select
-          v-model="lang"
-          placeholder="请选择语言"
-        >
-          <el-option
-            v-for="item in langList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-select
-          v-model="theme"
-          placeholder="请选择主题"
-        >
-          <el-option
-            v-for="item in themeList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
+      
 
       <el-button type="primary" @click="handleLogin">{{
-        $l('login')
+        $lang.login
       }}</el-button>
     </el-form>
   </div>
@@ -65,34 +38,12 @@ export default {
   },
   methods: {
     async handleLogin () {
-      let token = await this.$net('basic.login', { body: this.loginForm })
-      this.$permission.token.set(token.token)
+      let token = await this.$api.login()
+      this.$permission.token.set(token)
       location.reload()
     }
   },
   computed: {
-    lang: {
-      get () {
-        return this.$store.state.lang.locale
-      },
-      set (v) {
-        this.$store.commit('setLang', v)
-      }
-    },
-    langList () {
-      return this.$store.state.lang.list
-    },
-    theme: {
-      get () {
-        return this.$store.state.theme.theme
-      },
-      set (v) {
-        this.$store.commit('setTheme', v)
-      }
-    },
-    themeList () {
-      return this.$store.state.theme.list
-    }
   }
 }
 </script>

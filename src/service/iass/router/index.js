@@ -1,4 +1,3 @@
-
 import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import layout from './layout.vue'
@@ -18,11 +17,11 @@ const routes = [
   { path: '*', redirect: 'full/404' }
 ]
 export default {
-  init () {
+  init ({ vueFile }) {
     this.routes = routes
     this.Vue.use(VueRouter)
     // 动态加载路由列表
-    this._loadRoutes()
+    this._loadRoutes(vueFile)
     this.router = new VueRouter({ routes })
     this.vueRoot = { router: this.router }
     // 注册请求响应服务
@@ -41,38 +40,26 @@ export default {
       })
     })
   },
-  _loadRoutes () {
-    const importAllVue = require.context(
+  _loadRoutes (vueFile) {
+    const importFile = require.context(
       process.env.pagesDir,
       true,
-      /index.vue|config.json$/
+      /config\.json$/
     )
-    importAllVue.keys().map(key => {
-      let info = key.split('/')
-      if (info[3] === 'config.json') {
-        let type = info[1]
-        let path = info[2]
-        let config = importAllVue(`./${type}/${path}/config.json`)
-        let components = importAllVue(`./${type}/${path}/index.vue`).default
-        const name = `${type}${path}`
-        components.name = name
-        let router = {
-          meta: config,
-          path: `/${type}/${path}`,
-          name: name,
-          component: config.nav.lazy
-            ? resolve => {
-              resolve(components)
-            }
-            : components
-        }
-        if (type === 'full') {
-          routes.push(router)
-        } else {
-          routes[0].children.push(router)
-        }
-      }
-    })
+    for (let path in vueFile.full) {
+      routes.push({
+        meta:importFile(`./full/${path}/config.json`),
+        path: `/full/${path}`,
+        component: vueFile.full[path]
+      })
+    }
+    for (let path in vueFile.local) {
+      routes[0].children.push({
+        meta:importFile(`./local/${path}/config.json`),
+        path: `/local/${path}`,
+        component: vueFile.local[path]
+      })
+    }
   },
   _setNProgressHomeService () {
     const { nProgress, indexPage } = this.config

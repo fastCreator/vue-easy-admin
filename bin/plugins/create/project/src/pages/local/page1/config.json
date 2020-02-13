@@ -4,9 +4,7 @@
     "icon": "dashboard",
     "parents": [
       "菜单1"
-    ],
-    "lazy": true,
-    "noCache": true
+    ]
   },
   "permission": {
   }

@@ -6,12 +6,11 @@ const sharePrototype = {
   userConfig,
   Vue
 }
-export default function (prototype, serviceType, serviceName, service) {
+export default function (prototype, serviceType, serviceName) {
   const Service = function () {
     this.serviceType = serviceType
     this.serviceName = serviceName
     this.config = userConfig[serviceType][serviceName]
-    this.init(service)
   }
   Service.prototype = Object.assign({}, prototype, sharePrototype)
   return new Service()
