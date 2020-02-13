@@ -6,6 +6,7 @@ const cwd = process.cwd()
 const resolve = path.resolve
 const outputDir = resolve(cwd, './dist')
 const pagesDir = resolve(cwd, './src/pages')
+const serviceDir = resolve(__dirname, './src/service')
 const iassDir = resolve(__dirname, './src/service/iass')
 const sassDir = resolve(__dirname, './src/service/sass')
 const services = getServiceConfig()
@@ -59,7 +60,7 @@ module.exports = {
       resolve: {
         alias: {
           'element-ui': resolve(cwd, './node_modules/element-ui'),
-          service: resolve(__dirname, './src/service'),
+          '@service': resolve(__dirname, './src/service'),
           _src: resolve(__dirname, './src')
         }
       },

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { initUser, vueRoot } from 'service'
+import { initUser, vueRoot } from '@service'
 
 Vue.config.productionTip = process.env.NODE_ENV === 'development'
 

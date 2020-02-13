@@ -1,5 +1,4 @@
 import vueElementUiExpand from 'vue-element-ui-expand'
-
 export default {
   init ({ Vue, router, store, Element, request, layout: { navs } }) {
     //修改菜单
@@ -54,13 +53,11 @@ export default {
   },
   sass: {
     permission: {
-      async getUserInfo () {
-        // return request.get('/userInfo').then(d => d.data)
-        return { name: '张三' }
+      getUserInfo (request) {
+        return request.net('get:/v1/apis/userInfo').then(d => d.data)
       },
-      async getPermission () {
-        // return request.get('/permission').then(d => d.data)
-        return ['user-info']
+      getPermission (request) {
+        return request.net('get:/v1/apis/permission').then(d => d.data)
       },
       whitePages: ['full/401'],
       loginUrl: '/full/login',
@@ -103,11 +100,6 @@ export default {
         }
       ]
     },
-    mock: {
-      globApi () {
-        console.log('待完成')
-      }
-    },
     layout: {
       sidebar: {
         logo: {
@@ -115,7 +107,7 @@ export default {
             en: 'VUE ADMIN',
             'zh-CN': 'VUE后台管理'
           },
-          logo:'https://cn.vuejs.org/images/logo.png',
+          logo: 'https://cn.vuejs.org/images/logo.png',
           link: '/',
           collapse: false,
           showLogo: true

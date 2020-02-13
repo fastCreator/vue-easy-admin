@@ -2,19 +2,38 @@ import { MessageBox } from 'element-ui'
 
 export default {
   init ({ request, language, store, router }) {
+    this.store = store
+    this.request = request
     // 添加路由监听，当没有token时，跳转到登录页面
     this._initRegisterRouter(router)
     // 为http请求添加token,失败时刷新token
-    this._initRegisterRequest(request, language)
+    this._initRegisterRequest(language)
     // // 设置store
-    this._initRegisterStore(store)
+    this._initRegisterStore()
     this._initRegisterVue()
   },
-  _initRegisterRequest (request, language) {
+  _setPermission (tokenKey) {
+    const { getUserInfo, getPermission, token } = this.config
+    if (tokenKey) {
+      token.set(tokenKey)
+    }
+    if (token.get()) {
+      let arr = [
+        getUserInfo(this.request).then(d => {
+          this.store.store.commit('setPermissionUserInfo', d)
+        }),
+        getPermission(this.request).then(d => {
+          this.store.store.commit('setPermissionPermission', d)
+        })
+      ]
+      return Promise.all(arr)
+    }
+  },
+  _initRegisterRequest (language) {
     const { token, headerKey } = this.config
-    request.register('response', (error, response) => {
+    this.request.register('response', (error, response) => {
       const res = response.data
-      if (res[request.format.codeKey] === token.overCode) {
+      if (res[this.request.format.codeKey] === token.overCode) {
         MessageBox.confirm(language.getLang(token.overMsg), '', {
           type: 'warning'
         }).then(() => {
@@ -25,7 +44,7 @@ export default {
         })
       }
     })
-    request.register('request', (error, config) => {
+    this.request.register('request', (error, config) => {
       config.headers[headerKey] = token.get()
     })
   },
@@ -46,7 +65,11 @@ export default {
     // 开发环境跳转时，提示添加页面权限
     if (process.env.NODE_ENV === 'development') {
       router.register('beforeEach', async (to, from) => {
-        if (/\/full\//.test(from.path) && from.meta.nav && !from.meta.nav.hide) {
+        if (
+          /\/full\//.test(from.path) &&
+          from.meta.nav &&
+          !from.meta.nav.hide
+        ) {
           let goPages = []
           loopObj(from.meta.permission, function (k, v, isObj) {
             if (k === 'goPages') {
@@ -60,24 +83,20 @@ export default {
       })
     }
   },
-  _initRegisterStore (store) {
-    const { getUserInfo, getPermission } = this.config
-    store.registerState('permission', {
+  _initRegisterStore () {
+    this.store.registerState('permission', {
       userInfo: {},
       permission: []
     })
-    getUserInfo().then(d => {
-      store.store.commit('setPermissionUserInfo', d)
-    })
-    getPermission().then(d => {
-      store.store.commit('setPermissionPermission', d)
-    })
+    this._setPermission()
   },
   _initRegisterVue (router) {
     const { token, loginUrl } = this.config
     this.Vue.prototype.$permission = {
-      token,
-      logout () {
+      async login (token) {
+        await this._setPermission(token)
+      },
+      async logout () {
         token.remove()
         router.router.next(loginUrl)
       }
@@ -94,4 +113,3 @@ function loopObj (obj, fuc) {
     })
   }
 }
-

@@ -5,6 +5,7 @@ const path = require('path')
 const fs = require('fs')
 
 const pagesDir = path.resolve(process.cwd(), './src/pages')
+const globMockDir = path.resolve(process.cwd(), 'mock.js')
 const mockData = {}
 
 function flashRoutes (mockFile) {
@@ -50,7 +51,9 @@ module.exports = app => {
     }
     next()
   })
-  chokidarWatch(app)
+  chokidarWatch()
+  chokidarWatchRoot()
+  flashRoutes(globMockDir)
   mapDir(pagesDir, function (file) {
     if (file.slice(-7) === 'mock.js') {
       flashRoutes(file)
@@ -67,6 +70,16 @@ function chokidarWatch () {
       if (/mock\.js$/.test(path)) {
         flashRoutes(path)
       }
+    })
+}
+
+function chokidarWatchRoot () {
+  chokidar
+    .watch(globMockDir, {
+      ignoreInitial: true
+    })
+    .on('all', (event, path) => {
+      flashRoutes(path)
     })
 }
 
