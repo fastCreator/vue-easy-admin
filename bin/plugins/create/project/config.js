@@ -107,7 +107,7 @@ export default {
             en: 'VUE ADMIN',
             'zh-CN': 'VUE后台管理'
           },
-          logo: 'https://cn.vuejs.org/images/logo.png',
+          logo: 'public/logo.png',
           link: '/',
           collapse: false,
           showLogo: true
