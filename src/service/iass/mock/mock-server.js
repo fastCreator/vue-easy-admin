@@ -35,7 +35,7 @@ module.exports = app => {
       extended: true
     })
   )
-  app.use(function (req, res, next) {
+  app.use(async function (req, res, next) {
     for (let key in mockData) {
       let items = mockData[key]
       for (let i = 0; i < items.length; i++) {
@@ -44,7 +44,8 @@ module.exports = app => {
           it.method.toLocaleUpperCase() === req.method &&
           it.regexp.test(req.path)
         ) {
-          res.end(JSON.stringify(it.call(req)))
+          let d = await it.call(req, delay)
+          res.end(JSON.stringify(d))
           return false
         }
       }
@@ -71,6 +72,14 @@ function chokidarWatch () {
         flashRoutes(path)
       }
     })
+}
+
+function delay (time) {
+  return new Promise(r => {
+    setTimeout(() => {
+      r()
+    }, time)
+  })
 }
 
 function chokidarWatchRoot () {

@@ -14,5 +14,4 @@ export default function (prototype, serviceType, serviceName) {
   }
   Service.prototype = Object.assign({}, prototype, sharePrototype)
   return new Service()
-
 }

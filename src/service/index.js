@@ -95,13 +95,26 @@ export const vueRoot = () => {
 export const initUser = function () {
   userConfig.init(allService)
 }
-// 用户初始化服务
-export const initService = async function () {
-  //初始化iass服务
+
+export const beforeService = function () {
+  return runService('before')
+}
+// 初始化服务
+export const initService = function () {
+  return runService('init')
+}
+// vue渲染后服务服务
+export const afterService = function () {
+  return runService('after')
+}
+
+async function runService (week) {
   for (let i = 0; i < service.iass.length; i++) {
-    await service.iass[i].init(allService)
+    let s = service.iass[i]
+    s[week] && await s[week](allService)
   }
   for (let i = 0; i < service.sass.length; i++) {
-    await service.sass[i].init(allService)
+    let s = service.sass[i]
+    s[week] && await s[week](allService)
   }
 }

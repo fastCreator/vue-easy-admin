@@ -1,16 +1,19 @@
-import { Loading } from 'element-ui'
+import './loading.less'
+
+const loadNode = document.createElement('div')
+loadNode.id = 'loading-wrap'
+loadNode.innerHTML = `<img src="./public/loading.svg">`
+document.body.appendChild(loadNode)
 
 export default class {
   constructor (timeout) {
     this.timeout = timeout
-    this.count = 0
+    this.count = 1
     this.loadingInstance = null
     this.t = null
   }
   open () {
-    if (!this.loadingInstance) {
-      this.loadingInstance = Loading.service(process.env.loading)
-    }
+    loadNode.style.display = null
     this.count++
     this.endTime === Date.now()
     this.t && clearTimeout(this.t)
@@ -18,12 +21,13 @@ export default class {
   }
   close () {
     this.count--
-    if (!this.count) {
-      this.loadingInstance.close()
+    if (this.count <= 0) {
+      this.count = 0
+      loadNode.style.display = 'none'
     }
   }
   closeAll () {
     this.count = 0
-    this.loadingInstance.close()
+    loadNode.style.display = 'none'
   }
 }

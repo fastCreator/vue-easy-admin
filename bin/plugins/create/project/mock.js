@@ -1,5 +1,6 @@
 module.exports = {
-  'get:/v1/apis/userInfo' (req) {
+  async 'get:/v1/apis/userInfo' (req,delay) {
+    await delay(4000)
     return {
       code: 200,
       data: {

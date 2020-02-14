@@ -1,6 +1,6 @@
 import vueEasyAdminComponents from 'vue-easy-admin-components'
 export default {
-  init ({ Vue, router, store, Element, request, navs }) {
+  init ({ Vue, router, store, Element, request, navs,loading }) {
     //修改菜单
     navs.registerDealNavs(function (navs) {
       navs[0].icon = 'message'
@@ -31,7 +31,7 @@ export default {
     request: {
       create: {
         baseURL: process.env.NODE_ENV === 'development' ? '/' : '',
-        timeout: 1000
+        timeout: 5000
       },
       format: {
         codeKey: 'code',
@@ -54,12 +54,10 @@ export default {
   sass: {
     permission: {
       getUserInfo (request) {
-        return Promise.resolve({name:'123123'})
-        // return request.net('get:/v1/apis/userInfo')
+        return request.net('get:/v1/apis/userInfo')
       },
       getPermission (request) {
-        return Promise.resolve(['local/page1'])
-        // return request.net('get:/v1/apis/permission')
+        return request.net('get:/v1/apis/permission')
       },
       whitePages: ['full/401'],
       loginUrl: '/full/login',
@@ -87,7 +85,7 @@ export default {
       }
     },
     loading: {
-      timeout: 4000 // 最长loading时长
+      timeout: 15000 // 最长loading时长
     },
     theme: {
       defalut: 'blue',
