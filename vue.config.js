@@ -91,7 +91,8 @@ function getFileList (dir, fileList) {
 }
 
 function getServiceConfig () {
-  const myConfig = require(resolve(cwd, './container.js'))
+  // const myConfig = require(resolve(cwd, './container.js'))
+  const myConfig = []
   let fileList = []
   getFileList(path.resolve(__dirname, './src/service'), fileList)
   fileList = fileList.filter(it => it.slice(-9) === 'config.js')

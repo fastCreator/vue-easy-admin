@@ -54,10 +54,12 @@ export default {
   sass: {
     permission: {
       getUserInfo (request) {
-        return request.net('get:/v1/apis/userInfo')
+        return Promise.resolve({name:'123123'})
+        // return request.net('get:/v1/apis/userInfo')
       },
       getPermission (request) {
-        return request.net('get:/v1/apis/permission')
+        return Promise.resolve(['local/page1'])
+        // return request.net('get:/v1/apis/permission')
       },
       whitePages: ['full/401'],
       loginUrl: '/full/login',
