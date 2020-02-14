@@ -1,9 +1,9 @@
 import vueEasyAdminComponents from 'vue-easy-admin-components'
 export default {
-  init ({ Vue, router, store, Element, request, navs,loading }) {
+  init ({ Vue, router, store, Element, request, navs, loading }) {
     //修改菜单
     navs.registerDealNavs(function (navs) {
-      navs[0].icon = 'message'
+      if (navs[0]) navs[0].icon = 'message'
     })
     //添加组件库
     Vue.use(vueEasyAdminComponents)
@@ -63,25 +63,20 @@ export default {
       loginUrl: '/full/login',
       headerKey: 'token',
       token: {
-        refresh () {
-          return Promise.resolve('XXXXXX')
-          // return request.get('/resetToken').then(d => d.code)
+        refresh (request) {
+          return request.net('get:/v1/apis/refreshToken')
         },
         get () {
           return localStorage.token
         },
         set (token) {
-          return (localStorage.token = token)
+          localStorage.token = token
         },
         remove () {
           localStorage.removeItem('token')
         },
-        overCode: 4001,
-        overMsg: {
-          en:
-            'You have signed out, you can cancel to stay on this page, or confirm to sign in again',
-          'zh-CN': '您已注销，您可以取消以停留在此页，或确定重新登录'
-        }
+        OverTimeCode: 4001,
+        InvalidCode: 4002
       }
     },
     loading: {

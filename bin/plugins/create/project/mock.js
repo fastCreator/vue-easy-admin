@@ -1,6 +1,6 @@
 module.exports = {
-  async 'get:/v1/apis/userInfo' (req,delay) {
-    await delay(4000)
+  async 'get:/v1/apis/userInfo' (req, delay) {
+    await delay(500)
     return {
       code: 200,
       data: {
@@ -9,9 +9,25 @@ module.exports = {
     }
   },
   'get:/v1/apis/permission' (req) {
-    return {
-        code: 200,
-        data: ['local/page1']
+    if (req.get('token') === 'token2') {
+      return {
+        code: '4001'
       }
+    }
+    if (req.get('token') === 'token3') {
+      return {
+        code: '4002'
+      }
+    }
+    return {
+      code: 200,
+      data: ['local/page1']
+    }
+  },
+  'get:/v1/apis/refreshToken' (req) {
+    return {
+      code: 200,
+      data: 'token1'
+    }
   }
 }
