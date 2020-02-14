@@ -1,18 +1,20 @@
-import { MessageBox } from 'element-ui'
-
+import { Message } from 'element-ui';
 export default {
-  async init ({ request, language, store, router, navs }) {
+  init ({ request, language, store, router }) {
     this.store = store
     this.request = request
     // 添加路由监听，当没有token时，跳转到登录页面
     this._initRegisterRouter(router)
     // 为http请求添加token,失败时刷新token
-    this._initRegisterRequest(language)
+    this._initRegisterRequest(request, router)
     // // 设置store
     this._initRegisterStore()
-    this._initRegisterVue()
+    this._initRegisterVue(router)
+  },
+  async after ({ navs }) {
     this._initRegisterNavsFilter(navs)
     await this._setPermission()
+    navs.setNavs()
   },
   _setPermission (tokenKey) {
     const { getUserInfo, getPermission, token } = this.config
@@ -38,24 +40,66 @@ export default {
       return state.permission.permission.includes(`local/${code}`)
     })
   },
-  _initRegisterRequest (language) {
-    const { token, headerKey } = this.config
-    this.request.register('response', (error, response) => {
-      const res = response.data
-      if (res[this.request.format.codeKey] === token.overCode) {
-        MessageBox.confirm(language.getLang(token.overMsg), '', {
-          type: 'warning'
-        }).then(() => {
-          token.refresh().then(d => {
-            token.set(d)
-            location.reload()
-          })
-        })
-      }
-    })
-    this.request.register('request', (error, config) => {
-      config.headers[headerKey] = token.get()
-    })
+  _initRegisterRequest (request, router) {
+    let that = this
+    const { token, headerKey, loginUrl, whiteAPI } = this.config
+    that.request.register(
+      'response',
+      async (error, response) => {
+        const res = response.data
+        const code = res[request.config.format.codeKey].toString()
+        if (code === token.OverTimeCode.toString()) {
+          const d = await token.refresh(request)
+          await token.set(d)
+          location.reload()
+        } else if (code === token.InvalidCode.toString()) {
+          token.remove()
+          if (isExternal(loginUrl)) {
+            window.location = loginUrl
+          } else {
+            router.router.push(loginUrl)
+          }
+        }
+      },
+      'pre'
+    )
+    that.request.register(
+      'request',
+      (error, config) => {
+        config.headers[headerKey] = token.get()
+      },
+      'pre'
+    )
+    // 开发环境接口请求时提示报错没配置API权限
+    if (process.env.NODE_ENV === 'development') {
+      that.request.register(
+        'request',
+        (error, config) => {
+          const api = `${config.method}:${config.url}`
+          let meta = router.router.app.$route.meta
+          if (meta.permission) {
+            let APIS = [...whiteAPI]
+            loopObj(meta.permission, function (k, v, isObj) {
+              if (k === 'basic' || k === 'apis') {
+                APIS = APIS.concat(v)
+              }
+            })
+            let hasAPI = false
+            for (let i = 0; i < APIS.length; i++) {
+              let regx = new RegExp(APIS[i].replace(/\{\w+\}/g, '[^/]+'))
+              if (regx.test(api)) {
+                hasAPI = true
+                break
+              }
+            }
+            if (!hasAPI) {
+              Message.error(`请添加API权限:${api}`)
+            }
+          }
+        },
+        'pre'
+      )
+    }
   },
   _initRegisterRouter (router) {
     const { loginUrl, token, whitePages } = this.config
@@ -66,7 +110,9 @@ export default {
           return '/'
         }
       } else {
-        if (to.path !== loginUrl) {
+        if (isExternal(loginUrl)) {
+          window.location = loginUrl
+        } else if (to.path !== loginUrl) {
           return loginUrl
         }
       }
@@ -75,9 +121,9 @@ export default {
     if (process.env.NODE_ENV === 'development') {
       router.register('beforeEach', async (to, from) => {
         if (
-          /\/full\//.test(from.path) &&
-          from.meta.nav &&
-          !from.meta.nav.hide
+          from.meta.permission &&
+          to.meta.permission &&
+          to.meta.permission.share
         ) {
           let goPages = []
           loopObj(from.meta.permission, function (k, v, isObj) {
@@ -85,8 +131,8 @@ export default {
               goPages = goPages.concat(v)
             }
           })
-          if (!goPages.includes(to.path) && !whitePages.includes(to.path)) {
-            console.error(`请添加goPages${to.path}`)
+          if (!goPages.includes(to.path)) {
+            console.error(`请添加goPages标识共享功能页面:${to.path}`)
           }
         }
       })
@@ -106,9 +152,17 @@ export default {
       },
       async logout () {
         token.remove()
-        router.router.next(loginUrl)
-      }
+        if (isExternal(loginUrl)) {
+          window.location = loginUrl
+        } else {
+          router.router.push(loginUrl)
+        }
+      },
+      hasPermission: this.hasPermission
     }
+  },
+  hasPermission (p) {
+    this.store.store.state.permission.permission.includes(p)
   }
 }
 
@@ -120,4 +174,8 @@ function loopObj (obj, fuc) {
       loopObj(v, fuc)
     })
   }
+}
+
+const isExternal = function (path) {
+  return /^(https?:|mailto:|tel:)/.test(path)
 }

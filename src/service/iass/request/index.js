@@ -29,23 +29,17 @@ export default {
   _setVueMixin () {
     const that = this
     this.Vue.mixin({
-      computed:{
-        $api(){
+      computed: {
+        $api () {
           let apis = this._serviceFilerequest.default
-          for(let key in apis){
+          for (let key in apis) {
             apis[key] = apis[key].bind(this)
           }
           return apis
         }
       },
       methods: {
-        $net (path, data) {
-          let url = this.$route.meta.permission
-          path.split('.').forEach(it => {
-            url = url[it]
-          })
-          return that.net(url, data)
-        }
+        $net: that.net.bind(that)
       }
     })
   },
@@ -55,10 +49,10 @@ export default {
     EVENTS.forEach(e => {
       this.request.interceptors[e].use(
         config => {
-          return service.run(e, _ => _, null, config)
+          return service.runAsync(e, _ => _, null, config)
         },
         error => {
-          service.run(e, _ => _, error, null)
+          service.runAsync(e, _ => _, error, null)
         }
       )
     })

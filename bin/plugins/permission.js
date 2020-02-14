@@ -8,7 +8,7 @@ module.exports = {
   script () {
     let navs = []
     let fileList = []
-    getFileList(path.resolve(cwd, './src/pages'), fileList)
+    getFileList(path.resolve(cwd, './src/pages/local'), fileList)
     fileList = fileList.filter(it => it.slice(-11) === 'config.json')
     setTree(fileList, navs)
     fs.writeFileSync(
@@ -23,6 +23,9 @@ function setTree (fileList, navs) {
     const config = require(it)
     let permission = config.permission
     let nav = config.nav
+    if(nav.hide){
+      return false
+    }
     let parents = nav.parents
     let p = { children: navs }
     let child = null
@@ -38,33 +41,29 @@ function setTree (fileList, navs) {
       }
       p = child
     }
-    let permissionData = delPermission(permission, it)
-    let codeArr = it.split(path.sep)
-    p.code = codeArr[codeArr.length - 2]
-    p.apis = permissionData.basic
-    let navChild = []
-    for (let key in permissionData.function) {
-      let it = permissionData.function[key]
-      it.code = `${p.code}-${key}`
-      navChild.push(it)
-    }
-    p.children = navChild
+    // let permissionData = getPermission(permission, it)
+    // let codeArr = it.split(path.sep)
+    // p.code = codeArr[codeArr.length - 2]
+    // p.apis = permissionData.basic
+    // let navChild = []
+    // for (let key in permissionData.function) {
+    //   let it = permissionData.function[key]
+    //   it.code = `${p.code}-${key}`
+    //   navChild.push(it)
+    // }
+    // p.children = navChild
   })
 }
 
 
 
-function delPermission (permission, filePath) {
+function getPermission (permission, filePath) {
   loopObj(permission, (k, v, isObj) => {
     if (k === 'basic') {
-      let arr = []
-      for (let key in v) {
-        arr.push(v[key])
-      }
-      return arr
+      return v
     } else if (k === 'function') {
       let obj = {}
-      for (let key in v) {
+      for (let i=0;i<v.length;i++) {
         let apis = []
         let it = v[key]
         if (it.apis) {

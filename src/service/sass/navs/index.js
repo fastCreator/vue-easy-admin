@@ -1,7 +1,7 @@
-import Element from 'element-ui'
-
 export default {
-  init () {
+  init ({ store }) {
+    this.store = store
+    this._initRegisterStore()
     this.navsFilter = []
     this.dealNavs = []
   },
@@ -11,7 +11,7 @@ export default {
   registerDealNavs (fn) {
     this.dealNavs.push(fn)
   },
-  getNav () {
+  setNavs () {
     let that = this
     let navs = []
     const importAllConfig = require.context(
@@ -56,6 +56,13 @@ export default {
     that.dealNavs.forEach(fn => {
       fn(navs)
     })
-    return navs
+    this.store.store.commit('setNavsNavs', navs)
+    
+    console.log(navs)
+  },
+  _initRegisterStore () {
+    this.store.registerState('navs', {
+      navs: []
+    })
   }
 }

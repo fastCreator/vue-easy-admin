@@ -1,8 +1,8 @@
 import layout from './layout.vue'
 
 export default {
-  init ({navs}) {
-    const data = { config: this.config, getNavs: navs.getNav.bind(navs) }
+  init () {
+    const data = { config: this.config}
     layout.data = function () {
       return data
     }
