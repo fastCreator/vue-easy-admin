@@ -11,7 +11,9 @@ export default {
       value: ''
     }
   },
-  created () {},
+  created () {
+    this.$api.getTestData()
+  },
   methods: {}
 }
 </script>

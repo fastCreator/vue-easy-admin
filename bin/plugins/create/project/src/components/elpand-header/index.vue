@@ -6,7 +6,8 @@
 <script>
 export default {
   name: 'elpand-header',
-  created () {},
+  created () {
+  },
   methods: {
     logout () {
       this.$permission.logout()

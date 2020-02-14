@@ -2,6 +2,7 @@
   "scripts": {
     "serve": "easy-admin run serve",
     "build": "easy-admin run build",
+    "permission": "easy-admin permission",
     "lint": "easy-admin run lint"
   },
   "devDependencies": {

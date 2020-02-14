@@ -59,7 +59,7 @@ export default {
       getPermission (request) {
         return request.net('get:/v1/apis/permission')
       },
-      whitePages: ['full/401'],
+      whiteAPI: ['get:/v1/apis/userInfo','get:/v1/apis/userInfo','get:/v1/apis/permission'],
       loginUrl: '/full/login',
       headerKey: 'token',
       token: {
