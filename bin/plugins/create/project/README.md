@@ -22,6 +22,11 @@ easy-admin run serve
 https://fastcreator.github.io/vue-easy-admin-demo/
 ```
 
+## 组件库
+```
+https://fastcreator.github.io/vue-easy-admin-components/
+```
+
 ## 文档
 ```
 https://fastcreator.github.io/vue-easy-admin-doc/

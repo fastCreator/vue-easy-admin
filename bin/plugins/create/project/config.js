@@ -20,13 +20,7 @@ export default {
           label: 'English',
           value: 'en'
         }
-      ],
-      messages: {
-        loading: {
-          'zh-CN': '加载中',
-          en: 'loading'
-        }
-      }
+      ]
     },
     request: {
       create: {

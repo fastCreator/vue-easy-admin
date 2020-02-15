@@ -1,9 +1,5 @@
 {
   "nav": {
-    "title": "页面",
-    "icon": "dashboard",
-    "parents": [
-      "菜单1"
-    ]
+    "title": "页面"
   }
 }

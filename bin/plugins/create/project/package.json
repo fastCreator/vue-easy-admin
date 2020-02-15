@@ -6,10 +6,10 @@
     "lint": "easy-admin run lint"
   },
   "devDependencies": {
-    "@vue/babel-preset-app": "^4.2.2",
-    "vue-easy-admin-components": "^0.9.2"
+    "@vue/babel-preset-app": "^4.2.2"
   },
   "dependencies": {
-    "element-ui": "^2.13.0"
+    "element-ui": "^2.13.0",
+    "vue-easy-admin-components": "^0.9.2"
   }
 }
