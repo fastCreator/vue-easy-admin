@@ -4,14 +4,19 @@
     "icon": "dashboard",
     "parents": [
       "菜单1",
-      "菜单1-1"
+      {
+        "en": "nav1-1",
+        "zh-CN": "菜单1-1"
+      }
     ]
   },
   "permission": {
-    "basic": [
+    "apis": [
       "get:/v1/apis/testData/{id}"
     ],
-    "goPages": "local/page2",
+    "goPages": [
+      "local/page2"
+    ],
     "function": [
       {
         "code": "add",
@@ -19,7 +24,9 @@
         "apis": [
           "post:/platform/v1/add"
         ],
-        "goPages": "local/page2"
+        "goPages": [
+          "local/page2"
+        ]
       }
     ]
   }

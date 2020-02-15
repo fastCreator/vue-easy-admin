@@ -6,5 +6,19 @@
       "菜单2"
     ],
     "noCache": true
+  },
+  "permission": {
+    "apis": [
+      "get:/v1/apis/testData2/{id}"
+    ],
+    "function": [
+      {
+        "code": "add",
+        "title": "新增",
+        "apis": [
+          "post:/platform2/v1/add"
+        ]
+      }
+    ]
   }
 }

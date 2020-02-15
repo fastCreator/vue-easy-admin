@@ -1,17 +1,13 @@
 export default {
   init ({ store }) {
     this.store = store
-    this._initRegisterStore()
-    this.navsFilter = []
+    this._initRegisterStore(store)
     this.dealNavs = []
-  },
-  registerNavsFilter (fn) {
-    this.navsFilter.push(fn)
   },
   registerDealNavs (fn) {
     this.dealNavs.push(fn)
   },
-  setNavs () {
+  _getNavs (store) {
     let that = this
     let navs = []
     const importAllConfig = require.context(
@@ -28,13 +24,14 @@ export default {
         let arrKey = key.split('/')
         const code = arrKey[arrKey.length - 2]
         if (!nav.hide) {
-          for (let i = 0; i < that.navsFilter.length; i++) {
-            if (that.navsFilter[i](code, nav) === false) {
-              return false
-            }
+          if (!store.state.permission.permission.includes(`local/${code}`)) {
+            return false
           }
           for (let i = 0; i < parents.length; i++) {
             let title = parents[i]
+            if (typeof title === 'object') {
+              title = title[store.state.lang.lang]
+            }
             child = p.find(it => it.title === parents[i])
             if (!child) {
               child = {
@@ -56,13 +53,16 @@ export default {
     that.dealNavs.forEach(fn => {
       fn(navs)
     })
-    this.store.store.commit('setNavsNavs', navs)
-    
-    console.log(navs)
+    return navs
   },
-  _initRegisterStore () {
-    this.store.registerState('navs', {
-      navs: []
+  _initRegisterStore ({ store }) {
+    let that = this
+    store.registerModule('navs', {
+      getters: {
+        _navs: state => {
+          return that._getNavs(store)
+        }
+      }
     })
   }
 }

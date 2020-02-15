@@ -8,11 +8,13 @@ const sass = require.context(process.env.sassDir, true, /index.js$/)
 const service = {
   iass: iass
     .keys()
-    .map(key => getService(iass(key).default, 'iass', key.slice(2, -9))),
+    .map(key => getService(iass(key).default, 'iass', key.slice(2, -9)))
+    .sort((a, b) => { if (a.serviceName === 'store') return -1 }),
   sass: sass
     .keys()
     .map(key => getService(sass(key).default, 'sass', key.slice(2, -9)))
 }
+
 const components = {
   local: {},
   full: {}

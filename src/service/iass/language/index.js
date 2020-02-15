@@ -2,7 +2,8 @@ import VueI18n from 'vue-i18n'
 import ElementLocale from 'element-ui/lib/locale'
 export default {
   file: 'lang.json',
-  init () {
+  init ({ store }) {
+    this.store = store
     const { defalut } = this.config
     const locale = localStorage.locale || defalut
     this._setmessages()
@@ -12,16 +13,23 @@ export default {
     ElementLocale.i18n((key, value) => this.i18n.t(key, value))
     this._setVueRenderString()
     this._setVueMixin()
+    this._initRegisterStore(store)
   },
   setLang (lang) {
     localStorage.locale = lang
     this.i18n.locale = lang
+    this.store.store.commit('setLangLang', lang)
   },
   getLang (v) {
     if (typeof v === 'object') {
       return v[this.i18n.locale]
     }
     return v
+  },
+  _initRegisterStore (store) {
+    store.registerState('lang', {
+      lang: this.i18n.locale
+    })
   },
   _setVueRenderString () {
     const i18n = this.i18n

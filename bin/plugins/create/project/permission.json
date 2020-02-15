@@ -1,10 +1,56 @@
 [
   {
     "title": "菜单1",
-    "children": []
+    "children": [
+      {
+        "title": {
+          "en": "nav1-1",
+          "zh-CN": "菜单1-1"
+        },
+        "children": [
+          {
+            "title": "页面1",
+            "code": "page1",
+            "apis": [
+              "get:/v1/apis/testData/{id}",
+              "get:/v1/apis/testData2/{id}",
+              "post:/platform2/v1/add"
+            ],
+            "children": [
+              {
+                "title": "新增",
+                "code": "page1.add",
+                "apis": [
+                  "post:/platform/v1/add",
+                  "get:/v1/apis/testData2/{id}",
+                  "post:/platform2/v1/add"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "title": "菜单2",
-    "children": []
+    "children": [
+      {
+        "title": "页面2",
+        "code": "page2",
+        "apis": [
+          "get:/v1/apis/testData2/{id}"
+        ],
+        "children": [
+          {
+            "title": "新增",
+            "code": "page2.add",
+            "apis": [
+              "post:/platform2/v1/add"
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

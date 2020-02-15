@@ -12,9 +12,7 @@ export default {
     this._initRegisterVue(router)
   },
   async after ({ navs }) {
-    this._initRegisterNavsFilter(navs)
     await this._setPermission()
-    navs.setNavs()
   },
   _setPermission (tokenKey) {
     const { getUserInfo, getPermission, token } = this.config
@@ -32,13 +30,6 @@ export default {
       ]
       return Promise.all(arr)
     }
-  },
-  _initRegisterNavsFilter (navs) {
-    let that = this
-    let state = that.store.store.state
-    navs.registerNavsFilter(function (code) {
-      return state.permission.permission.includes(`local/${code}`)
-    })
   },
   _initRegisterRequest (request, router) {
     let that = this
