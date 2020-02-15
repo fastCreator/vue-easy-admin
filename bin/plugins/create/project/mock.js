@@ -21,7 +21,7 @@ module.exports = {
     }
     return {
       code: 200,
-      data: ['local/page1']
+      data: ['page1']
     }
   },
   'get:/v1/apis/refreshToken' (req) {

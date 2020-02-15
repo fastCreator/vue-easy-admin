@@ -24,7 +24,7 @@ export default {
         let arrKey = key.split('/')
         const code = arrKey[arrKey.length - 2]
         if (!nav.hide) {
-          if (!store.state.permission.permission.includes(`local/${code}`)) {
+          if (!store.state.permission.permission.includes(code)) {
             return false
           }
           for (let i = 0; i < parents.length; i++) {
