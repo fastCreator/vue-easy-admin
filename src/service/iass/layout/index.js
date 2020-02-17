@@ -1,11 +1,15 @@
 import layout from './layout.vue'
+import iframe from './iframe.vue'
 
 export default {
-  init () {
-    const data = { config: this.config}
-    layout.data = function () {
-      return data
-    }
+  init ({ store }) {
     this.Vue.component('sass-layout', layout)
+    this.Vue.component('sass-iframe', iframe)
+    this._initRegisterStore(store)
+  },
+  _initRegisterStore (store) {
+    store.registerState('layout', {
+      ...this.config
+    })
   }
 }

@@ -2,6 +2,7 @@ import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import layout from './layout.vue'
 import redirect from './redirect.vue'
+import iframe from './iframe.vue'
 
 const routes = [
   {
@@ -46,20 +47,31 @@ export default {
       true,
       /config\.json$/
     )
-    for (let path in vueFile.full) {
-      routes.push({
-        meta:importFile(`./full/${path}/config.json`),
-        path: `/full/${path}`,
-        component: vueFile.full[path]
-      })
+    importFile.keys().forEach(it => {
+      let arr = it.split('/')
+      const type = arr[1]
+      const path = arr[2]
+      const chidler = type === 'full' ? routes : routes[0].children
+      let routerOne = this._getRouteOne(importFile, type, path, vueFile)
+      routerOne && chidler.push(routerOne)
+    })
+    console.log(routes)
+  },
+  _getRouteOne (importFile, type, path, vueFile) {
+    let config = importFile(`./${type}/${path}/config.json`)
+    let component
+    if (config.iframe) {
+      component = iframe
+    } else {
+      component = vueFile.local[path]
     }
-    for (let path in vueFile.local) {
-      routes[0].children.push({
-        meta:importFile(`./local/${path}/config.json`),
-        path: `/local/${path}`,
-        component: vueFile.local[path]
-      })
-    }
+    return (
+      component && {
+        meta: config,
+        path: `/${type}/${path}`,
+        component
+      }
+    )
   },
   _setNProgressHomeService () {
     const { nProgress, indexPage } = this.config

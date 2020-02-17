@@ -1,5 +1,5 @@
 <template>
-    <elpand-layout :config="config"></elpand-layout>
+    <elpand-layout></elpand-layout>
 </template>
 <script>
 export default {

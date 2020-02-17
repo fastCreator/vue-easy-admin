@@ -1,4 +1,4 @@
-import { Message } from 'element-ui';
+import { Message } from 'element-ui'
 export default {
   init ({ request, language, store, router }) {
     this.store = store
@@ -25,7 +25,10 @@ export default {
           this.store.store.commit('setPermissionUserInfo', d)
         }),
         getPermission(this.request).then(d => {
-          this.store.store.commit('setPermissionPermission', d)
+          this.store.store.commit(
+            'setPermissionPermission',
+            d.concat(this.config.whiteSource)
+          )
         })
       ]
       return Promise.all(arr)

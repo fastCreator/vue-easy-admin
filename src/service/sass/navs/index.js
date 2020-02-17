@@ -17,7 +17,7 @@ export default {
     )
     importAllConfig.keys().forEach(key => {
       let nav = importAllConfig(key).nav
-      let parents = nav.parents
+      let parents = nav.parents || []
       let p = navs
       let child = null
       try {
@@ -42,8 +42,12 @@ export default {
             }
             p = child.children
           }
-          nav.code = code
-          p.push(nav)
+          let title = nav.title[store.state.lang.lang] || nav.title
+          p.push({
+            title: title,
+            icon: nav.icon,
+            code
+          })
         }
       } catch (error) {
         console.log(error)

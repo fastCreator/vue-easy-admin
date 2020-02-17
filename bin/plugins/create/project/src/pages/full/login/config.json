@@ -3,8 +3,8 @@
     "title": "登录"
   },
   "permission": {
-    "basic": {
-      "login": "post:/v1/apis/login"
-    }
+    "basic": [
+      "post:/v1/apis/login"
+    ]
   }
 }
