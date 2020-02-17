@@ -43,6 +43,33 @@ export default {
     store: {
       state: {},
       mutations: {}
+    },
+    layout: {
+      sidebar: {
+        logo: {
+          title: {
+            en: 'VUE ADMIN',
+            'zh-CN': 'VUE后台管理'
+          },
+          logo: 'public/logo.png',
+          link: '/',
+          collapse: false,
+          showLogo: true
+        },
+        menu: {
+          backgroundColor: '#545c64',
+          textColor: '#fff',
+          activeTextColor: '#ffd04b'
+        }
+      },
+      header: {
+        affixHeader: true,
+        tagsView: true
+      },
+      setting: {
+        show: true,
+        list: []
+      }
     }
   },
   sass: {
@@ -88,33 +115,6 @@ export default {
           value: 'yellow'
         }
       ]
-    },
-    layout: {
-      sidebar: {
-        logo: {
-          title: {
-            en: 'VUE ADMIN',
-            'zh-CN': 'VUE后台管理'
-          },
-          logo: 'public/logo.png',
-          link: '/',
-          collapse: false,
-          showLogo: true
-        },
-        menu: {
-          backgroundColor: '#545c64',
-          textColor: '#fff',
-          activeTextColor: '#ffd04b'
-        }
-      },
-      header: {
-        affixHeader: true,
-        tagsView: true
-      },
-      setting: {
-        show: true,
-        list: []
-      }
     }
   }
 }

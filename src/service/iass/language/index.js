@@ -53,7 +53,11 @@ export default {
     this.Vue.mixin({
       computed: {
         $lang () {
-          return this._serviceFilelanguage
+          let o = {}
+          for (let key in this._serviceFilelanguage) {
+            o[key] = this._serviceFilelanguage[key][this.$store.state.lang.lang]
+          }
+          return o
         }
       }
     })
