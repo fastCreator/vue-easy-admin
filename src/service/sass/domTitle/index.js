@@ -17,7 +17,6 @@ export default {
       async (to, from) => {
         let nav = to.meta.nav
         let title = nav.title[store.state.lang.lang] || nav.title
-        console.log(store.state.lang.lang)
         document.title = `${title}-${process.env.title}`
       },
       'end'

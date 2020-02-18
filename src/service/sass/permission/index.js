@@ -140,19 +140,16 @@ export default {
   },
   _initRegisterVue (router) {
     const { token, loginUrl } = this.config
-    this.Vue.prototype.$permission = {
-      async login (tokenKey) {
-        token.set(tokenKey)
-      },
-      async logout () {
-        token.remove()
-        if (isExternal(loginUrl)) {
-          window.location = loginUrl
-        } else {
-          router.router.push(loginUrl)
-        }
-      },
-      hasPermission: this.hasPermission
+    this.login = async function login (tokenKey) {
+      token.set(tokenKey)
+    }
+    this.logout = async function logout () {
+      token.remove()
+      if (isExternal(loginUrl)) {
+        window.location = loginUrl
+      } else {
+        router.router.push(loginUrl)
+      }
     }
   },
   hasPermission (p) {

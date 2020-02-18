@@ -59,7 +59,7 @@ export default {
   methods: {
     async handleLogin () {
       let data = await this.$api.login()
-      this.$permission.login(data.token)
+      this.$service.permission.login(data.token)
       location.reload()
     },
     selectLag (v) {

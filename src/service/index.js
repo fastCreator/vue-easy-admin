@@ -67,6 +67,7 @@ importFileKeys.forEach(key => {
       ])
       const component = loadFiles[0]
       const def = component.default
+      def.name = `${type}${path}`
       if (!def.mixins) {
         def.mixins = []
       }

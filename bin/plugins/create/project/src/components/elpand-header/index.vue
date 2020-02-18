@@ -10,7 +10,7 @@ export default {
   },
   methods: {
     logout () {
-      this.$permission.logout()
+      this.$service.permission.logout()
     }
   }
 }

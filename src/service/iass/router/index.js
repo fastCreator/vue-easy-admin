@@ -12,7 +12,8 @@ const routes = [
       {
         path: 'redirect/:path*',
         component: redirect
-      }
+      },
+      { path: '/local/*', redirect: 'local/404' }
     ]
   },
   { path: '*', redirect: 'full/404' }
@@ -27,7 +28,7 @@ export default {
     this.vueRoot = { router: this.router }
     // 注册请求响应服务
     this._initRegisterService()
-    // 精度条服务和自动跳转到首页服务
+    // 进度条服务和自动跳转到首页服务
     this._setNProgressHomeService()
   },
   _initRegisterService () {
@@ -47,15 +48,15 @@ export default {
       true,
       /config\.json$/
     )
+    const layoutRoute = routes[0].children
     importFile.keys().forEach(it => {
       let arr = it.split('/')
       const type = arr[1]
       const path = arr[2]
-      const chidler = type === 'full' ? routes : routes[0].children
+      const chidler = type === 'full' ? routes : layoutRoute
       let routerOne = this._getRouteOne(importFile, type, path, vueFile)
-      routerOne && chidler.push(routerOne)
+      routerOne && chidler.unshift(routerOne)
     })
-    console.log(routes)
   },
   _getRouteOne (importFile, type, path, vueFile) {
     let config = importFile(`./${type}/${path}/config.json`)
@@ -63,10 +64,11 @@ export default {
     if (config.iframe) {
       component = iframe
     } else {
-      component = vueFile.local[path]
+      component = vueFile[type][path]
     }
     return (
       component && {
+        name: `type${path}`,
         meta: config,
         path: `/${type}/${path}`,
         component

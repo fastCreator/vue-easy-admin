@@ -16,7 +16,8 @@ export default {
       /config.json$/
     )
     importAllConfig.keys().forEach(key => {
-      let nav = importAllConfig(key).nav
+      let config = importAllConfig(key)
+      let nav = config.nav
       let parents = nav.parents || []
       let p = navs
       let child = null
@@ -24,7 +25,7 @@ export default {
         let arrKey = key.split('/')
         const code = arrKey[arrKey.length - 2]
         if (!nav.hide) {
-          if (!store.state.permission.permission.includes(code)) {
+          if (!nav.isWhite&&!store.state.permission.permission.includes(code)) {
             return false
           }
           for (let i = 0; i < parents.length; i++) {
@@ -43,11 +44,15 @@ export default {
             p = child.children
           }
           let title = nav.title[store.state.lang.lang] || nav.title
-          p.push({
+          let o = {
             title: title,
             icon: nav.icon,
             code
-          })
+          }
+          if (config.link) {
+            o.link = config.link
+          }
+          p.push(o)
         }
       } catch (error) {
         console.log(error)
