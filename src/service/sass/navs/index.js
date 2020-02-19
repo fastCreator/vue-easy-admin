@@ -15,17 +15,31 @@ export default {
       true,
       /config.json$/
     )
-    importAllConfig.keys().forEach(key => {
-      let config = importAllConfig(key)
+    const configs = importAllConfig
+      .keys()
+      .map(_ => {
+        const config  =importAllConfig(_)
+        config.key = _
+        return config
+      })
+      .sort((a, b) => {
+        let pa = a.nav.priority
+        let pb = b.nav.priority
+        return pa - pb
+      })
+    configs.forEach(config => {
       let nav = config.nav
       let parents = nav.parents || []
       let p = navs
       let child = null
       try {
-        let arrKey = key.split('/')
+        let arrKey = config.key.split('/')
         const code = arrKey[arrKey.length - 2]
         if (!nav.hide) {
-          if (!nav.isWhite&&!store.state.permission.permission.includes(code)) {
+          if (
+            !nav.isWhite &&
+            !store.state.permission.permission.includes(code)
+          ) {
             return false
           }
           for (let i = 0; i < parents.length; i++) {
@@ -56,7 +70,7 @@ export default {
         }
       } catch (error) {
         console.log(error)
-        console.log(`菜单异常:${key}`)
+        console.log(`菜单异常:${config.key}`)
       }
     })
     that.dealNavs.forEach(fn => {

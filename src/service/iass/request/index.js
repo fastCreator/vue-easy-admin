@@ -5,38 +5,70 @@ export default {
   file: 'api.js',
   init () {
     const { create } = this.config
-    this.request = axios.create(create)
+    // 设置mock数据
+    if (process.env.NODE_ENV === 'development') {
+      this._setMock()
+    }
+    this.request = this._createAxios(create)
     // 注册请求响应服务
     this._initRegisterService()
     // 处理错误请求以及不符合格式的响应
     this._dealError()
     // 设置Vue中的net
     this._setVueMixin()
-    // 设置mock数据
-    if (process.env.NODE_ENV === 'development') {
-      this._setMock()
-    }
   },
-  net (path, { params, query, body } = {}) {
-    if (this.mocks && this.mocks[path]) {
-      return this.mocks[path]({ params, query, body }, delay)
-    }
+  async net (path, { params, query, body } = {}) {
+    // if (this.mocks && this.mocks[path]) {
+    //   return await this.mocks[path]({ params, query, body }, delay)
+    // }
     let paths = path.split(':')
     let method = paths[0]
     let url = paths[1].replace(/{([a-zA-Z]+)}/g, function (word) {
       return params[word.slice(1, -1)]
     })
 
-    return this.request({
+    return await this.request({
       method,
       url,
       params: query,
       data: body
     })
   },
+  _createAxios (create) {
+    let adapter = null
+    if (this.mockList) {
+      adapter = async config => {
+        for (let i = 0; i < this.mockList.length; i++) {
+          let mock = this.mockList[i]
+          if (mock.regexp.test(config.url) && config.method === mock.method) {
+            // 模拟服务，返回mock数据
+            const data = await mock.call(
+              {
+                body: config.data,
+                get (header) {
+                  return config.headers[header]
+                }
+              },
+              delay
+            )
+            const resInfo = {
+              data,
+              status: 200,
+              statusText: 'OK'
+            }
+            return resInfo
+          }
+        }
+        // 删除配置中的 adapter, 使用默认值
+        delete config.adapter
+        return await axios(config)
+      }
+    }
+    return axios.create({ ...create, adapter })
+  },
   _setMock () {
     if (this.config.mock) {
-      this.mocks = require(`${process.env.cwdDir}/mock.js`)
+      let mocks = require(`${process.env.cwdDir}/mock.js`)
       const importMock = require.context(
         process.env.pagesDir,
         true,
@@ -45,9 +77,24 @@ export default {
       importMock.keys().forEach(key => {
         let mock = importMock(key)
         for (let key in mock) {
-          this.mocks[key] = mock[key]
+          mocks[key] = mock[key]
         }
       })
+      this.mockList = []
+      for (let key in mocks) {
+        const splitArr = key.split(':')
+        const method = splitArr[0]
+        const url = splitArr[1]
+        if (method && url) {
+          this.mockList.push({
+            regexp: new RegExp(url.replace(/\{\w+\}/g, '[^/]+')),
+            method,
+            call: mocks[key]
+          })
+        } else {
+          console.log(`\n请按规范输入正确mock url：${key}`)
+        }
+      }
     }
   },
   _setVueMixin () {
