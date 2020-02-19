@@ -12,19 +12,43 @@ export default {
     this._dealError()
     // 设置Vue中的net
     this._setVueMixin()
+    // 设置mock数据
+    if (process.env.NODE_ENV === 'development') {
+      this._setMock()
+    }
   },
   net (path, { params, query, body } = {}) {
+    if (this.mocks && this.mocks[path]) {
+      return this.mocks[path]({ params, query, body }, delay)
+    }
     let paths = path.split(':')
     let method = paths[0]
     let url = paths[1].replace(/{([a-zA-Z]+)}/g, function (word) {
       return params[word.slice(1, -1)]
     })
+
     return this.request({
       method,
       url,
       params: query,
       data: body
     })
+  },
+  _setMock () {
+    if (this.config.mock) {
+      this.mocks = require(`${process.env.cwdDir}/mock.js`)
+      const importMock = require.context(
+        process.env.pagesDir,
+        true,
+        /mock\.js$/
+      )
+      importMock.keys().forEach(key => {
+        let mock = importMock(key)
+        for (let key in mock) {
+          this.mocks[key] = mock[key]
+        }
+      })
+    }
   },
   _setVueMixin () {
     const that = this
@@ -87,4 +111,12 @@ export default {
       }
     })
   }
+}
+
+function delay (time) {
+  return new Promise(r => {
+    setTimeout(() => {
+      r()
+    }, time)
+  })
 }

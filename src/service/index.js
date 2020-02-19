@@ -9,7 +9,9 @@ const service = {
   iass: iass
     .keys()
     .map(key => getService(iass(key).default, 'iass', key.slice(2, -9)))
-    .sort((a, b) => { if (a.serviceName === 'store') return -1 }),
+    .sort((a, b) => {
+      if (a.serviceName === 'store') return -1
+    }),
   sass: sass
     .keys()
     .map(key => getService(sass(key).default, 'sass', key.slice(2, -9)))
@@ -37,51 +39,96 @@ for (let key in allService) {
     files.push({ name: key, file })
   }
 }
-
-const importFile = require.context(
-  process.env.pagesDir,
-  true,
-  /\.(\/\w+){3}\.\w+$/,
-  'lazy'
-)
-const importFileKeys = importFile.keys()
-importFileKeys.forEach(key => {
-  let info = key.split('/')
-  if (info[3] === 'index.vue') {
-    let type = info[1]
-    let path = info[2]
-    components[type][path] = async () => {
-      let filePaths = []
-      files.forEach(file => {
-        let filePath = `./${type}/${path}/${file.file}`
-        if (importFileKeys.includes(filePath)) {
-          filePaths.push(filePath)
-        }
-      })
-      const promises = filePaths.map(function (path) {
-        return importFile(path)
-      })
-      const loadFiles = await Promise.all([
-        importFile(`./${type}/${path}/index.vue`),
-        ...promises
-      ])
-      const component = loadFiles[0]
-      const def = component.default
-      def.name = `${type}${path}`
-      if (!def.mixins) {
-        def.mixins = []
-      }
-      for (let i = 1; i < loadFiles.length; i++) {
-        def.mixins.unshift({
-          beforeCreate () {
-            this[`_serviceFile${files[i - 1].name}`] = loadFiles[i]
+if (process.env.NODE_ENV === 'development') {
+  const importFile = require.context(
+    process.env.pagesDir,
+    true,
+    /\.(\/\w+){3}\.\w+$/
+  )
+  const importFileKeys = importFile.keys()
+  importFileKeys.forEach(key => {
+    let info = key.split('/')
+    if (info[3] === 'index.vue') {
+      let type = info[1]
+      let path = info[2]
+      components[type][path] = async () => {
+        let filePaths = []
+        files.forEach(file => {
+          let filePath = `./${type}/${path}/${file.file}`
+          if (importFileKeys.includes(filePath)) {
+            filePaths.push(filePath)
           }
         })
+        const promises = filePaths.map(function (path) {
+          return importFile(path)
+        })
+        const loadFiles = await Promise.all([
+          importFile(`./${type}/${path}/index.vue`),
+          ...promises
+        ])
+        const component = loadFiles[0]
+        const def = component.default
+        def.name = `${type}${path}`
+        if (!def.mixins) {
+          def.mixins = []
+        }
+        for (let i = 1; i < loadFiles.length; i++) {
+          def.mixins.unshift({
+            beforeCreate () {
+              this[`_serviceFile${files[i - 1].name}`] = loadFiles[i]
+            }
+          })
+        }
+        return component
       }
-      return component
     }
-  }
-})
+  })
+} else {
+  const importFile = require.context(
+    process.env.pagesDir,
+    true,
+    /\.(\/\w+){3}\.\w+$/,
+    'lazy'
+  )
+  const importFileKeys = importFile.keys()
+  importFileKeys.forEach(key => {
+    let info = key.split('/')
+    if (info[3] === 'index.vue') {
+      let type = info[1]
+      let path = info[2]
+      components[type][path] = async () => {
+        let filePaths = []
+        files.forEach(file => {
+          let filePath = `./${type}/${path}/${file.file}`
+          if (importFileKeys.includes(filePath)) {
+            filePaths.push(filePath)
+          }
+        })
+        const promises = filePaths.map(function (path) {
+          return importFile(path)
+        })
+        const loadFiles = await Promise.all([
+          importFile(`./${type}/${path}/index.vue`),
+          ...promises
+        ])
+        const component = loadFiles[0]
+        const def = component.default
+        def.name = `${type}${path}`
+        if (!def.mixins) {
+          def.mixins = []
+        }
+        for (let i = 1; i < loadFiles.length; i++) {
+          def.mixins.unshift({
+            beforeCreate () {
+              this[`_serviceFile${files[i - 1].name}`] = loadFiles[i]
+            }
+          })
+        }
+        return component
+      }
+    }
+  })
+}
 
 // Vue根服务
 
@@ -114,10 +161,10 @@ export const afterService = function () {
 async function runService (week) {
   for (let i = 0; i < service.iass.length; i++) {
     let s = service.iass[i]
-    s[week] && await s[week](allService)
+    s[week] && (await s[week](allService))
   }
   for (let i = 0; i < service.sass.length; i++) {
     let s = service.sass[i]
-    s[week] && await s[week](allService)
+    s[week] && (await s[week](allService))
   }
 }

@@ -33,7 +33,7 @@ export default {
     oFrm.onload = oFrm.onreadystatechange = function () {
       if (this.readyState && this.readyState != 'complete') return
       else {
-        that.$loading.close()
+        that.$service.loading.close()
       }
     }
   }

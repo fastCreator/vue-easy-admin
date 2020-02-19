@@ -6,6 +6,12 @@ export default {
     this.loading = new LoadingService(timeout)
     this._initRegisterRequest(request)
   },
+  open () {
+    this.loading.open()
+  },
+  close () {
+    this.loading.close()
+  },
   after () {
     this.loading.close()
   },

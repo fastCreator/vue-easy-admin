@@ -48,5 +48,16 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint --ext .js,.vue src"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
 }

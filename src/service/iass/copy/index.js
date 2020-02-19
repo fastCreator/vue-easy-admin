@@ -8,6 +8,8 @@ export default {
     loadNode.style.width = 0
     loadNode.style.height = 0
     loadNode.style.border = 'none'
+    loadNode.style.position = 'fixed'
+    loadNode.style.zIndex = -1
     document.body.appendChild(loadNode)
     this.el = loadNode
   }, 
