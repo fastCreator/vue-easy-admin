@@ -1,0 +1,18 @@
+{
+  "refresh":{
+    "zh-CN": "刷新",
+    "en": "Refresh"
+  },
+  "close":{
+    "zh-CN": "关闭",
+    "en": "Close"
+  },
+  "closeOthers":{
+    "zh-CN": "关闭其他",
+    "en": "close others"
+  },
+  "closeAll":{
+    "zh-CN": "全部关闭",
+    "en": "close all"
+  }
+}

@@ -11,6 +11,7 @@
 </template>
 <script>
 export default {
+  name:'sass-layout-iframe',
   data () {
     return {}
   },

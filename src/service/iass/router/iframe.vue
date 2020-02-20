@@ -1,4 +1,4 @@
 <template>
-    <sass-iframe></sass-iframe>
+    <sass-layout-iframe/>
 </template>
 

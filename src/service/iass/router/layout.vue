@@ -1,3 +1,3 @@
 <template>
-    <sass-layout></sass-layout>
+    <sass-layout />
 </template>
