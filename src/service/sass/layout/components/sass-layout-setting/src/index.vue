@@ -145,7 +145,7 @@ export default {
         value: config.header.tagsView,
         change: v => {
           o.value = v
-          this.$store.commit('setlayout-header', {
+          this.$store.commit('setLayoutHeader', {
             ...config.header,
             tagsView: v
           })
@@ -164,7 +164,7 @@ export default {
         value: config.header.affixHeader,
         change: v => {
           o.value = v
-          this.$store.commit('setlayout-header', {
+          this.$store.commit('setLayoutHeader', {
             ...config.header,
             affixHeader: v
           })

@@ -99,25 +99,22 @@ export default {
 
 <style lang="less">
 .elpand-layout {
-  display: flex;
   &.affixHeader {
     &.collapse {
-      .header-container {
-        width: calc(100vw - 54px);
-      }
-      .app-main {
-        width: calc(100vw - 54px);
+      .header-container{
+        width: calc(100% - 54px);
       }
     }
     .header-container {
       z-index: 200;
       position: fixed;
       top: 0;
-      width: calc(100vw - 210px);
+      right: 0;
+      width: calc(100% - 210px);
+      transition: width 0.28s;
     }
     .app-main {
       padding-top: 50px;
-      width: calc(100vw - 210px);
       &.tagsView {
         padding-top: 85px;
       }
@@ -167,7 +164,6 @@ export default {
   }
   .layoutRight {
     transition: all 0.28s;
-    flex: 1;
     position: relative;
     height: 100vh;
     margin-left: 210px;
