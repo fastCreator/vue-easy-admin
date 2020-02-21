@@ -23,8 +23,8 @@ export default {
         return config
       })
       .sort((a, b) => {
-        let pa = a.nav.priority
-        let pb = b.nav.priority
+        let pa = a.nav.priority || 10
+        let pb = b.nav.priority || 10
         return pa - pb
       })
     configs.forEach(config => {
@@ -47,7 +47,7 @@ export default {
             if (typeof title === 'object') {
               title = title[store.state.lang.lang]
             }
-            child = p.find(it => it.title === parents[i])
+            child = p.find(it => it.title === title)
             if (!child) {
               child = {
                 title,

@@ -67,4 +67,7 @@ export default {
     padding-right: 15px;
   }
 }
+.elpand-layout .app-main > .page-container {
+  padding: 10px;
+}
 </style>

@@ -103,17 +103,21 @@ export default {
   &.affixHeader {
     &.collapse {
       .header-container {
-        width: calc(100% - 54px);
+        width: calc(100vw - 54px);
+      }
+      .app-main {
+        width: calc(100vw - 54px);
       }
     }
     .header-container {
       z-index: 200;
       position: fixed;
       top: 0;
-      width: calc(100% - 210px);
+      width: calc(100vw - 210px);
     }
     .app-main {
       padding-top: 50px;
+      width: calc(100vw - 210px);
       &.tagsView {
         padding-top: 85px;
       }

@@ -48,6 +48,7 @@ export default {
       mask: false,
       settingList: [
         that.getTheme(),
+        that.getSize(),
         that.setlang(),
         that.getTagsView(),
         that.getAffixHeader(),
@@ -81,6 +82,38 @@ export default {
           o.value = v
         },
         options: theme.config.list
+      }
+      return o
+    },
+    getSize () {
+      let that = this
+      let element = this.$service.element
+      let o = {
+        type: 'select',
+        label: {
+          'zh-CN': '大小',
+          en: 'size'
+        },
+        value: element.config.size,
+        change (v) {
+          element.setOptions({ size: v })
+          o.value = v
+          location.reload()
+        },
+        options: [
+          {
+            label: '小',
+            value: 'mini'
+          },
+          {
+            label: '中',
+            value: 'small'
+          },
+          {
+            label: '大',
+            value: 'medium'
+          }
+        ]
       }
       return o
     },
