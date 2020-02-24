@@ -68,17 +68,17 @@ if (process.env.NODE_ENV === 'development') {
         ])
         const component = loadFiles[0]
         const def = component.default
-        def.name = `${type}${path}`
-        if (!def.mixins) {
-          def.mixins = []
-        }
+        const Vuefiles = {}
+        const fileKey = `${type}${path}`
+        def.name = fileKey
         for (let i = 1; i < loadFiles.length; i++) {
-          def.mixins.unshift({
-            beforeCreate () {
-              this[`_serviceFile${files[i - 1].name}`] = loadFiles[i]
-            }
-          })
+          const fileType = files[i - 1].name
+          if (!Vuefiles[fileType]) {
+            Vuefiles[fileType] = {}
+          }
+          Vuefiles[fileType][fileKey] = loadFiles[i]
         }
+        Vue.prototype.files = Vuefiles
         return component
       }
     }
@@ -113,17 +113,17 @@ if (process.env.NODE_ENV === 'development') {
         ])
         const component = loadFiles[0]
         const def = component.default
-        def.name = `${type}${path}`
-        if (!def.mixins) {
-          def.mixins = []
-        }
+        const Vuefiles = {}
+        const fileKey = `${type}${path}`
+        def.name = fileKey
         for (let i = 1; i < loadFiles.length; i++) {
-          def.mixins.unshift({
-            beforeCreate () {
-              this[`_serviceFile${files[i - 1].name}`] = loadFiles[i]
-            }
-          })
+          const fileType = files[i - 1].name
+          if (!Vuefiles[fileType]) {
+            Vuefiles[fileType] = {}
+          }
+          Vuefiles[fileType][fileKey] = loadFiles[i]
         }
+        Vue.prototype.files = Vuefiles
         return component
       }
     }

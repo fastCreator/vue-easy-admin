@@ -68,7 +68,7 @@ export default {
     }
     return (
       component && {
-        name: `type${path}`,
+        name: `${type}${path}`,
         meta: config,
         path: `/${type}/${path}`,
         component

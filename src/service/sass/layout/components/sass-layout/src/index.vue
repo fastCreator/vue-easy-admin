@@ -3,6 +3,7 @@
     :class="{
       'elpand-layout': true,
       affixHeader: config.header.affixHeader,
+      tagsView: config.header.tagsView,
       collapse: collapse
     }"
   >
@@ -101,7 +102,7 @@ export default {
 .elpand-layout {
   &.affixHeader {
     &.collapse {
-      .header-container{
+      .header-container {
         width: calc(100% - 54px);
       }
     }

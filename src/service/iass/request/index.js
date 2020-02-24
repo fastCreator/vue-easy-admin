@@ -6,9 +6,7 @@ export default {
   init () {
     const { create } = this.config
     // 设置mock数据
-    if (process.env.NODE_ENV === 'development') {
-      this._setMock()
-    }
+    this._setMock()
     this.request = this._createAxios(create)
     // 注册请求响应服务
     this._initRegisterService()
@@ -35,9 +33,11 @@ export default {
     })
   },
   _createAxios (create) {
+    console.log('_createAxios')
     let adapter = null
     if (this.mockList) {
       adapter = async config => {
+        console.log(config, this.mockList)
         for (let i = 0; i < this.mockList.length; i++) {
           let mock = this.mockList[i]
           if (mock.regexp.test(config.url) && config.method === mock.method) {
@@ -45,6 +45,7 @@ export default {
             const data = await mock.call(
               {
                 body: config.data,
+                query: config.params,
                 get (header) {
                   return config.headers[header]
                 }
@@ -102,7 +103,7 @@ export default {
     this.Vue.mixin({
       computed: {
         $api () {
-          let apis = this._serviceFilerequest.default
+          let apis = this.files.request[this.$route.name].default
           for (let key in apis) {
             apis[key] = apis[key].bind(this)
           }

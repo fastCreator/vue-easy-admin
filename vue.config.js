@@ -13,7 +13,11 @@ const services = getServiceConfig()
 module.exports = {
   outputDir,
   productionSourceMap: false,
+  ...getServiceVuecli(),
   chainWebpack: config => {
+    // 关闭预加载
+    config.plugins.delete('preload')
+    config.plugins.delete('prefetch')
     // define
     config.plugin('define').tap(definitions => {
       Object.assign(definitions[0]['process.env'], {
@@ -32,48 +36,49 @@ module.exports = {
     // 源文件映射
     config
       // https://webpack.js.org/configuration/devtool/#development
-      .when(process.env.NODE_ENV === 'development',
-        config => config.devtool('cheap-source-map')
+      .when(process.env.NODE_ENV === 'development', config =>
+        config.devtool('cheap-source-map')
       )
-    
-    config
-      .when(process.env.NODE_ENV !== 'development',
-        // 运行时JS打包进入html
-        config => {
-          config
-            .plugin('ScriptExtHtmlWebpackPlugin')
-            .after('html')
-            .use('script-ext-html-webpack-plugin', [{
+
+    config.when(
+      process.env.NODE_ENV !== 'development',
+      // 运行时JS打包进入html
+      config => {
+        config
+          .plugin('ScriptExtHtmlWebpackPlugin')
+          .after('html')
+          .use('script-ext-html-webpack-plugin', [
+            {
               inline: /runtime\..*\.js$/
-            }])
-            .end()
-          // 代码分割
-          config
-            .optimization.splitChunks({
-              chunks: 'all',
-              cacheGroups: {
-                libs: {
-                  name: 'chunk-libs',
-                  test: /[\\/]node_modules[\\/]/,
-                  priority: 10,
-                  chunks: 'initial' // 仅打包最初依赖的第三方
-                },
-                elementUI: {
-                  name: 'chunk-elementUI', // 分开element-ui
-                  priority: 20, // 必须高于lib优先级，否则会打包进入lib
-                  test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
-                },
-                commons: {
-                  name: 'chunk-frame',
-                  test: resolve(__dirname,'src'), // 分开框架代码
-                  priority: 5,
-                  reuseExistingChunk: true
-                }
-              }
-            })
-          config.optimization.runtimeChunk('single')
-        }
-      )
+            }
+          ])
+          .end()
+        // 代码分割
+        config.optimization.splitChunks({
+          chunks: 'all',
+          cacheGroups: {
+            libs: {
+              name: 'chunk-libs',
+              test: /[\\/]node_modules[\\/]/,
+              priority: 10,
+              chunks: 'initial' // 仅打包最初依赖的第三方
+            },
+            elementUI: {
+              name: 'chunk-elementUI', // 分开element-ui
+              priority: 20, // 必须高于lib优先级，否则会打包进入lib
+              test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
+            },
+            commons: {
+              name: 'chunk-frame',
+              test: resolve(__dirname, 'src'), // 分开框架代码
+              priority: 30,
+              reuseExistingChunk: true
+            }
+          }
+        })
+        config.optimization.runtimeChunk('single')
+      }
+    )
     // 共用eslint
     // config.module
     //   .rule('eslint')
@@ -135,6 +140,7 @@ function getFileList (dir, fileList) {
 function getServiceConfig () {
   const fileName = 'container.js'
   const myConfig = require(resolve(cwd, './container.js'))
+  // const myConfig = []
   let fileList = []
   getFileList(path.resolve(__dirname, './src/service'), fileList)
   fileList = fileList.filter(it => it.slice(-fileName.length) === fileName)
@@ -143,4 +149,8 @@ function getServiceConfig () {
 
 function getServiceConfigureWebpack () {
   return services.reduce((s1, s2) => merge(s1, s2.configureWebpack), {})
+}
+
+function getServiceVuecli () {
+  return services.reduce((s1, s2) => merge(s1, s2.other), {})
 }

@@ -1,7 +1,6 @@
 import VueI18n from 'vue-i18n'
 import ElementLocale from 'element-ui/lib/locale'
 export default {
-  file: 'lang.json',
   init ({ store }) {
     this.store = store
     const { defalut } = this.config
@@ -9,7 +8,7 @@ export default {
     this._setmessages()
     this.Vue.use(VueI18n)
     this.i18n = new VueI18n({ messages: this.messages, locale })
-    this.VueRoot = { i18n: this.i18n }
+    this.vueRoot = { i18n: this.i18n }
     ElementLocale.i18n((key, value) => this.i18n.t(key, value))
     this._setVueRenderString()
     this._setVueMixin()
@@ -53,11 +52,10 @@ export default {
     this.Vue.mixin({
       computed: {
         $lang () {
-          let o = {}
-          for (let key in this._serviceFilelanguage) {
-            o[key] = this._serviceFilelanguage[key][this.$store.state.lang.lang]
-          }
-          return o
+          return this.$t(this.$route.name)
+        },
+        $globLang () {
+          return this.$t('glob')
         }
       }
     })
@@ -75,7 +73,10 @@ export default {
       /lang.json$/
     )
     importAllVue.keys().map(key => {
-      this._setModulemessagesFuc(key.slice(2, -10), importAllVue(key))
+      this._setModulemessagesFuc(
+        key.slice(2, -10).replace('/', ''),
+        importAllVue(key)
+      )
     })
   },
   _setElementmessages () {
@@ -93,7 +94,7 @@ export default {
     })
   },
   _setUserGlobmessagesmessages () {
-    this._setModulemessagesFuc('glob', this.config.messages)
+    this._setModulemessagesFuc('glob', this.config.glob)
   },
   _setModulemessagesFuc (moduleName, langs) {
     for (let key in langs) {
