@@ -19,12 +19,11 @@
         <sass-layout-header
           @toggle="handlerToggle"
           :collapse="collapse"
-          :selectRouter="selectRouter"
+          :breadcrumb="breadcrumb"
         ></sass-layout-header>
         <TagsView
           v-show="config.header.tagsView"
           @changeTag="changeTag"
-          :selectRouter="selectRouter"
         />
       </div>
       <app-main
@@ -48,6 +47,7 @@ export default {
   },
   data () {
     return {
+      breadcrumb:[],
       collapse: false,
       tags: [],
       show: true,
@@ -55,16 +55,7 @@ export default {
       affixHeader: false
     }
   },
-  watch: {
-    $route: {
-      handler (n) {
-        if (n.path.slice(0, 6) === '/local' && !n.meta.nav.hide) {
-          this.selectRouter = n
-        }
-      },
-      immediate: true
-    }
-  },
+  watch: {},
   computed: {
     resize () {
       return this.$service.resize.state
@@ -73,7 +64,10 @@ export default {
       return this.$store.state.layout
     },
     activeMenu () {
-      return this.$route.path
+      const {
+        nav: { selectNav }
+      } = this.$route.meta
+      return selectNav ? `/local/${selectNav}` : this.$route.path
     },
     navs () {
       return this.$store.getters._navs
@@ -81,12 +75,49 @@ export default {
   },
   created () {},
   methods: {
+    setBreadcrumb(){
+      let ret = []
+      let tagView = this.tags.find(it => it.path === this.activeMenu)
+      if (tagView) {
+        const match = this.$router.match(tagView.path)
+        const { parents } = match.meta.nav
+        if (parents) {
+          ret = parents.map(it => ({ title: it }))
+        }
+        ret.push({title:tagView.title,path:tagView.path})
+        let child = []
+        for(let key in tagView.child){
+          child.push(tagView.child[key])
+        }
+        child.sort((a,b)=>a.i-b.i).forEach(it=>{
+          const {fullPath,meta:{nav:{title}}} = it
+          ret.push({path:fullPath,title})
+        })
+      }
+      this.breadcrumb = ret
+    },
+    getPreNavs (path) {
+      const match = this.$router.match(path)
+      if (match) {
+        const { parents, title, selectNav } = match.meta.nav
+        let ret = [{ title, path: match.path }]
+        if (selectNav) {
+          ret = ret.concat(this.getPreNavs(selectNav))
+        } else if (parents) {
+          ret = ret.concat(parents.map(it => ({ title: it })))
+        }
+        return ret
+      } else {
+        console.error(`配置错误，无法找到上一层${path}菜单`)
+      }
+    },
     handleClickOutside () {},
     handlerToggle () {
       this.collapse = !this.collapse
     },
     changeTag (tags) {
       this.tags = tags
+      this.setBreadcrumb()
     },
     menuSelect () {
       this.show = false

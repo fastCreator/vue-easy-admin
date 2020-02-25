@@ -5,22 +5,38 @@
         v-for="tag in visitedViews"
         ref="tag"
         :key="tag.path"
-        :class="isActive(tag)?'active':''"
-        :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+        :class="isActive(tag) ? 'active' : ''"
+        :to="{
+          path: tag.show.path,
+          query: tag.show.query,
+          fullPath: tag.show.fullPath
+        }"
         tag="span"
         class="tags-view-item"
-        @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
-        @contextmenu.prevent.native="openMenu(tag,$event)"
+        @click.middle.native="
+          !isAffix(tag.show) ? closeSelectedTag(tag.show) : ''
+        "
+        @contextmenu.prevent.native="openMenu(tag.show, $event)"
       >
-        {{ tag.title }}
-        <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        {{ tag.show.title }}
+        <span
+          v-if="!isAffix(tag.show)"
+          class="el-icon-close"
+          @click.prevent.stop="closeSelectedTag(tag)"
+        />
       </router-link>
     </scroll-pane>
-    <ul v-show="visible" class="contextmenu" :style="{left:left+'px',top:top+'px'}" >
-      <li @click="refreshSelectedTag(selectedTag)">{{lang.refresh}}</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">{{lang.close}}</li>
-      <li @click="closeOthersTags">{{lang.closeOthers}}</li>
-      <li @click="closeAllTags(selectedTag)">{{lang.closeAll}}</li>
+    <ul
+      v-show="visible"
+      class="contextmenu"
+      :style="{ left: left + 'px', top: top + 'px' }"
+    >
+      <li @click="refreshSelectedTag(selectedTag)">{{ lang.refresh }}</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
+        {{ lang.close }}
+      </li>
+      <li @click="closeOthersTags">{{ lang.closeOthers }}</li>
+      <li @click="closeAllTags(selectedTag)">{{ lang.closeAll }}</li>
     </ul>
   </div>
 </template>
@@ -30,34 +46,25 @@ import lang from './lang.json'
 import ScrollPane from './ScrollPane'
 import path from 'path'
 
-const affixTags = localStorage.affixTags || []
-
 export default {
   components: { ScrollPane },
-  props: {
-    selectRouter: {}
-  },
+  props: {},
   data () {
     this.lang = lang
     return {
+      activeTagPath: '',
       top: 0,
       left: 0,
       visible: false,
       selectedTag: {},
-      visitedViews: affixTags
+      visitedViews: []
     }
   },
-  computed: {
-  },
+  computed: {},
   watch: {
-    visitedViews (n) {
-      this.$emit('changeTag', n)
-    },
-    selectRouter: {
-      handler (n) {
-        if (n) {
-          this.addVisitedViews(n)
-        }
+    $route: {
+      handler (n, o) {
+        this.dealVisitedViews(n)
       },
       immediate: true
     },
@@ -69,20 +76,69 @@ export default {
       }
     }
   },
-  mounted () {
-  },
+  mounted () {},
   methods: {
     isAffix (n) {
       return n.affix || this.visitedViews.length === 1
     },
-    addVisitedViews (n) {
-      const { path, fullPath, query, meta: { nav: { title, noCache } } } = n
-      if (!this.visitedViews.find(it => it.path === path)) {
-        this.visitedViews.push({ title, path, fullPath, query, noCache, affix: false })
+    getActiveTagPath (n) {
+      if (!n) {
+        return false
       }
+      const {
+        path,
+        meta: {
+          nav: { selectNav }
+        }
+      } = n
+      return selectNav ? `/local/${selectNav}` : n.path
+    },
+    dealVisitedViews (n) {
+      const { path } = n
+      if(path.slice(0,7) !== '/local/'){
+        return false
+      }
+      const activeTagPath = this.getActiveTagPath(n)
+      let tagView = this.visitedViews.find(it => it.path === activeTagPath)
+      if (!tagView) { // 添加根tagView
+        const matchRoute = this.$router.match(activeTagPath)
+        tagView = this.getTagInfo(matchRoute)
+        this.visitedViews.push(tagView)
+      }
+      if (path !== activeTagPath) { // 子页面切换操作
+        const nowTagChild = tagView.child[path]
+        if (!nowTagChild) {  // 添加子页面
+          tagView.child[path] = { ...n, i: Object.keys(tagView.child).length }
+          tagView.show = this.getTagInfo(n)
+        } else {  // 选中到某个子页面，删除后面页面
+          let index = nowTagChild.i
+          for (let key in tagView.child) {
+            if (tagView.child[key].i > index) {
+              delete tagView.child[key]
+            }
+          }
+          tagView.show = this.getTagInfo(nowTagChild)
+        }
+      } else { // 回到根tagView
+        tagView.child = {}
+        tagView.show = tagView
+      }
+      this.activeTagPath = activeTagPath
+      this.$emit('changeTag', this.visitedViews)
+    },
+    getTagInfo (route) {
+      const {
+        path,
+        fullPath,
+        query,
+        meta: {
+          nav: { title, noCache, selectNav }
+        }
+      } = route
+      return { title, path, fullPath, query, noCache, affix: false, child: {} }
     },
     isActive (route) {
-      return route.path === this.selectRouter.path
+      return route.path === this.activeTagPath
     },
     refreshSelectedTag (view) {
       this.$router.replace({
@@ -93,7 +149,7 @@ export default {
       for (let i = 0; i < this.visitedViews.length; i++) {
         if (view.path === this.visitedViews[i].path) {
           this.visitedViews.splice(i, 1)
-          break;
+          break
         }
       }
       if (view.path === this.$route.path) {
@@ -104,7 +160,9 @@ export default {
     },
     closeOthersTags () {
       this.$router.push(this.selectedTag)
-      this.visitedViews = this.visitedViews.filter(it => it.affix || this.selectedTag.path === it.path)
+      this.visitedViews = this.visitedViews.filter(
+        it => it.affix || this.selectedTag.path === it.path
+      )
     },
     closeAllTags (view) {
       let arr = this.visitedViews.filter(it => it.affix)
@@ -160,7 +218,7 @@ export default {
         color: #fff;
         border-color: #42b983;
         &::before {
-          content: "";
+          content: '';
           background: #fff;
           display: inline-block;
           width: 8px;

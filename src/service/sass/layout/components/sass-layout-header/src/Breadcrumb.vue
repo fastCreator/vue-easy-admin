@@ -1,7 +1,11 @@
 <template>
   <el-breadcrumb separator="/" class="breadcrumb-container">
-    <el-breadcrumb-item v-for="it in nav.parents" :key="getKey(it)" :to="it.path">{{it}}</el-breadcrumb-item>
-    <el-breadcrumb-item>{{nav.title}}</el-breadcrumb-item>
+    <el-breadcrumb-item
+      v-for="(it, i) in breadcrumb"
+      :key="getKey(it)"
+      :to="i !== breadcrumb.length - 1 && it.path"
+      >{{ it.title }}</el-breadcrumb-item
+    >
   </el-breadcrumb>
 </template>
 
@@ -13,20 +17,18 @@ export default {
       type: Boolean,
       default: false
     },
-    nav: {}
+    breadcrumb: {}
   },
   data () {
-    return {
-    }
+    return {}
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     handlerToggle () {
       this.$emit('toggle')
     },
     getKey (o) {
-      if (typeof (o) === 'object') {
+      if (typeof o === 'object') {
         return JSON.stringify(o)
       }
       return o

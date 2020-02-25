@@ -29,9 +29,21 @@ export default {
       if (arrPath.slice(0, 9) === '/redirect') {
         path = arrPath.slice(9)
       }
-      return this.tags
-        .filter(it => !it.noCache && it.path !== path)
-        .map(it => it.path.replace(/\//g, ''))
+      let ret = []
+      this.tags.forEach(tag => {
+        let arr = [tag]
+        if (tag.child) {
+          for(let key in tag.child){
+            arr.push(tag.child[key])
+          }
+        }
+        arr.forEach(it => {
+          if (!it.noCache && it.path !== path) {
+            ret.push(it.path.replace(/\//g, ''))
+          }
+        })
+      })
+      return ret
     }
   }
 }

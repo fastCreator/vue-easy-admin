@@ -1,7 +1,7 @@
 <template>
 <div class="sass-layout-header">
     <Hamburger @toggle="handlerToggle" :isActive="!collapse"/>
-    <Breadcrumb :nav="selectNav"/>
+    <Breadcrumb :breadcrumb="breadcrumb"/>
     <elpand-header/>
 </div>
 </template>
@@ -16,7 +16,7 @@ export default {
   },
   props: {
     collapse: {},
-    selectRouter: {}
+    breadcrumb: {}
   },
   data () {
     return {
@@ -25,11 +25,11 @@ export default {
   },
   created () {
   },
-  computed: {
-    selectNav () {
-      return (this.selectRouter && this.selectRouter.meta) ? this.selectRouter.meta.nav : []
-    }
-  },
+  // computed: {
+  //   selectNav () {
+  //     return (this.selectRouter && this.selectRouter.meta) ? this.selectRouter.meta.nav : []
+  //   }
+  // },
   methods: {
     handlerToggle () {
       this.$emit('toggle')
