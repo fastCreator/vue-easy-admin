@@ -11,6 +11,7 @@ const routes = [
     children: [
       {
         path: 'redirect/:path*',
+        name: 'redirect',
         component: redirect
       },
       { path: '/local/*', redirect: 'local/404' }

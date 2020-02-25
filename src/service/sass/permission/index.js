@@ -151,9 +151,10 @@ export default {
         router.router.push(loginUrl)
       }
     }
+    this.Vue.prototype.$hasPermission = this.hasPermission.bind(this)
   },
   hasPermission (p) {
-    this.store.store.state.permission.permission.includes(p)
+    return this.store.store.state.permission.permission.includes(p)
   }
 }
 

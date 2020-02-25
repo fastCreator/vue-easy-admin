@@ -21,10 +21,7 @@
           :collapse="collapse"
           :breadcrumb="breadcrumb"
         ></sass-layout-header>
-        <TagsView
-          v-show="config.header.tagsView"
-          @changeTag="changeTag"
-        />
+        <TagsView v-show="config.header.tagsView" @changeTag="changeTag" />
       </div>
       <app-main
         :class="{ tagsView: config.header.tagsView }"
@@ -47,7 +44,8 @@ export default {
   },
   data () {
     return {
-      breadcrumb:[],
+      activeMenu: null,
+      breadcrumb: [],
       collapse: false,
       tags: [],
       show: true,
@@ -55,7 +53,19 @@ export default {
       affixHeader: false
     }
   },
-  watch: {},
+  watch: {
+    $route: {
+      handler (n) {
+        if (n.name !== 'redirect') {
+          const {
+            nav: { selectNav }
+          } = n.meta
+          this.activeMenu = selectNav ? `/local/${selectNav}` : n.path
+        }
+      },
+      immediate: true
+    }
+  },
   computed: {
     resize () {
       return this.$service.resize.state
@@ -63,19 +73,13 @@ export default {
     config () {
       return this.$store.state.layout
     },
-    activeMenu () {
-      const {
-        nav: { selectNav }
-      } = this.$route.meta
-      return selectNav ? `/local/${selectNav}` : this.$route.path
-    },
     navs () {
       return this.$store.getters._navs
     }
   },
   created () {},
   methods: {
-    setBreadcrumb(){
+    setBreadcrumb () {
       let ret = []
       let tagView = this.tags.find(it => it.path === this.activeMenu)
       if (tagView) {
@@ -84,15 +88,22 @@ export default {
         if (parents) {
           ret = parents.map(it => ({ title: it }))
         }
-        ret.push({title:tagView.title,path:tagView.path})
+        ret.push({ title: tagView.title, path: tagView.path })
         let child = []
-        for(let key in tagView.child){
+        for (let key in tagView.child) {
           child.push(tagView.child[key])
         }
-        child.sort((a,b)=>a.i-b.i).forEach(it=>{
-          const {fullPath,meta:{nav:{title}}} = it
-          ret.push({path:fullPath,title})
-        })
+        child
+          .sort((a, b) => a.i - b.i)
+          .forEach(it => {
+            const {
+              fullPath,
+              meta: {
+                nav: { title }
+              }
+            } = it
+            ret.push({ path: fullPath, title })
+          })
       }
       this.breadcrumb = ret
     },

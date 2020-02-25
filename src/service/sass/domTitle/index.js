@@ -15,9 +15,11 @@ export default {
     router.register(
       'beforeEach',
       async (to, from) => {
-        let nav = to.meta.nav
-        let title = nav.title[store.state.lang.lang] || nav.title
-        document.title = `${title}-${process.env.title}`
+        if (to.name !== 'redirect') {
+          let nav = to.meta.nav
+          let title = nav.title[store.state.lang.lang] || nav.title
+          document.title = `${title}-${process.env.title}`
+        }
       },
       'end'
     )

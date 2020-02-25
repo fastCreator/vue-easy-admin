@@ -64,7 +64,9 @@ export default {
   watch: {
     $route: {
       handler (n, o) {
-        this.dealVisitedViews(n)
+        if (!o || n.fullPath !== o.fullPath) {
+          this.dealVisitedViews(n)
+        }
       },
       immediate: true
     },
@@ -95,22 +97,26 @@ export default {
     },
     dealVisitedViews (n) {
       const { path } = n
-      if(path.slice(0,7) !== '/local/'){
+      if (path.slice(0, 7) !== '/local/') {
         return false
       }
       const activeTagPath = this.getActiveTagPath(n)
       let tagView = this.visitedViews.find(it => it.path === activeTagPath)
-      if (!tagView) { // 添加根tagView
+      if (!tagView) {
+        // 添加根tagView
         const matchRoute = this.$router.match(activeTagPath)
         tagView = this.getTagInfo(matchRoute)
         this.visitedViews.push(tagView)
       }
-      if (path !== activeTagPath) { // 子页面切换操作
+      if (path !== activeTagPath) {
+        // 子页面切换操作
         const nowTagChild = tagView.child[path]
-        if (!nowTagChild) {  // 添加子页面
+        if (!nowTagChild) {
+          // 添加子页面
           tagView.child[path] = { ...n, i: Object.keys(tagView.child).length }
           tagView.show = this.getTagInfo(n)
-        } else {  // 选中到某个子页面，删除后面页面
+        } else {
+          // 选中到某个子页面，删除后面页面
           let index = nowTagChild.i
           for (let key in tagView.child) {
             if (tagView.child[key].i > index) {
@@ -119,11 +125,13 @@ export default {
           }
           tagView.show = this.getTagInfo(nowTagChild)
         }
-      } else { // 回到根tagView
+      } else {
+        // 回到根tagView
         tagView.child = {}
         tagView.show = tagView
       }
       this.activeTagPath = activeTagPath
+      console.log(this.visitedViews)
       this.$emit('changeTag', this.visitedViews)
     },
     getTagInfo (route) {
@@ -142,7 +150,7 @@ export default {
     },
     refreshSelectedTag (view) {
       this.$router.replace({
-        path: '/redirect' + view.fullPath
+        path: '/redirect' + view.show.fullPath
       })
     },
     closeSelectedTag (view) {
@@ -159,10 +167,12 @@ export default {
       }
     },
     closeOthersTags () {
-      this.$router.push(this.selectedTag)
       this.visitedViews = this.visitedViews.filter(
         it => it.affix || this.selectedTag.path === it.path
       )
+      if (this.selectedTag.path !== this.$route.fullPath) {
+        this.$router.push(this.selectedTag)
+      }
     },
     closeAllTags (view) {
       let arr = this.visitedViews.filter(it => it.affix)
@@ -171,7 +181,7 @@ export default {
       } else {
         this.visitedViews = [this.selectedTag]
       }
-      this.$router.push(this.visitedViews[0])
+      // this.$router.push(this.visitedViews[0])
     },
     openMenu (tag, e) {
       this.left = e.clientX + 5

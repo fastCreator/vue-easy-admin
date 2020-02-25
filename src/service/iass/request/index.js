@@ -33,11 +33,9 @@ export default {
     })
   },
   _createAxios (create) {
-    console.log('_createAxios')
     let adapter = null
     if (this.mockList) {
       adapter = async config => {
-        console.log(config, this.mockList)
         for (let i = 0; i < this.mockList.length; i++) {
           let mock = this.mockList[i]
           if (mock.regexp.test(config.url) && config.method === mock.method) {
