@@ -14,9 +14,9 @@
         tag="span"
         class="tags-view-item"
         @click.middle.native="
-          !isAffix(tag.show) ? closeSelectedTag(tag.show) : ''
+          !isAffix(tag.show) ? closeSelectedTag(tag) : ''
         "
-        @contextmenu.prevent.native="openMenu(tag.show, $event)"
+        @contextmenu.prevent.native="openMenu(tag, $event)"
       >
         {{ tag.show.title }}
         <span
@@ -131,7 +131,6 @@ export default {
         tagView.show = tagView
       }
       this.activeTagPath = activeTagPath
-      console.log(this.visitedViews)
       this.$emit('changeTag', this.visitedViews)
     },
     getTagInfo (route) {
