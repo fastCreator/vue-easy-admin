@@ -5,6 +5,9 @@
   "bin": {
     "easy-admin": "./bin/index.js"
   },
+  "scripts": {
+    "commit": "npx git-cz"
+  },
   "dependencies": {
     "axios": "^0.19.1",
     "file-saver": "^2.0.2",
@@ -26,6 +29,7 @@
     "body-parser": "^1.19.0",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.1",
+    "commitizen": "^4.0.3",
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "^3.4.4",
     "enquirer": "^2.3.4",
@@ -59,5 +63,10 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
