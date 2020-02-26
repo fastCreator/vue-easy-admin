@@ -1,15 +1,56 @@
 {
+  "name": "vue-easy-admin-demo",
+  "version": "1.0.0",
+  "description": "vue-easy-admin-demo",
+  "author": "ZhangGuo",
+  "license": "ISC",
   "scripts": {
     "serve": "easy-admin run serve",
     "build": "easy-admin run build",
     "permission": "easy-admin permission",
-    "lint": "easy-admin run lint"
+    "deploy": "bash deploy.sh",
+    "commit": "npx git-cz"
   },
   "devDependencies": {
-    "@vue/babel-preset-app": "^4.2.2"
+    "@vue/babel-preset-app": "^4.2.2",
+    "babel-eslint": "^10.0.3",
+    "commitizen": "^4.0.3",
+    "eslint": "^5.16.0",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.7"
   },
   "dependencies": {
     "element-ui": "^2.13.0",
-    "vue-easy-admin-components": "^0.9.3"
+    "mockjs": "^1.1.0",
+    "vue-easy-admin-components": "^0.9.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fastCreator/vue-easy-admin-demo.git"
+  },
+  "keywords": [
+    "vue",
+    "element-ui",
+    "easy-admin",
+    "vue components"
+  ],
+  "homepage": "https://fastcreator.github.io/vue-easy-admin-demo/",
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint --ext .js,.vue src"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }

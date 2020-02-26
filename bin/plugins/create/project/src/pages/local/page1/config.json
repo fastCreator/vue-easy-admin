@@ -1,18 +1,20 @@
 {
   "nav": {
-    "title": "页面1",
+    "title": "列表页",
     "icon": "dashboard",
     "parents": [
-      "菜单1",
+      "多级菜单",
       {
         "en": "nav1-1",
         "zh-CN": "菜单1-1"
       }
-    ]
+    ],
+    "isWhite": true,
+    "priority": 1
   },
   "permission": {
     "apis": [
-      "get:/v1/apis/testData/{id}"
+      "get:/v1/apis/tableList"
     ],
     "goPages": [
       "local/page2"

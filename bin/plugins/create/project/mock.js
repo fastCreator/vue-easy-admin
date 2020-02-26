@@ -9,19 +9,25 @@ module.exports = {
     }
   },
   'get:/v1/apis/permission' (req) {
-    if (req.get('token') === 'token2') {
+    let token
+    if (req.get) {
+      token = req.get('token')
+    } else {
+      token = localStorage.token
+    }
+    if (token === 'token2') {
       return {
         code: '4001'
       }
     }
-    if (req.get('token') === 'token3') {
+    if (token === 'token3') {
       return {
         code: '4002'
       }
     }
     return {
       code: 200,
-      data: ['page1']
+      data: ['page1','root.root1']
     }
   },
   'get:/v1/apis/refreshToken' (req) {

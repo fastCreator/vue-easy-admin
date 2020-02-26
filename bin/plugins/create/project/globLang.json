@@ -1,0 +1,50 @@
+{
+    "search": {
+        "zh-CN": "搜索",
+        "en": "search"
+    },
+    "reset": {
+        "zh-CN": "重置",
+        "en": "reset"
+    },
+    "export": {
+        "zh-CN": "导出",
+        "en": "export"
+    },
+    "delete": {
+        "zh-CN": "删除",
+        "en": "delete"
+    },
+    "add": {
+        "zh-CN": "新增",
+        "en": "add"
+    },
+    "edit": {
+        "zh-CN": "编辑",
+        "en": "edit"
+    },
+    "enable": {
+        "zh-CN": "启用",
+        "en": "add"
+    },
+    "unable": {
+        "zh-CN": "禁用",
+        "en": "unable"
+    },
+    "modify": {
+        "zh-CN": "修改",
+        "en": "modify"
+    },
+    "woman": {
+        "zh-CN": "女",
+        "en": "woman"
+    },
+    "man": {
+        "zh-CN": "男",
+        "en": "man"
+    },
+    "operation": {
+        "zh-CN": "操作",
+        "en": "operation"
+    }
+}

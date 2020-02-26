@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "title": {
+      "en": "OpenNew",
+      "zh-CN": "打开新页面"
+    },
+    "icon": "dashboard"
+  },
+  "link": "https://github.com/fastCreator/vue-easy-admin"
+}

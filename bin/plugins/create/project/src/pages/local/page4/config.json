@@ -1,15 +1,9 @@
 {
   "nav": {
-    "title": "多层页面",
+    "title": "多层页面-3",
     "icon": "dashboard",
-    "parents": [
-      "多级菜单",
-      {
-        "en": "nav1-1",
-        "zh-CN": "菜单1-1"
-      }
-    ],
-    "isWhite": true
+    "hide": true,
+    "selectNav": "page2"
   },
   "permission": {
     "apis": [

@@ -1,0 +1,11 @@
+{
+  "nav": {
+    "title": {
+      "en": "icon",
+      "zh-CN": "图标"
+    },
+    "icon": "dashboard",
+    "isWhite": true,
+    "priority": -10
+  }
+}

@@ -7,13 +7,8 @@ module.exports = {
       return definitions
     })
   },
-  configureWebpack: {
-    devServer: {
-      proxy: {
-        '^/service': {
-          target: 'http://39.105.156.22:8095'
-        }
-      }
-    }
+  configureWebpack: {},
+  other: {
+    publicPath: './'
   }
 }

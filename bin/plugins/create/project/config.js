@@ -1,14 +1,24 @@
-import vueEasyAdminComponents from 'vue-easy-admin-components'
+import globLang from './globLang'
+import {
+  elpandTable,
+  elpandForm,
+  elpandSelect
+} from 'vue-easy-admin-components'
 export default {
   init ({ Vue, router, store, Element, request, navs, loading }) {
     //修改菜单
     navs.registerDealNavs(function (navs) {
       if (navs[0]) navs[0].icon = 'message'
     })
-    //添加组件库
-    Vue.use(vueEasyAdminComponents)
+    Vue.use(elpandTable)
+    Vue.use(elpandForm)
+    Vue.use(elpandSelect)
   },
   iass: {
+    element: {
+      size: 'small',
+      zIndex: 3000
+    },
     language: {
       defalut: 'en',
       list: [
@@ -20,7 +30,8 @@ export default {
           label: 'English',
           value: 'en'
         }
-      ]
+      ],
+      glob: globLang
     },
     request: {
       create: {
@@ -43,7 +54,9 @@ export default {
     store: {
       state: {},
       mutations: {}
-    },
+    }
+  },
+  sass: {
     layout: {
       sidebar: {
         logo: {
@@ -53,12 +66,11 @@ export default {
           },
           logo: 'public/logo.png',
           link: '/',
-          collapse: false,
           showLogo: true
         },
         menu: {
           backgroundColor: '#545c64',
-          textColor: '#fff',
+          textColor: '#ffffff',
           activeTextColor: '#ffd04b'
         }
       },
@@ -70,16 +82,15 @@ export default {
         show: true,
         list: []
       }
-    }
-  },
-  sass: {
+    },
     permission: {
       getUserInfo (request) {
         return request.net('get:/v1/apis/userInfo')
       },
-      getPermission (request) {
+      async getPermission (request) {
         return request.net('get:/v1/apis/permission')
       },
+      whiteSource: ['openNew'],
       whiteAPI: [
         'get:/v1/apis/userInfo',
         'get:/v1/apis/userInfo',
@@ -87,10 +98,9 @@ export default {
       ],
       loginUrl: '/full/login',
       headerKey: 'token',
-      whiteSource: ['page2'],
       token: {
         refresh (request) {
-          return request.net('get:/v1/apis/refreshToken')
+          return Promise.resolve('token1')
         },
         get () {
           return localStorage.token

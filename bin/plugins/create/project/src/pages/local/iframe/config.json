@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "title": {
+      "en": "Iframe",
+      "zh-CN": "内嵌页面"
+    },
+    "icon": "dashboard",
+    "isWhite": true
+  },
+  "iframe": {
+    "src": "https://www.baidu.com"
+  }
+}

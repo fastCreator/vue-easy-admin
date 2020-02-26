@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "title": {
+      "en": "copy",
+      "zh-CN": "复制"
+    },
+    "icon": "dashboard",
+    "isWhite": true
+  }
+}

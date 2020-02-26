@@ -1,5 +1,5 @@
 export default {
-  getTestData () {
-    this.$net('get:/v1/apis/testData/{id}', { params: { id: 1 } })
+  getTableData (params) {
+    return this.$net('get:/v1/apis/tableList', { query: params })
   }
 }

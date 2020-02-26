@@ -1,2 +1,50 @@
 {
+    "sex": {
+        "zh-CN": "性别",
+        "en": "sex"
+    },
+    "name": {
+        "zh-CN": "姓名",
+        "en": "name"
+    },
+    "birthday": {
+        "zh-CN": "出生日期",
+        "en": "birthday"
+    },
+    "head": {
+        "zh-CN": "头像",
+        "en": "headImg"
+    },
+    "input": {
+        "zh-CN": "输入框",
+        "en": "input"
+    },
+    "age": {
+        "zh-CN": "年龄",
+        "en": "age"
+    },
+    "color": {
+        "zh-CN": "颜色",
+        "en": "color"
+    },
+    "likeMusic": {
+        "zh-CN": "喜欢音乐",
+        "en": "likeMusic"
+    },
+    "select": {
+        "zh-CN": "选择框",
+        "en": "select"
+    },
+    "family": {
+        "zh-CN": "家属",
+        "en": "family"
+    },
+    "mother": {
+        "zh-CN": "母亲",
+        "en": "mother"
+    },
+    "father": {
+        "zh-CN": "父亲",
+        "en": "father"
+    }
 }
