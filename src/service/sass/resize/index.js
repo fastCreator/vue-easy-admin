@@ -9,20 +9,23 @@ export default {
   _addEventListener (store) {
     window.addEventListener('resize', () => {
       if (!document.hidden) {
-        store.store.commit('setResizeViewSize', this._getViewResize())
+        const { width, height, device } = this._getViewResize()
+        store.store.commit('setResizeWidth', width)
+        store.store.commit('setResizeHeight', height)
+        store.store.commit('setResizeDevice', device)
       }
     })
   },
   _initRegisterStore (store) {
-    store.registerState('resize', { viewSize: this._getViewResize() })
+    store.registerState('resize', { ...this._getViewResize() })
     this.state = store.store.state.resize
   },
   _getViewResize () {
-    const rect = body.getBoundingClientRect()
+    const { width, height } = body.getBoundingClientRect()
     return {
-      ...rect,
-      device: rect.width < WIDTH ? 'mobile' : 'desktop'
+      width,
+      height,
+      device: width < WIDTH ? 'mobile' : 'desktop'
     }
   }
 }
-

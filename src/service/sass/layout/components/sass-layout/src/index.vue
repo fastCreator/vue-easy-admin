@@ -17,7 +17,7 @@
     <div class="layoutRight">
       <div class="header-container">
         <sass-layout-header
-          @toggle="handlerToggle"
+          @toggle="toggleCollapse"
           :collapse="collapse"
           :breadcrumb="breadcrumb"
         ></sass-layout-header>
@@ -62,13 +62,27 @@ export default {
           } = n.meta
           this.activeMenu = selectNav ? `/local/${selectNav}` : n.path
         }
+        if (this.device === 'mobile') {
+          this.collapse = true
+        }
+      },
+      immediate: true
+    },
+    device: {
+      handler (v) {
+        if (v === 'mobile') {
+          this.collapse = true
+        }
       },
       immediate: true
     }
   },
   computed: {
+    device () {
+      return this.resize.device
+    },
     resize () {
-      return this.$service.resize.state
+      return this.$store.state.resize
     },
     config () {
       return this.$store.state.layout
@@ -123,7 +137,7 @@ export default {
       }
     },
     handleClickOutside () {},
-    handlerToggle () {
+    toggleCollapse () {
       this.collapse = !this.collapse
     },
     changeTag (tags) {
