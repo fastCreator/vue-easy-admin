@@ -1,7 +1,6 @@
 {
-  "name": "easy-admin",
-  "version": "0.1.0",
-  "private": true,
+  "name": "vue-easy-admin",
+  "version": "0.1.2",
   "bin": {
     "easy-admin": "./bin/index.js"
   },

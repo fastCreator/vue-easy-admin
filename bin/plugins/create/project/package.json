@@ -1,9 +1,10 @@
 {
   "name": "vue-easy-admin-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "vue-easy-admin-demo",
   "author": "ZhangGuo",
   "license": "ISC",
+  "private": true,
   "scripts": {
     "serve": "easy-admin run serve",
     "build": "easy-admin run build",
