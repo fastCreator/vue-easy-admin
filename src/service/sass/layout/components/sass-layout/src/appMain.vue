@@ -33,7 +33,7 @@ export default {
       this.tags.forEach(tag => {
         let arr = [tag]
         if (tag.child) {
-          for(let key in tag.child){
+          for (let key in tag.child) {
             arr.push(tag.child[key])
           }
         }

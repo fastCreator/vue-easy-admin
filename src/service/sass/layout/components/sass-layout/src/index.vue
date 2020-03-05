@@ -159,7 +159,7 @@ export default {
   &.affixHeader {
     &.collapse {
       .header-container {
-        width: calc(100% - 54px);
+        width: calc(100% - 55px);
       }
     }
     .header-container {
