@@ -15,7 +15,7 @@ export default {
     // 设置Vue中的net
     this._setVueMixin()
   },
-  async net (path, { params, query, body } = {}) {
+  async net (path, { params, query, body, headers } = {}) {
     // if (this.mocks && this.mocks[path]) {
     //   return await this.mocks[path]({ params, query, body }, delay)
     // }
@@ -24,10 +24,11 @@ export default {
     let url = paths[1].replace(/{([a-zA-Z]+)}/g, function (word) {
       return params[word.slice(1, -1)]
     })
-
+    console.log(headers)
     return await this.request({
       method,
       url,
+      headers,
       params: query,
       data: body
     })
@@ -67,16 +68,28 @@ export default {
   },
   _setMock () {
     if (this.config.mock) {
-      let mocks = require(`${process.env.cwdDir}/mock.js`)
+      let mocks = { ...require(`${process.env.cwdDir}/mock.js`) }
       const importMock = require.context(
         process.env.pagesDir,
         true,
         /mock\.js$/
       )
+
+      mocks.keys().forEach(key => {
+        mocks[key] = {
+          code: false,
+          call: mocks[key]
+        }
+      })
       importMock.keys().forEach(key => {
         let mock = importMock(key)
         for (let key in mock) {
-          mocks[key] = mock[key]
+          let arr = key.split('/')
+          let len = arr.length
+          mocks[key] = {
+            code: `/${arr[len - 3]}/${arr[len - 2]}`,
+            call: mock[key]
+          }
         }
       })
       this.mockList = []
@@ -85,10 +98,12 @@ export default {
         const method = splitArr[0]
         const url = splitArr[1]
         if (method && url) {
+          const { code, call } = mocks[key]
           this.mockList.push({
+            code,
             regexp: new RegExp(url.replace(/\{\w+\}/g, '[^/]+')),
             method,
-            call: mocks[key]
+            call
           })
         } else {
           console.log(`\n请按规范输入正确mock url：${key}`)
@@ -109,7 +124,12 @@ export default {
         }
       },
       methods: {
-        $net: that.net.bind(that)
+        $net (path, { params, query, body, headers = {} } = {}) {
+          if (process.env.NODE_ENV === 'development') {
+            headers.code = this.$route.path
+          }
+          return that.net.call(that, path, { params, query, body, headers })
+        }
       }
     })
   },

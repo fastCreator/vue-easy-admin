@@ -8,7 +8,11 @@ const pagesDir = path.resolve(process.cwd(), './src/pages')
 const globMockDir = path.resolve(process.cwd(), 'mock.js')
 const mockData = {}
 
-function flashRoutes (mockFile) {
+// 加载mockFile目录下所有模拟接口
+function flashRoutes (mockFile, isGlob) {
+  let arr = mockFile.split(path.sep)
+  let len = arr.length
+  let code = !isGlob && `/${arr[len - 3]}/${arr[len - 2]}`
   let mockList = (mockData[mockFile] = [])
   delete require.cache[require.resolve(mockFile)]
   const mocks = require(mockFile)
@@ -18,6 +22,7 @@ function flashRoutes (mockFile) {
     const url = splitArr[1]
     if (method && url) {
       mockList.push({
+        code,
         regexp: new RegExp(url.replace(/\{\w+\}/g, '[^/]+')),
         method,
         call: mocks[key]
@@ -42,7 +47,8 @@ module.exports = app => {
         let it = items[i]
         if (
           it.method.toLocaleUpperCase() === req.method &&
-          it.regexp.test(req.path)
+          it.regexp.test(req.path) &&
+          (!it.code || (it.code && it.code === req.get('code')))
         ) {
           let d = await it.call(req, delay)
           res.end(JSON.stringify(d))
@@ -54,7 +60,7 @@ module.exports = app => {
   })
   chokidarWatch()
   chokidarWatchRoot()
-  flashRoutes(globMockDir)
+  flashRoutes(globMockDir, true)
   mapDir(pagesDir, function (file) {
     if (file.slice(-7) === 'mock.js') {
       flashRoutes(file)
@@ -88,7 +94,7 @@ function chokidarWatchRoot () {
       ignoreInitial: true
     })
     .on('all', (event, path) => {
-      flashRoutes(path)
+      flashRoutes(path, true)
     })
 }
 

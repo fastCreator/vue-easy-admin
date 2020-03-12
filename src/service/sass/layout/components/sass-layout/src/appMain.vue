@@ -59,13 +59,17 @@ export default {
 
 <style lang="less">
 .elpand-layout .app-main.tagsView > .page-container {
-  padding: 10px;
-  height: calc(100vh - 105px);
+  margin: 10px;
+  height: calc(100vh - 110px);
   overflow: auto;
 }
 .elpand-layout .app-main > .page-container {
-  padding: 10px;
-  height: calc(100vh - 85px);
+  margin: 10px;
+  height: calc(100vh - 90px);
   overflow: auto;
+  & > .el-card__body {
+    height: 100%;
+    box-sizing: border-box;
+  }
 }
 </style>
