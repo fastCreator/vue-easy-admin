@@ -39,7 +39,11 @@ export default {
       adapter = async config => {
         for (let i = 0; i < this.mockList.length; i++) {
           let mock = this.mockList[i]
-          if (mock.regexp.test(config.url) && config.method === mock.method) {
+          if (
+            mock.regexp.test(config.url) &&
+            config.method === mock.method &&
+            (!mock.code || (mock.code && mock.code === config.headers.code))
+          ) {
             // 模拟服务，返回mock数据
             const data = await mock.call(
               {
