@@ -20,11 +20,11 @@ const routes = [
   { path: '*', redirect: 'full/404' }
 ]
 export default {
-  init ({ vueFile }) {
+  init () {
     this.routes = routes
     this.Vue.use(VueRouter)
     // 动态加载路由列表
-    this._loadRoutes(vueFile)
+    this._loadRoutes()
     this.router = new VueRouter({ routes })
     this.vueRoot = { router: this.router }
     // 注册请求响应服务
@@ -43,7 +43,8 @@ export default {
       })
     })
   },
-  _loadRoutes (vueFile) {
+  _loadRoutes () {
+    const importComp = this._importComp()
     const importFile = require.context(
       process.env.pagesDir,
       true,
@@ -55,17 +56,36 @@ export default {
       const type = arr[1]
       const path = arr[2]
       const chidler = type === 'full' ? routes : layoutRoute
-      let routerOne = this._getRouteOne(importFile, type, path, vueFile)
+      let routerOne = this._getRouteOne(importFile, type, path, importComp)
       routerOne && chidler.unshift(routerOne)
     })
   },
-  _getRouteOne (importFile, type, path, vueFile) {
+  _importComp(){
+    if (process.env.NODE_ENV === 'development') {
+      return require.context(
+        process.env.pagesDir,
+        true,
+        /index\.vue$/
+      )
+    }else{
+      return require.context(
+        process.env.pagesDir,
+        true,
+        /index\.vue$/,'lazy'
+      )
+    }
+  },
+  _getRouteOne (importFile, type, path, importComp) {
     let config = importFile(`./${type}/${path}/config.json`)
     let component
     if (config.iframe) {
       component = iframe
-    } else {
-      component = vueFile[type][path]
+    } else if(!config.link){
+      if(process.env.NODE_ENV === 'development'){
+        component = importComp(`./${type}/${path}/index.vue`).default
+      } else{
+        component = ()=> importComp(`./${type}/${path}/index.vue`)
+      }
     }
     return (
       component && {

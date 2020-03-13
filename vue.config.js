@@ -15,6 +15,24 @@ module.exports = {
   productionSourceMap: false,
   ...getServiceVuecli(),
   chainWebpack: config => {
+    config.module
+      .rule('vueFile')
+      .test(/\.vue$/)
+      .pre()
+      .include.add(resolve(cwd, 'src/pages'))
+      .end()
+      .use('vueFile-loader')
+      .loader('./vueFile-loader')
+      .tap((options = {}) => {
+        options.FileList = []
+        services.forEach(it => {
+          if (it.loadFile) {
+            options.FileList = options.FileList.concat(it.loadFile)
+          }
+        })
+        return options
+      })
+      .end()
     // 关闭预加载
     config.plugins.delete('preload')
     config.plugins.delete('prefetch')

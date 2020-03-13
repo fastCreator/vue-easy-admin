@@ -17,13 +17,13 @@ const service = {
     .map(key => getService(sass(key).default, 'sass', key.slice(2, -9)))
 }
 
-const components = {
-  local: {},
-  full: {}
-}
+// const components = {
+//   local: {},
+//   full: {}
+// }
 const allService = {
   Vue,
-  vueFile: components
+  // vueFile: components
 }
 service.iass.forEach(s => {
   allService[s.serviceName] = s
@@ -32,103 +32,103 @@ service.sass.forEach(s => {
   allService[s.serviceName] = s
 })
 //初始化vue文件
-const files = []
-for (let key in allService) {
-  let file = allService[key].file
-  if (file) {
-    files.push({ name: key, file })
-  }
-}
-if (process.env.NODE_ENV === 'development') {
-  const importFile = require.context(
-    process.env.pagesDir,
-    true,
-    /\.(\/\w+){3}\.\w+$/
-  )
-  const importFileKeys = importFile.keys()
-  importFileKeys.forEach(key => {
-    let info = key.split('/')
-    if (info[3] === 'index.vue') {
-      let type = info[1]
-      let path = info[2]
-      components[type][path] = async () => {
-        let filePaths = []
-        files.forEach(file => {
-          let filePath = `./${type}/${path}/${file.file}`
-          if (importFileKeys.includes(filePath)) {
-            filePaths.push(filePath)
-          }
-        })
-        const promises = filePaths.map(function (path) {
-          return importFile(path)
-        })
-        const loadFiles = await Promise.all([
-          importFile(`./${type}/${path}/index.vue`),
-          ...promises
-        ])
-        const component = loadFiles[0]
-        const def = component.default
-        const Vuefiles = {}
-        const fileKey = `${type}${path}`
-        def.name = fileKey
-        for (let i = 1; i < loadFiles.length; i++) {
-          const fileType = files[i - 1].name
-          if (!Vuefiles[fileType]) {
-            Vuefiles[fileType] = {}
-          }
-          Vuefiles[fileType][fileKey] = loadFiles[i]
-        }
-        Vue.prototype.files = Vuefiles
-        return component
-      }
-    }
-  })
-} else {
-  const importFile = require.context(
-    process.env.pagesDir,
-    true,
-    /\.(\/\w+){3}\.\w+$/,
-    'lazy'
-  )
-  const importFileKeys = importFile.keys()
-  importFileKeys.forEach(key => {
-    let info = key.split('/')
-    if (info[3] === 'index.vue') {
-      let type = info[1]
-      let path = info[2]
-      components[type][path] = async () => {
-        let filePaths = []
-        files.forEach(file => {
-          let filePath = `./${type}/${path}/${file.file}`
-          if (importFileKeys.includes(filePath)) {
-            filePaths.push(filePath)
-          }
-        })
-        const promises = filePaths.map(function (path) {
-          return importFile(path)
-        })
-        const loadFiles = await Promise.all([
-          importFile(`./${type}/${path}/index.vue`),
-          ...promises
-        ])
-        const component = loadFiles[0]
-        const def = component.default
-        const Vuefiles = {}
-        const fileKey = `${type}${path}`
-        def.name = fileKey
-        for (let i = 1; i < loadFiles.length; i++) {
-          const fileType = files[i - 1].name
-          if (!Vuefiles[fileType]) {
-            Vuefiles[fileType] = {}
-          }
-          Vuefiles[fileType][fileKey] = loadFiles[i]
-        }
-        Vue.prototype.files = Vuefiles
-        return component
-      }
-    }
-  })
-}
+// const files = []
+// for (let key in allService) {
+//   let file = allService[key].file
+//   if (file) {
+//     files.push({ name: key, file })
+//   }
+// }
+// if (process.env.NODE_ENV === 'development') {
+//   const importFile = require.context(
+//     process.env.pagesDir,
+//     true,
+//     /\.(\/\w+){3}\.\w+$/
+//   )
+//   const importFileKeys = importFile.keys()
+//   importFileKeys.forEach(key => {
+//     let info = key.split('/')
+//     if (info[3] === 'index.vue') {
+//       let type = info[1]
+//       let path = info[2]
+//       components[type][path] = async () => {
+//         let filePaths = []
+//         // files.forEach(file => {
+//         //   let filePath = `./${type}/${path}/${file.file}`
+//         //   if (importFileKeys.includes(filePath)) {
+//         //     filePaths.push(filePath)
+//         //   }
+//         // })
+//         const promises = filePaths.map(function (path) {
+//           return importFile(path)
+//         })
+//         const loadFiles = await Promise.all([
+//           importFile(`./${type}/${path}/index.vue`),
+//           ...promises
+//         ])
+//         const component = loadFiles[0]
+//         const def = component.default
+//         // const Vuefiles = {}
+//         const fileKey = `${type}${path}`
+//         def.name = fileKey
+//         // for (let i = 1; i < loadFiles.length; i++) {
+//         //   const fileType = files[i - 1].name
+//         //   if (!Vuefiles[fileType]) {
+//         //     Vuefiles[fileType] = {}
+//         //   }
+//         //   Vuefiles[fileType][fileKey] = loadFiles[i]
+//         // }
+//         // Vue.prototype.files = Vuefiles
+//         return component
+//       }
+//     }
+//   })
+// } else {
+//   const importFile = require.context(
+//     process.env.pagesDir,
+//     true,
+//     /\.(\/\w+){3}\.\w+$/,
+//     'lazy'
+//   )
+//   const importFileKeys = importFile.keys()
+//   importFileKeys.forEach(key => {
+//     let info = key.split('/')
+//     if (info[3] === 'index.vue') {
+//       let type = info[1]
+//       let path = info[2]
+//       components[type][path] = async () => {
+//         let filePaths = []
+//         // files.forEach(file => {
+//         //   let filePath = `./${type}/${path}/${file.file}`
+//         //   if (importFileKeys.includes(filePath)) {
+//         //     filePaths.push(filePath)
+//         //   }
+//         // })
+//         // const promises = filePaths.map(function (path) {
+//         //   return importFile(path)
+//         // })
+//         const loadFiles = await Promise.all([
+//           importFile(`./${type}/${path}/index.vue`),
+//           ...promises
+//         ])
+//         const component = loadFiles[0]
+//         const def = component.default
+//         // const Vuefiles = {}
+//         const fileKey = `${type}${path}`
+//         def.name = fileKey
+//         // for (let i = 1; i < loadFiles.length; i++) {
+//         //   const fileType = files[i - 1].name
+//         //   if (!Vuefiles[fileType]) {
+//         //     Vuefiles[fileType] = {}
+//         //   }
+//         //   Vuefiles[fileType][fileKey] = loadFiles[i]
+//         // }
+//         // Vue.prototype.files = Vuefiles
+//         return component
+//       }
+//     }
+//   })
+// }
 
 // Vue根服务
 

@@ -52,7 +52,13 @@ export default {
     this.Vue.mixin({
       computed: {
         $lang () {
-          return this.$t(this.$route.name)
+          const locale = this.$i18n.locale
+          const lang = this.$options._files.lang
+          const ret = {}
+          for (let key in lang) {
+            ret[key] = lang[key][locale]
+          }
+          return ret
         },
         $globLang () {
           return this.$t('glob')
@@ -63,21 +69,7 @@ export default {
   _setmessages () {
     this.messages = {}
     this._setElementmessages()
-    this._setModulemessages()
     this._setUserGlobmessagesmessages()
-  },
-  _setModulemessages () {
-    const importAllVue = require.context(
-      process.env.pagesDir,
-      true,
-      /lang.json$/
-    )
-    importAllVue.keys().map(key => {
-      this._setModulemessagesFuc(
-        key.slice(2, -10).replace('/', ''),
-        importAllVue(key)
-      )
-    })
   },
   _setElementmessages () {
     const { list } = this.config

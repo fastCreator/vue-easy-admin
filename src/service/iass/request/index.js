@@ -2,7 +2,6 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 
 export default {
-  file: 'api.js',
   init () {
     const { create } = this.config
     // 设置mock数据
@@ -24,7 +23,6 @@ export default {
     let url = paths[1].replace(/{([a-zA-Z]+)}/g, function (word) {
       return params[word.slice(1, -1)]
     })
-    console.log(headers)
     return await this.request({
       method,
       url,
@@ -120,7 +118,7 @@ export default {
     this.Vue.mixin({
       computed: {
         $api () {
-          let apis = this.files.request[this.$route.name].default
+          let apis = this.$options._files.api
           for (let key in apis) {
             apis[key] = apis[key].bind(this)
           }
