@@ -20,7 +20,8 @@
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-vue": "^5.0.0",
     "husky": "^4.2.3",
-    "lint-staged": "^10.0.7"
+    "lint-staged": "^10.0.7",
+    "vue-easy-admin": "^0.1.2"
   },
   "dependencies": {
     "element-ui": "^2.13.0",

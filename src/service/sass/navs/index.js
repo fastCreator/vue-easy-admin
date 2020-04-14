@@ -1,5 +1,5 @@
 const NAVS = require.context(
-  `${process.env.cwdDir}/src/navs`,
+  `${process.env.cwdDir}/src/pages`,
   false,
   /config.json$/
 )('./config.json')
